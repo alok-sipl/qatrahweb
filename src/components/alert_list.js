@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import Header from './templates/header';
 import Alert from './alert';
 import LedtNavigation from './templates/left_navigation';
-import {db} from "../firebase";
 
 const INITIAL_STATE = {
     alerts: '',

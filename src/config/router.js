@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import Login from '../components/login';
-import Signup from '../components/signup';
-import ForgotPassword from '../components/forgot_password';
+import Login from '../components/Auth/login';
+import Signup from '../components/Auth/signup';
+import ForgotPassword from '../components/Auth/forgot_password';
 import AccountVerification from '../components/account_verification';
 import RegistrationSuccess from '../components/registration_success';
 import Dashboard from '../components/dashboard';
-import Profile from '../components/profile';
+import Profile from '../components/Auth/profile';
 import AddDevice from '../components/add_device';
 import EditDevice from '../components/edit_device';
 import DeviceDetail from '../components/device_detail';
@@ -20,6 +20,7 @@ import NotificationSetting from '../components/notification_setting';
 import Contact from '../components/contact';
 import TermsPolicy from '../components/terms_policy';
 import AboutUs from '../components/about_us';
+
 
 export default class Router extends Component{
     render(){

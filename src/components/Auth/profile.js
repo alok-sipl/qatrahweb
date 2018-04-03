@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Header from './templates/header';
-import LedtNavigation from './templates/left_navigation';
+import Header from '../templates/header';
+import LedtNavigation from '../templates/left_navigation';
 
 class Profile extends Component {
 
