@@ -11,7 +11,7 @@ export {Spinner};
 const styles ={
     spinnerStyle:{
         flex:1,
-        "justify-content":'center',
-        "align-items":'center',
+        justifyContent:'center',
+        alignItems:'center',
     }
 };

@@ -20,6 +20,11 @@ import {
     showToast
 } from '../types'
 
+import { browserHistory,withRouter } from 'react-router';
+import _ from 'lodash';
+
+
+
 
 /*
    @Method : NameChanged
@@ -404,7 +409,7 @@ export const updateUserState = ({isOnline}) => {
    @Params :
    @Returns : *
    */
-export const loginUser = ({email, password}) => {
+export const loginUser = ({email, password},callback) => {
     return (dispatch) => {
         dispatch({type: LOGIN_USER});
 
@@ -423,11 +428,9 @@ export const loginUser = ({email, password}) => {
                                         firebase.auth().signOut().then(function() {
                                             showToast("danger","Your account has been disabled, please contact your system administrator");
                                             loginUserFail(dispatch);
-                                            // Actions.Auth();
 
                                         }, function(error) {
                                             showToast("danger","Sorry some error occurred, please try again later!")
-                                            // Actions.Auth();
                                             loginUserFail(dispatch);
                                         });
                                     }
@@ -436,47 +439,20 @@ export const loginUser = ({email, password}) => {
                                         firebase.auth().signOut().then(function() {
                                             showToast("danger","Invalid email or password,Please try again!")
                                             loginUserFail(dispatch);
-                                            // Actions.Auth();
 
                                         }, function(error) {
                                             showToast("danger","Invalid email or password,Please try again!")
-                                            // Actions.Auth();
+
                                             loginUserFail(dispatch);
                                         });
                                     }
                                     else
                                     {
-                                            let ref = firebase.database().ref(`/tokens/${user.uid}`);
-                                            ref.orderByChild("device_token").equalTo(token).once('value')
-                                                .then(function(dataSnapshot) {
-                                                    if(dataSnapshot.val() == null)
-                                                    {
-                                                        let user = firebase.auth().currentUser;
-                                                        firebase.database().ref(`/tokens/${user.uid}`)
-                                                            .push({device_token:token,updated_at:Date.now()})
-                                                            .then(() => {
-                                                                loginUserSuccess(dispatch, user);
-                                                                // Actions.Home({type:'reset'});
-                                                            })
-                                                            .catch(() => {
-                                                                loginUserFail(dispatch);
-                                                                showToast("danger","Sorry some error occurred, please try again later!")
-                                                            })
-                                                    }
-                                                    else
-                                                    {
-                                                        loginUserSuccess(dispatch, user);
-                                                        // Actions.Home({type:'reset'});
-                                                    }
-                                                })
-                                                .catch(() => {
-                                                    loginUserFail(dispatch);
-                                                    showToast("danger","Sorry some error occurred, please try again later!")
+                                        loginUserSuccess(dispatch, user);
+                                        callback("success");
 
-                                                });
 
                                     }
-
                                 });
                             }
                             else
@@ -496,6 +472,7 @@ export const loginUser = ({email, password}) => {
                                 showToast("danger","Invalid email or password,Please try again!")
                                 loginUserFail(dispatch);
 
+
                             }, function(error) {
                                 showToast("danger","Invalid email or password,Please try again!")
                                 loginUserFail(dispatch);
@@ -505,6 +482,7 @@ export const loginUser = ({email, password}) => {
                 else
                 {
                     // Actions.Verify();
+                    callback("verify");
                 }
             })
             .catch(() => {
