@@ -13,13 +13,12 @@ import DeviceDetail from '../components/device_detail';
 import DeviceListing from '../components/device_listing';
 import DeviceReadingGraph from '../components/device_reading_graph';
 import ReminderSetting from '../components/reminder_setting';
-import SearchSupplier from '../components/search_supplier';
-import SupplierListing from '../components/supplier_listing';
-import AlertsList from '../components/alert_list';
+import Supplier from '../components/Utility/Supplier';
+import Alerts from '../components/Utility/Alerts';
 import NotificationSetting from '../components/notification_setting';
-import Contact from '../components/contact';
-import TermsPolicy from '../components/terms_policy';
-import AboutUs from '../components/about_us';
+import Contact from '../components/Utility/ContactUs';
+import TermsPolicy from '../components/Utility/TermsAndPolicy';
+import AboutUs from '../components/Utility/AboutUs';
 
 
 export default class Router extends Component{
@@ -42,9 +41,8 @@ export default class Router extends Component{
                             <Route path="/device" component={DeviceListing} />
                             <Route path="/device-reading" component={DeviceReadingGraph} />
                             <Route path="/reminder-setting" component={ReminderSetting} />
-                            <Route path="/search-supplier" component={SearchSupplier} />
-                            <Route path="/supplier" component={SupplierListing} />
-                            <Route path="/alerts" component={AlertsList} />
+                            <Route path="/supplier" component={Supplier} />
+                            <Route path="/alerts" component={Alerts} />
                             <Route path="/notification-setting" component={NotificationSetting} />
                             <Route path="/contact" component={Contact} />
                             <Route path="/terms-policy" component={TermsPolicy} />
