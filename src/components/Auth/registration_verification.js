@@ -1,8 +1,66 @@
 import React, {Component} from 'react';
+import firebase from 'firebase';
+import {
+    showToast
+} from '../../actions/types';
 class RegistrationVerification extends Component {
   state = {isLoaded: null,email:""};
 
-  render() {
+    componentWillMount()
+    {
+        this.setEmail();
+    }
+
+    setEmail()
+    {
+        firebase.auth().onAuthStateChanged((user)=>
+        {
+            this.setState({isLoaded:true})
+            if(user)
+            {
+                this.setState({email:user.email});
+
+            }
+        });
+    }
+
+    /*
+ @Method : onButtonPressBack
+ @Params :
+ @Returns : *
+ */
+    onButtonPressBack() {
+        firebase.auth().signOut().then(()=>{
+
+        },(error)=> {
+            showToast("danger","Sorry some error occurred, please try again later!");
+        });
+    }
+
+
+    /*
+ @Method : onButtonPress
+ @Params :
+ @Returns : *
+ */
+    onButtonPress() {
+        firebase.auth().currentUser.sendEmailVerification()
+            .then(()=>{
+                firebase.auth().signOut().then(()=>{
+                    showToast('success','We have received your request and an email containing verification link has been send to your registered email.');
+                    Actions.Auth({type:'reset'});
+                },(error)=> {
+                    showToast("danger","Sorry some error occurred, please try again later!");
+                });
+            })
+            .catch(() => {
+                showToast("danger","Sorry some error occurred, please try again later!");
+            })
+    }
+
+
+
+    render() {
     return (
 
 

@@ -309,7 +309,7 @@ class Login extends Component {
             return <Redirect to='/signup'/>;
         }
         else if (this.state.isRedirectVerify == true) {
-            return <Redirect to='/signup'/>;
+            return <Redirect to='/registration-verification' />;
         }
         else{
 
