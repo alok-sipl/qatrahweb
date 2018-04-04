@@ -10,7 +10,7 @@ import {
 class RegistrationVerification extends Component {
   state = {isLoaded: null,email:"",isRedirectLogin:false};
 
-    componentWillMount()
+omponentWillMount()
     {
         this.setEmail();
     }
@@ -116,7 +116,10 @@ this.setState({isRedirectLogin:true})
       }
       else{
     return (
-  <div>
+
+
+
+      <div>
       <div className="columns medium-12">
       <div className="form-wrapper">
       <div className="card">
@@ -137,7 +140,12 @@ this.setState({isRedirectLogin:true})
       </div>
 
 
-    
+      <div className="form-group">
+      <a href="index" className="btn-blue-block">Resend Verification Link</a>
+      </div>
+      <div className="form-group">
+      <a href="index" className="btn-blue-block">Cancel</a>
+      </div>
       </div>
       </div>
       </div>

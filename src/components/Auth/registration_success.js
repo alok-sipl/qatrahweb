@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {BrowserRouter as Router, Route, Link, Prompt, Redirect} from "react-router-dom";
+
 
 class RegistrationSuccess extends Component{
 
@@ -15,7 +17,7 @@ class RegistrationSuccess extends Component{
                                         <h5 className="sub-heading">You have been registered successfully!</h5>
                                         <div className="congo m-tb30"><img src="public/images/congratulations.png"/></div>
                                         <div className="form-group">
-                                            <a href="index" className="btn-blue-block">Go to Home</a>
+                                           <Link to="/registration-verification" className="btn-blue-block"> Go to Home</Link>
                                         </div>
                                 </div>
                             </div>
