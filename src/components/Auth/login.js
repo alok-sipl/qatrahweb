@@ -4,6 +4,8 @@ import firebase from 'firebase';
 import {emailChanged, passwordChanged,loginUser, resetForm, facebookLogin,phoneChanged} from '../../actions';
 import {Spinner} from '../common'
 import { BrowserRouter as Router, Route, Link, Prompt } from "react-router-dom";
+import _ from 'lodash';
+
 
 
 class Login extends Component {

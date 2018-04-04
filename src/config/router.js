@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter,browserHistory, Route, Switch} from 'react-router-dom';
 import Login from '../components/Auth/login';
 import Signup from '../components/Auth/signup';
 import ForgotPassword from '../components/Auth/forgot_password';
@@ -28,7 +28,7 @@ export default class Router extends Component{
             <div>
                 <BrowserRouter>
                     <div>
-                        <Switch>
+                        <Router history={browserHistory}>
                             <Route path="/login" component={Login}/>
                             <Route path="/signup" component={Signup}/>
                             <Route path="/forgot-password" component={ForgotPassword} />
@@ -50,7 +50,7 @@ export default class Router extends Component{
                             <Route path="/terms-policy" component={TermsPolicy} />
                             <Route path="/about-us" component={AboutUs} />
                             <Route path="/" component={Login} />
-                        </Switch>
+                        </Router>
                     </div>
                 </BrowserRouter>
             </div>

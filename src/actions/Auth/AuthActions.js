@@ -20,6 +20,11 @@ import {
     showToast
 } from '../types'
 
+import { browserHistory,withRouter } from 'react-router';
+import _ from 'lodash';
+
+
+
 
 /*
    @Method : NameChanged
@@ -425,6 +430,8 @@ export const loginUser = ({email, password}) => {
                                             loginUserFail(dispatch);
                                             // Actions.Auth();
 
+
+
                                         }, function(error) {
                                             showToast("danger","Sorry some error occurred, please try again later!")
                                             // Actions.Auth();
@@ -446,34 +453,8 @@ export const loginUser = ({email, password}) => {
                                     }
                                     else
                                     {
-                                            let ref = firebase.database().ref(`/tokens/${user.uid}`);
-                                            ref.orderByChild("device_token").equalTo(token).once('value')
-                                                .then(function(dataSnapshot) {
-                                                    if(dataSnapshot.val() == null)
-                                                    {
-                                                        let user = firebase.auth().currentUser;
-                                                        firebase.database().ref(`/tokens/${user.uid}`)
-                                                            .push({device_token:token,updated_at:Date.now()})
-                                                            .then(() => {
-                                                                loginUserSuccess(dispatch, user);
-                                                                // Actions.Home({type:'reset'});
-                                                            })
-                                                            .catch(() => {
-                                                                loginUserFail(dispatch);
-                                                                showToast("danger","Sorry some error occurred, please try again later!")
-                                                            })
-                                                    }
-                                                    else
-                                                    {
-                                                        loginUserSuccess(dispatch, user);
-                                                        // Actions.Home({type:'reset'});
-                                                    }
-                                                })
-                                                .catch(() => {
-                                                    loginUserFail(dispatch);
-                                                    showToast("danger","Sorry some error occurred, please try again later!")
-
-                                                });
+                                             browserHistory.push('/signup');
+                                             loginUserSuccess(dispatch, user);
 
                                     }
 
