@@ -378,4 +378,3 @@ export default connect(mapStateToProps, {
     phoneChanged,
     resetForm
 })(Login);
-
