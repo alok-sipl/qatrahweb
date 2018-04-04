@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import firebase from 'firebase';
 import {emailChanged, passwordChanged,loginUser, resetForm, facebookLogin,phoneChanged} from '../../actions';
 import {Spinner} from '../common'
+import { BrowserRouter as Router, Route, Link, Prompt } from "react-router-dom";
+
 
 class Login extends Component {
     state = {isLoaded: null,isEmailVerified:false, validationError: '',secureTextEntry:true, isSubmitted: false,showFooter:true};
@@ -237,6 +239,7 @@ class Login extends Component {
                             this.onChangePassword(event.target.value)
 
                         }}
+                        value = {this.props.password}
                     />
                     <i onClick={()=>{
                         this.onEyeClick();
@@ -260,6 +263,7 @@ class Login extends Component {
                             this.onChangePassword(event.target.value)
 
                         }}
+                        value = {this.props.password}
                     />
                     <i  onClick={()=>{
                         this.onEyeClick();
@@ -317,12 +321,14 @@ class Login extends Component {
                                             {this.renderPasswordField()}
 
                                             <div className="form-group">
-                                                <a href="forgot-password" className="frgt-password" title="Forgot Password?">Forgot Password?</a>
+                                                <div className="frgt-password"> <Link to="/forgot-password" className="frgt-password"> Forgot Password? </Link></div>
                                             </div>
                                             <div className="form-group">
                                                 {this.renderAction()}
                                             </div>
-                                            <div className="form-fooetr">New user? <a href="signup" title="Sign Up">Sign Up</a></div>
+
+
+                                            <div className="form-fooetr">New user?  <Link to="/signup"> Sign Up </Link></div>
                                         </form>
                                     </div>
                                 </div>
