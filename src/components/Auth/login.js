@@ -172,6 +172,32 @@ class Login extends Component {
     }
 
     /*
+@Method : renderError
+@Params : email
+@Returns : *
+*/
+    renderErrorEmail = (isSubmitted,isValid,value)=>
+    {
+        if(isSubmitted && (value == ''))
+        {
+            return (
+                <div style={{flex:1}}>
+                    <div style={{color:'red'}}>Email is required</div>
+                </div>
+            )
+        }
+        else if(isSubmitted && (!(isValid)))
+        {
+            return (
+                <div style={{flex:1}}>
+                    <div style={{color:'red'}}>Email is Invalid</div>
+                </div>
+            )
+        }
+
+    }
+
+    /*
 @Method : validatePassword
 @Params :
 @Returns : *
@@ -202,8 +228,14 @@ class Login extends Component {
                                                 <input type="email"
                                                        placeholder="Email ID"
                                                        name="email"
-                                                       onChange={this.onChangeEmail.bind(this)} value={this.props.email}
+                                                       onChange={(event)=>{
+                                                           this.onChangeEmail(event.target.value)
+
+                                                       }} value={this.props.email}
                                                 />
+                                                {this.renderErrorEmail(this.state.isSubmitted,this.validateEmail(this.props.email),this.props.email)}
+
+
                                             </div>
                                             <div className="form-group">
                                                 <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
@@ -211,7 +243,10 @@ class Login extends Component {
                                                     type="password"
                                                     placeholder="Password"
                                                     name="password"
-                                                    onChange={this.onChangePassword.bind(this)} value={this.props.password}
+                                                    onChange={(event)=>{
+                                                        this.onChangePassword(event.target.value)
+
+                                                    }}
                                                 />
                                                 <i className="fa fa-eye pass-visibility" aria-hidden="true"></i>
                                             </div>

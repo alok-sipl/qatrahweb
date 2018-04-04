@@ -405,118 +405,112 @@ export const updateUserState = ({isOnline}) => {
    @Returns : *
    */
 export const loginUser = ({email, password}) => {
-
     return (dispatch) => {
         dispatch({type: LOGIN_USER});
-        //
-        // firebase.auth().signInWithEmailAndPassword(email, password)
-        //     .then(user => {
-        //         let userDetails = firebase.auth().currentUser;
-        //         if(userDetails.emailVerified)
-        //         {
-        //             let refUser = firebase.database().ref(`/users`);
-        //             refUser.orderByChild("id").equalTo(userDetails.uid).once('value')
-        //                 .then(function(dataSnapshotUser) {
-        //                     if (dataSnapshotUser.val() != null) {
-        //                         _.map(dataSnapshotUser.val(),(valUserData,uid)=>{
-        //                             if(valUserData.is_deleted == true)
-        //                             {
-        //                                 firebase.auth().signOut().then(function() {
-        //                                     showToast("danger","Your account has been disabled, please contact your system administrator");
-        //                                     loginUserFail(dispatch);
-        //                                     Actions.Auth();
-        //
-        //                                 }, function(error) {
-        //                                     showToast("danger","Sorry some error occurred, please try again later!")
-        //                                     Actions.Auth();
-        //                                     loginUserFail(dispatch);
-        //                                 });
-        //                             }
-        //                             else if(valUserData.is_admin == true)
-        //                             {
-        //                                 firebase.auth().signOut().then(function() {
-        //                                     showToast("danger","Invalid email or password,Please try again!")
-        //                                     loginUserFail(dispatch);
-        //                                     Actions.Auth();
-        //
-        //                                 }, function(error) {
-        //                                     showToast("danger","Invalid email or password,Please try again!")
-        //                                     Actions.Auth();
-        //                                     loginUserFail(dispatch);
-        //                                 });
-        //                             }
-        //                             else
-        //                             {
-        //                                 FCM.getFCMToken().then(token => {
-        //                                     let ref = firebase.database().ref(`/tokens/${user.uid}`);
-        //                                     ref.orderByChild("device_token").equalTo(token).once('value')
-        //                                         .then(function(dataSnapshot) {
-        //                                             if(dataSnapshot.val() == null)
-        //                                             {
-        //                                                 let user = firebase.auth().currentUser;
-        //                                                 firebase.database().ref(`/tokens/${user.uid}`)
-        //                                                     .push({device_token:token,updated_at:Date.now()})
-        //                                                     .then(() => {
-        //                                                         loginUserSuccess(dispatch, user);
-        //                                                         Actions.Home({type:'reset'});
-        //                                                     })
-        //                                                     .catch(() => {
-        //                                                         loginUserFail(dispatch);
-        //                                                         showToast("danger","Sorry some error occurred, please try again later!")
-        //                                                     })
-        //                                             }
-        //                                             else
-        //                                             {
-        //                                                 loginUserSuccess(dispatch, user);
-        //                                                 Actions.Home({type:'reset'});
-        //                                             }
-        //                                         })
-        //                                         .catch(() => {
-        //                                             loginUserFail(dispatch);
-        //                                             showToast("danger","Sorry some error occurred, please try again later!")
-        //
-        //                                         });
-        //                                 }).catch(() => {
-        //                                     loginUserFail(dispatch);
-        //                                     showToast("danger","Sorry some error occurred, please try again later!")
-        //
-        //                                 });
-        //                             }
-        //
-        //                         });
-        //                     }
-        //                     else
-        //                     {
-        //                         firebase.auth().signOut().then(function() {
-        //                             showToast("danger","Invalid email or password,Please try again!")
-        //                             loginUserFail(dispatch);
-        //
-        //                         }, function(error) {
-        //                             showToast("danger","Invalid email or password,Please try again!")
-        //                             loginUserFail(dispatch);
-        //                         });
-        //                     }
-        //                 })
-        //                 .catch(() => {
-        //                     firebase.auth().signOut().then(function() {
-        //                         showToast("danger","Invalid email or password,Please try again!")
-        //                         loginUserFail(dispatch);
-        //
-        //                     }, function(error) {
-        //                         showToast("danger","Invalid email or password,Please try again!")
-        //                         loginUserFail(dispatch);
-        //                     });
-        //                 })
-        //         }
-        //         else
-        //         {
-        //             Actions.Verify();
-        //         }
-        //     })
-        //     .catch(() => {
-        //         showToast("danger","Invalid email or password,Please try again!")
-        //         loginUserFail(dispatch);
-        //     })
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(user => {
+                let userDetails = firebase.auth().currentUser;
+                if(userDetails.emailVerified)
+                {
+                    let refUser = firebase.database().ref(`/users`);
+                    refUser.orderByChild("id").equalTo(userDetails.uid).once('value')
+                        .then(function(dataSnapshotUser) {
+                            if (dataSnapshotUser.val() != null) {
+                                _.map(dataSnapshotUser.val(),(valUserData,uid)=>{
+                                    if(valUserData.is_deleted == true)
+                                    {
+                                        firebase.auth().signOut().then(function() {
+                                            showToast("danger","Your account has been disabled, please contact your system administrator");
+                                            loginUserFail(dispatch);
+                                            Actions.Auth();
+
+                                        }, function(error) {
+                                            showToast("danger","Sorry some error occurred, please try again later!")
+                                            Actions.Auth();
+                                            loginUserFail(dispatch);
+                                        });
+                                    }
+                                    else if(valUserData.is_admin == true)
+                                    {
+                                        firebase.auth().signOut().then(function() {
+                                            showToast("danger","Invalid email or password,Please try again!")
+                                            loginUserFail(dispatch);
+                                            Actions.Auth();
+
+                                        }, function(error) {
+                                            showToast("danger","Invalid email or password,Please try again!")
+                                            Actions.Auth();
+                                            loginUserFail(dispatch);
+                                        });
+                                    }
+                                    else
+                                    {
+                                            let ref = firebase.database().ref(`/tokens/${user.uid}`);
+                                            ref.orderByChild("device_token").equalTo(token).once('value')
+                                                .then(function(dataSnapshot) {
+                                                    if(dataSnapshot.val() == null)
+                                                    {
+                                                        let user = firebase.auth().currentUser;
+                                                        firebase.database().ref(`/tokens/${user.uid}`)
+                                                            .push({device_token:token,updated_at:Date.now()})
+                                                            .then(() => {
+                                                                loginUserSuccess(dispatch, user);
+                                                                // Actions.Home({type:'reset'});
+                                                            })
+                                                            .catch(() => {
+                                                                loginUserFail(dispatch);
+                                                                showToast("danger","Sorry some error occurred, please try again later!")
+                                                            })
+                                                    }
+                                                    else
+                                                    {
+                                                        loginUserSuccess(dispatch, user);
+                                                        // Actions.Home({type:'reset'});
+                                                    }
+                                                })
+                                                .catch(() => {
+                                                    loginUserFail(dispatch);
+                                                    showToast("danger","Sorry some error occurred, please try again later!")
+
+                                                });
+
+                                    }
+
+                                });
+                            }
+                            else
+                            {
+                                firebase.auth().signOut().then(function() {
+                                    showToast("danger","Invalid email or password,Please try again!")
+                                    loginUserFail(dispatch);
+
+                                }, function(error) {
+                                    showToast("danger","Invalid email or password,Please try again!")
+                                    loginUserFail(dispatch);
+                                });
+                            }
+                        })
+                        .catch(() => {
+                            firebase.auth().signOut().then(function() {
+                                showToast("danger","Invalid email or password,Please try again!")
+                                loginUserFail(dispatch);
+
+                            }, function(error) {
+                                showToast("danger","Invalid email or password,Please try again!")
+                                loginUserFail(dispatch);
+                            });
+                        })
+                }
+                else
+                {
+                    Actions.Verify();
+                }
+            })
+            .catch(() => {
+                showToast("danger","Invalid email or password,Please try again!")
+                loginUserFail(dispatch);
+            })
     };
 };
 
