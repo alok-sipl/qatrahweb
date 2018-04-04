@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
 import firebase from 'firebase';
+import {Spinner} from '../common'
+import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-router-dom";
+import _ from 'lodash';
+
 import {
     showToast
 } from '../../actions/types';
 class RegistrationVerification extends Component {
-  state = {isLoaded: null,email:""};
+  state = {isLoaded: null,email:"",isRedirectLogin:false};
 
     componentWillMount()
     {
@@ -25,16 +29,61 @@ class RegistrationVerification extends Component {
     }
 
     /*
+  @Method : renderAction
+  @Params :
+  @Returns : *
+  */
+    renderActionBack() {
+
+            return (
+              <input
+                  type="button"
+                  onClick={()=>{
+                      this.onButtonPressBack();
+                  }}
+                  className="btn-blue-block"
+                  value="Cancel"
+                  title="Cancel" />
+
+            );
+
+    }
+
+
+    /*
+    @Method : renderAction
+    @Params :
+    @Returns : *
+    */
+    renderAction() {
+
+            return (
+              <input
+                  type="button"
+                  onClick={()=>{
+                      this.onButtonPress();
+                  }}
+                  className="btn-blue-block"
+                  value="Resend Verification Link"
+                  title="Resend Verification Link" />
+
+            );
+    }
+
+
+
+    /*
  @Method : onButtonPressBack
  @Params :
  @Returns : *
  */
     onButtonPressBack() {
         firebase.auth().signOut().then(()=>{
-
+this.setState({isRedirectLogin:true})
         },(error)=> {
             showToast("danger","Sorry some error occurred, please try again later!");
         });
+
     }
 
 
@@ -48,7 +97,7 @@ class RegistrationVerification extends Component {
             .then(()=>{
                 firebase.auth().signOut().then(()=>{
                     showToast('success','We have received your request and an email containing verification link has been send to your registered email.');
-                    Actions.Auth({type:'reset'});
+                    this.setState({isRedirectLogin:true})
                 },(error)=> {
                     showToast("danger","Sorry some error occurred, please try again later!");
                 });
@@ -56,15 +105,18 @@ class RegistrationVerification extends Component {
             .catch(() => {
                 showToast("danger","Sorry some error occurred, please try again later!");
             })
+
     }
 
 
 
     render() {
+      if (this.state.isRedirectLogin == true) {
+          return <Redirect to='/login'/>;
+      }
+      else{
     return (
-
-
-      <div>
+  <div>
       <div className="columns medium-12">
       <div className="form-wrapper">
       <div className="card">
@@ -78,11 +130,14 @@ class RegistrationVerification extends Component {
       </h6>
       <div className="congo m-tb30"><img src="public/images/congratulations.png"/></div>
       <div className="form-group">
-      <a href="index" className="btn-blue-block">Resend Verification Link</a>
+          {this.renderAction()}
       </div>
       <div className="form-group">
-      <a href="index" className="btn-blue-block">Cancel</a>
+          {this.renderActionBack()}
       </div>
+
+
+    
       </div>
       </div>
       </div>
@@ -91,6 +146,7 @@ class RegistrationVerification extends Component {
       </div>
     );
   }
+}
 
 }
 
