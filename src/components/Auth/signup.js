@@ -276,6 +276,7 @@ class Signup extends Component {
                     <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
                     <input
                         type="password"
+                        maxLength={16}
                         placeholder="Password"
                         name="password"
                         onChange={(event) => {
@@ -408,6 +409,7 @@ class Signup extends Component {
                                                 <input
                                                     type="email"
                                                     placeholder="Email ID"
+                                                    maxLength={100}
                                                     name="email"
                                                     onChange={(event) => {
                                                         this.onChangeEmail(event.target.value)
