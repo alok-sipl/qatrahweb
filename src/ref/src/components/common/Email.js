@@ -22,9 +22,9 @@ const EmailInput =({label,value,onChangeText,placeholder,secureTextEntry,isSubmi
         if(isSubmitted && (value == ''))
         {
             return (
-                <View style={{flex:1,paddingLeft:30}}>
+                <div style={{flex:1}}>
                     <Text note style={{color:'red'}}>Email is required</Text>
-                </View>
+                </div>
             )
         }
         else if(isSubmitted && (!(isValid)))

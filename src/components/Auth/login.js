@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
 import {emailChanged, passwordChanged,loginUser, resetForm, facebookLogin,phoneChanged} from '../../actions';
+import {Spinner} from '../common'
 
 class Login extends Component {
     state = {isLoaded: null,isEmailVerified:false, validationError: '',secureTextEntry:true, isSubmitted: false,showFooter:true};
@@ -134,9 +135,14 @@ class Login extends Component {
         }
         else {
             return (
-                <Button onPress={this.onButtonPress.bind(this)}>
-                    Login
-                </Button>
+                <input
+                    type="button"
+                    onClick={()=>{
+                        this.onButtonPress();
+                    }}
+                    className="btn-blue-block"
+                    value="Log In"
+                    title="Log In" />
             );
         }
     }
@@ -168,6 +174,26 @@ class Login extends Component {
     {
 
         this.setState({secureTextEntry:!(this.state.secureTextEntry)})
+
+    }
+
+
+
+    /*
+@Method : renderError
+@Params : email
+@Returns : *
+*/
+    renderErrorPassword = (isSubmitted,value)=>
+    {
+        if(isSubmitted && (value == ''))
+        {
+            return (
+                <div style={{flex:1}}>
+                    <div style={{color:'red'}}>Password is required</div>
+                </div>
+            )
+        }
 
     }
 
@@ -249,19 +275,14 @@ class Login extends Component {
                                                     }}
                                                 />
                                                 <i className="fa fa-eye pass-visibility" aria-hidden="true"></i>
+                                                {this.renderErrorPassword(this.state.isSubmitted,this.props.password)}
+
                                             </div>
                                             <div className="form-group">
                                                 <a href="forgot-password" className="frgt-password" title="Forgot Password?">Forgot Password?</a>
                                             </div>
                                             <div className="form-group">
-                                                <input
-                                                    type="button"
-                                                    onClick={()=>{
-                                                        this.onButtonPress();
-                                                    }}
-                                                    className="btn-blue-block"
-                                                    value="Log In"
-                                                    title="Log In" />
+                                                {this.renderAction()}
                                             </div>
                                             <div className="form-fooetr">New user? <a href="signup" title="Sign Up">Sign Up</a></div>
                                         </form>

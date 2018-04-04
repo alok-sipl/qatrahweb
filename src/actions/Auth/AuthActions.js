@@ -423,11 +423,11 @@ export const loginUser = ({email, password}) => {
                                         firebase.auth().signOut().then(function() {
                                             showToast("danger","Your account has been disabled, please contact your system administrator");
                                             loginUserFail(dispatch);
-                                            Actions.Auth();
+                                            // Actions.Auth();
 
                                         }, function(error) {
                                             showToast("danger","Sorry some error occurred, please try again later!")
-                                            Actions.Auth();
+                                            // Actions.Auth();
                                             loginUserFail(dispatch);
                                         });
                                     }
@@ -436,11 +436,11 @@ export const loginUser = ({email, password}) => {
                                         firebase.auth().signOut().then(function() {
                                             showToast("danger","Invalid email or password,Please try again!")
                                             loginUserFail(dispatch);
-                                            Actions.Auth();
+                                            // Actions.Auth();
 
                                         }, function(error) {
                                             showToast("danger","Invalid email or password,Please try again!")
-                                            Actions.Auth();
+                                            // Actions.Auth();
                                             loginUserFail(dispatch);
                                         });
                                     }
@@ -504,7 +504,7 @@ export const loginUser = ({email, password}) => {
                 }
                 else
                 {
-                    Actions.Verify();
+                    // Actions.Verify();
                 }
             })
             .catch(() => {
