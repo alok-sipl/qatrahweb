@@ -13,6 +13,24 @@ class RegistrationVerification extends Component {
 
     componentWillMount() {
         this.setEmail();
+        // const messaging = firebase.messaging();
+        //
+        //
+        // messaging.requestPermission().then(function() {
+        //     messaging.getToken().then(function(currentToken) {
+        //         if (currentToken) {
+        //            alert(currentToken);
+        //         } else {
+        //             // Show permission request.
+        //             console.log('No Instance ID token available. Request permission to generate one.');
+        //         }
+        //     }).catch(function(err) {
+        //         console.log('An error occurred while retrieving token. ', err);
+        //     });
+        //     // ...
+        // }).catch(function(err) {
+        //    alert('Unable to get permission to notify.', err);
+        // });
     }
 
     setEmail() {
