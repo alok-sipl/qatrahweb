@@ -244,6 +244,7 @@ class Login extends Component {
                     <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
                     <input
                         type="password"
+                        maxLength={16}
                         placeholder="Password"
                         name="password"
                         onChange={(event)=>{
@@ -270,6 +271,7 @@ class Login extends Component {
                         type="text"
                         placeholder="Password"
                         name="password"
+                        maxLength={16}
                         onChange={(event)=>{
                             this.onChangePassword(event.target.value)
 
@@ -309,7 +311,7 @@ class Login extends Component {
             return <Redirect to='/signup'/>;
         }
         else if (this.state.isRedirectVerify == true) {
-            return <Redirect to='/signup'/>;
+            return <Redirect to='/registration-verification' />;
         }
         else{
 
@@ -326,6 +328,7 @@ class Login extends Component {
                                             <div className="form-group">
                                                 <label><i className="fa fa-envelope" aria-hidden="true"></i></label>
                                                 <input type="email"
+                                                maxLength={100}
                                                        placeholder="Email ID"
                                                        name="email"
                                                        onChange={(event)=>{
@@ -378,4 +381,3 @@ export default connect(mapStateToProps, {
     phoneChanged,
     resetForm
 })(Login);
-
