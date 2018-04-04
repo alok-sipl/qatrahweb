@@ -409,7 +409,7 @@ export const updateUserState = ({isOnline}) => {
    @Params :
    @Returns : *
    */
-export const loginUser = ({email, password}) => {
+export const loginUser = ({email, password},callback) => {
     return (dispatch) => {
         dispatch({type: LOGIN_USER});
 
@@ -428,13 +428,9 @@ export const loginUser = ({email, password}) => {
                                         firebase.auth().signOut().then(function() {
                                             showToast("danger","Your account has been disabled, please contact your system administrator");
                                             loginUserFail(dispatch);
-                                            // Actions.Auth();
-
-
 
                                         }, function(error) {
                                             showToast("danger","Sorry some error occurred, please try again later!")
-                                            // Actions.Auth();
                                             loginUserFail(dispatch);
                                         });
                                     }
@@ -443,21 +439,20 @@ export const loginUser = ({email, password}) => {
                                         firebase.auth().signOut().then(function() {
                                             showToast("danger","Invalid email or password,Please try again!")
                                             loginUserFail(dispatch);
-                                            // Actions.Auth();
 
                                         }, function(error) {
                                             showToast("danger","Invalid email or password,Please try again!")
-                                            // Actions.Auth();
+
                                             loginUserFail(dispatch);
                                         });
                                     }
                                     else
                                     {
-                                             browserHistory.push('/signup');
-                                             loginUserSuccess(dispatch, user);
+                                        loginUserSuccess(dispatch, user);
+                                        callback("success");
+
 
                                     }
-
                                 });
                             }
                             else
@@ -477,6 +472,7 @@ export const loginUser = ({email, password}) => {
                                 showToast("danger","Invalid email or password,Please try again!")
                                 loginUserFail(dispatch);
 
+
                             }, function(error) {
                                 showToast("danger","Invalid email or password,Please try again!")
                                 loginUserFail(dispatch);
@@ -486,6 +482,7 @@ export const loginUser = ({email, password}) => {
                 else
                 {
                     // Actions.Verify();
+                    callback("verify");
                 }
             })
             .catch(() => {

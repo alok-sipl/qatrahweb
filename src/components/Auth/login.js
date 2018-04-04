@@ -3,13 +3,14 @@ import {connect} from 'react-redux';
 import firebase from 'firebase';
 import {emailChanged, passwordChanged,loginUser, resetForm, facebookLogin,phoneChanged} from '../../actions';
 import {Spinner} from '../common'
-import { BrowserRouter as Router, Route, Link, Prompt } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-router-dom";
 import _ from 'lodash';
 
 
 
+
 class Login extends Component {
-    state = {isLoaded: null,isEmailVerified:false, validationError: '',secureTextEntry:true, isSubmitted: false,showFooter:true};
+    state = {isLoaded: null,isRedirectHome:false,isRedirectVerify:false,isEmailVerified:false, validationError: '',secureTextEntry:true, isSubmitted: false,showFooter:true};
     constructor(props) {
         super(props);
 
@@ -121,7 +122,15 @@ class Login extends Component {
 
         if (this.validateEmail(email) && password) {
             this.setState({validationError: ''});
-            this.props.loginUser({email,password});
+            this.props.loginUser({email,password},(data)=>{
+               if(data == "success"){
+                   this.setState({isRedirectHome:true});
+
+               }
+               else{
+                       this.setState({isRedirectVerify:true});
+               }
+            });
         }
     }
 
@@ -296,7 +305,15 @@ class Login extends Component {
    @Returns : *
    */
     render() {
-        return (
+        if (this.state.isRedirectHome == true) {
+            return <Redirect to='/signup'/>;
+        }
+        else if (this.state.isRedirectVerify == true) {
+            return <Redirect to='/signup'/>;
+        }
+        else{
+
+            return (
                 <div>
                     <div className="columns medium-12">
                         <div className="form-wrapper">
@@ -339,6 +356,9 @@ class Login extends Component {
                     </div>
                 </div>
             )
+
+        }
+
         }
 
     }
