@@ -417,7 +417,7 @@ class Signup extends Component {
 const mapStateToProps = ({auth}) => {
   const {email, password,phone, first_name, last_name, error, loading} = auth;
   return {email, password,phone, first_name, last_name, error, loading};
-
+ 
 };
 
 export default connect(mapStateToProps, {
