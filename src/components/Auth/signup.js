@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Link, withRouter,} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Prompt,withRouter } from "react-router-dom";
 import {emailChanged,resetForm,firstNameChanged, lastNameChanged, passwordChanged, registerUser,phoneChanged} from '../../actions';
 import {connect} from 'react-redux';
-
+import {Spinner} from '../common'
 
 class Signup extends Component {
   state = { isLoaded: false, validationError: '',secureTextEntry:true, isSubmitted: false,showFooter:true};
@@ -132,10 +132,10 @@ class Signup extends Component {
       // );
       this.props.registerUser({email,password,phone});
 
-
-
     }
+
   }
+
   /*
   @Method : renderAction
   @Params :
@@ -145,14 +145,19 @@ class Signup extends Component {
 
     if (this.props.loading) {
       return (
-        <Spinner size="large"/>
+          <Spinner size="large"/>
       )
-    }
+  }
     else {
       return (
-        <Button  onPress={this.onButtonPress.bind(this)}>
-        Sign Up
-        </Button>
+        <input
+            type="button"
+            onClick={()=>{
+                this.onButtonPress();
+            }}
+            className="btn-blue-block"
+            value="Sign Up"
+            title="Sign Up" />
       );
     }
   }
@@ -250,6 +255,71 @@ class Signup extends Component {
       }
 
   }
+  /*
+@Method : onEyeClick
+@Params :
+@Returns : *
+*/
+  onEyeClick()
+  {
+
+      this.setState({secureTextEntry:!(this.state.secureTextEntry)})
+
+  }
+
+
+  renderPasswordField(){
+
+        if(this.state.secureTextEntry){
+            return(
+                <div className="form-group">
+                    <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        onChange={(event)=>{
+                            this.onChangePassword(event.target.value)
+
+                        }}
+                        value = {this.props.password}
+
+                    />
+                    <i onClick={()=>{
+                        this.onEyeClick();
+                    }}  className="fa fa-eye pass-visibility" aria-hidden="true"></i>
+                    {this.renderErrorPassword(this.state.isSubmitted,this.validatePasswordOnSubmmit(this.props.password),this.props.password,(this.props.password.length > 0))}
+
+                </div>
+            )
+
+        }
+        else
+        {
+            return(
+                <div className="form-group">
+                    <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
+                    <input
+                        type="text"
+                        placeholder="Password"
+                        name="password"
+                        onChange={(event)=>{
+                            this.onChangePassword(event.target.value)
+
+                        }}
+                    />
+                    <i  onClick={()=>{
+                        this.onEyeClick();
+                    }} className="fa fa-eye-slash pass-visibility" aria-hidden="true"></i>
+                    {this.renderErrorPassword(this.state.isSubmitted,this.validatePasswordOnSubmmit(this.props.password),this.props.password,(this.props.password.length > 0))}
+
+                </div>
+            )
+
+        }
+
+
+    }
 
 
 
@@ -308,11 +378,7 @@ class Signup extends Component {
   }
 
 
-  /*
-  @Method : renderAction
-  @Params :
-  @Returns : *
-  */
+
 
   render() {
     const {
@@ -358,21 +424,8 @@ class Signup extends Component {
       {this.renderErrorEmail(this.state.isSubmitted,this.validateEmail(this.props.email),this.props.email)}
 
       </div>
-      <div className="form-group">
-      <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
-      <input
-      type="password"
-      placeholder="Password"
-      name="password"
-      value={password}
-      onChange={(event)=>{
-        this.setState({'password': event.target.value})
-        this.onChangePassword(event.target.value)
-      }}value={this.props.password}
-      />
-      {this.renderErrorPassword(this.state.isSubmitted,this.validatePasswordOnSubmmit(this.props.password),this.props.password,(this.props.password.length > 0))}
 
-      </div>
+      {this.renderPasswordField()}
       <div className="form-group">
       <label><i className="fa fa-phone" aria-hidden="true"></i></label>
       <input
@@ -391,19 +444,12 @@ class Signup extends Component {
       </div>
 
       <div className="form-group">
-      <input
-      disabled={isInvalid}
-      type="button"
-      onClick={()=>{
-        this.onButtonPress();
-      }}
-      className="btn-blue-block"
-      value="Sign Up"
-      title="Sign Up"
-      />
+    {this.renderAction()}
       </div>
-      <div className="form-fooetr">Already have an account? <a href="login">Login</a>
-      </div>
+      
+      <div className="form-fooetr">Already have an account?  <Link to="/login"> Login </Link></div>
+
+
       </form>
       </div>
       </div>
@@ -417,7 +463,7 @@ class Signup extends Component {
 const mapStateToProps = ({auth}) => {
   const {email, password,phone, first_name, last_name, error, loading} = auth;
   return {email, password,phone, first_name, last_name, error, loading};
- 
+
 };
 
 export default connect(mapStateToProps, {
