@@ -176,7 +176,7 @@ export const forgotPassword = ({email}) => {
    @Params :
    @Returns : *
    */
-export const registerUser = ({email,password,phone}) => {
+export const registerUser = ({email,password,phone},callback) => {
     return (dispatch) => {
         dispatch({type: LOGIN_USER});
         firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -199,7 +199,7 @@ export const registerUser = ({email,password,phone}) => {
                                             .push({message:`New user ${user.email} is register into your system`,type:"newUser",user_id:usersRecords.getKey()})
                                             .then(() => {
                                                 loginUserSuccess(dispatch, user);
-                                                // Actions.Congrats();
+                                                callback("congrats")
                                             }).catch(function (error) {
                                             loginUserFail(dispatch);
                                             showToast("danger","Sorry some error occurred, please try again later!");
