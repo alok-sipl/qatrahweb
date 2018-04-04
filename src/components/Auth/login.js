@@ -223,6 +223,57 @@ class Login extends Component {
 
     }
 
+    renderPasswordField(){
+
+        if(this.state.secureTextEntry){
+            return(
+                <div className="form-group">
+                    <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        name="password"
+                        onChange={(event)=>{
+                            this.onChangePassword(event.target.value)
+
+                        }}
+                    />
+                    <i onClick={()=>{
+                        this.onEyeClick();
+                    }}  className="fa fa-eye pass-visibility" aria-hidden="true"></i>
+                    {this.renderErrorPassword(this.state.isSubmitted,this.props.password)}
+
+                </div>
+            )
+
+        }
+        else
+        {
+            return(
+                <div className="form-group">
+                    <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
+                    <input
+                        type="text"
+                        placeholder="Password"
+                        name="password"
+                        onChange={(event)=>{
+                            this.onChangePassword(event.target.value)
+
+                        }}
+                    />
+                    <i  onClick={()=>{
+                        this.onEyeClick();
+                    }} className="fa fa-eye-slash pass-visibility" aria-hidden="true"></i>
+                    {this.renderErrorPassword(this.state.isSubmitted,this.props.password)}
+
+                </div>
+            )
+
+        }
+
+
+    }
+
     /*
 @Method : validatePassword
 @Params :
@@ -263,21 +314,8 @@ class Login extends Component {
 
 
                                             </div>
-                                            <div className="form-group">
-                                                <label><i className="fa fa-lock f-" aria-hidden="true"></i></label>
-                                                <input
-                                                    type="password"
-                                                    placeholder="Password"
-                                                    name="password"
-                                                    onChange={(event)=>{
-                                                        this.onChangePassword(event.target.value)
+                                            {this.renderPasswordField()}
 
-                                                    }}
-                                                />
-                                                <i className="fa fa-eye pass-visibility" aria-hidden="true"></i>
-                                                {this.renderErrorPassword(this.state.isSubmitted,this.props.password)}
-
-                                            </div>
                                             <div className="form-group">
                                                 <a href="forgot-password" className="frgt-password" title="Forgot Password?">Forgot Password?</a>
                                             </div>
