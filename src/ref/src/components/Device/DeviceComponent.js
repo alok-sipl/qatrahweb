@@ -175,7 +175,7 @@ renderHeader()
                 <Item rounded>
                     <Icon name="ios-search" />
                     <Input value={this.state.searchText} onChangeText={this.onChangeSearch.bind(this)} placeholder="Search" />
-                    
+
                         <Icon style={{color:'red'}}
                          onPress={()=>{
                                 this.setState({isSearchClicked:false,menuActive:false})
@@ -243,8 +243,8 @@ renderHeader()
         else
         {
             return (
-                <Content  bounces={false} style={centerAlign} padder>
-                    <Text note> Your device has not been registered in the app.Please purchase device and registered it or visit our website www.qatrah.com to purchase.</Text>
+                <Content  bounces={false} style={centerAlign}>
+                    <Text>No Device Found</Text>
                 </Content>
 
             )
@@ -285,7 +285,7 @@ const styles = {
         shadowOpacity:0,borderBottomWidth:0
     },
     listStyle:{
-        
+
         marginRight:17
     }
 }
@@ -296,9 +296,6 @@ const mapStateToProps = ({device}) => {
     {
         deviceData =[];
         _.map(device.deviceData,(val,uid)=>{
-            if(val.tank_name){
-                val.tank_name = val.tank_name.trim()
-            }
             deviceData.push(val)
         });
     }
@@ -306,9 +303,6 @@ const mapStateToProps = ({device}) => {
     {
         deviceDataTemp =[];
         _.map(device.deviceDataTemp,(val,uid)=>{
-            if(val.tank_name){
-                val.tank_name = val.tank_name.trim()
-            }
             deviceDataTemp.push(val)
         });
     }

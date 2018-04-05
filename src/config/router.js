@@ -11,7 +11,7 @@ import Profile from '../components/Auth/profile';
 import AddDevice from '../components/add_device';
 import EditDevice from '../components/edit_device';
 import DeviceDetail from '../components/device_detail';
-import DeviceListing from '../components/device_listing';
+import DeviceComponent from '../components/Device/DeviceComponent';
 import DeviceReadingGraph from '../components/device_reading_graph';
 import ReminderSetting from '../components/reminder_setting';
 import SearchSupplier from '../components/search_supplier';
@@ -41,7 +41,7 @@ export default class Router extends Component{
                             <Route path="/add-device" component={AddDevice} />
                             <Route path="/edit-device" component={EditDevice} />
                             <Route path="/view-device" component={DeviceDetail} />
-                            <Route path="/device" component={DeviceListing} />
+                            <Route path="/device" component={DeviceComponent} />
                             <Route path="/device-reading" component={DeviceReadingGraph} />
                             <Route path="/reminder-setting" component={ReminderSetting} />
                             <Route path="/search-supplier" component={SearchSupplier} />
