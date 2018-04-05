@@ -6,6 +6,8 @@ import _ from 'lodash';
 import firebase from 'firebase';
 import Header from '../templates/header'
 import LedtNavigation from '../templates/left_navigation';
+import CircularProgressbar from 'react-circular-progressbar';
+
 
 const divStyle = {
     height: '220px'
@@ -190,19 +192,19 @@ class Home extends Component {
             }
 
             return(
-                <div className="row">
+                <div className="row" key ={this.props.deviceData[this.props.deviceData.length-1].device_id}>
                     <div className="columns medium-6">
                         <div className="card-panel">
                             <h2 className="p-b25">
                                 <div className="row">
                                     <div className="columns medium-10">
-                                        Office Tank 2
+                                        {this.props.deviceData[this.props.deviceData.length-1].tank_name}
                                     </div>
                                 </div>
                             </h2>
                             <div className="chart-container text-center">
-                                <img src="public/images/office-tank2-graph.png" alt="" width="240" />
-                                <div className="chart-text">25% Full <br/>at 01:00 PM</div>
+                                <CircularProgressbar percentage={(this.props.deviceData[this.props.deviceData.length-1].tank_status.percentage)}  className="progressbar-red" />
+                                <div className="chart-text">{this.props.deviceData[this.props.deviceData.length-1].tank_status.percentage}% Full <br/>at {this.formatAMPM(new Date(this.props.deviceData[this.props.deviceData.length-1].tank_status.time))}</div>
                             </div>
                         </div>
                     </div>
@@ -246,19 +248,19 @@ class Home extends Component {
                             }
 
                             return(
-                                <div className="row">
+                                <div className="row" key ={device_id}>
                                     <div className="columns medium-6">
                                         <div className="card-panel">
                                             <h2 className="p-b25">
                                                 <div className="row">
                                                     <div className="columns medium-10">
-                                                        Office Tank 2
+                                                        {tank_name}
                                                     </div>
                                                 </div>
                                             </h2>
-                                            <div className="chart-container text-center">
-                                                <img src="public/images/office-tank2-graph.png" alt="" width="240" />
-                                                <div className="chart-text">25% Full <br/>at 01:00 PM</div>
+                                            <div className="chart-container text-center" style={{width:240}}>
+                                                <CircularProgressbar percentage={(tank_status.percentage)} className="progressbar-red" />
+                                                <div className="chart-text">{tank_status.percentage}% Full  <br/>at {this.formatAMPM(new Date(tank_status.time))}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -286,19 +288,19 @@ class Home extends Component {
                             if(tempId%2==0)
                             {
                                 return(
-                                    <div className="row" key={i}>
+                                    <div className="row" key= {this.props.deviceData[i-1].device_id}>
                                         <div className="columns medium-6">
                                             <div className="card-panel">
                                                 <h2 className="p-b25">
                                                     <div className="row">
                                                         <div className="columns medium-10">
-                                                            Office Tank 2
+                                                            {this.props.deviceData[i-1].tank_name}
                                                         </div>
                                                     </div>
                                                 </h2>
                                                 <div className="chart-container text-center">
-                                                    <img src="public/images/office-tank2-graph.png" alt="" width="240" />
-                                                    <div className="chart-text">25% Full <br/>at 01:00 PM</div>
+                                                    <CircularProgressbar percentage={(this.props.deviceData[i-1].tank_status.percentage)} className="progressbar-red" />
+                                                    <div className="chart-text">{this.props.deviceData[i-1].tank_status.percentage}% Full<br/>at {this.formatAMPM(new Date(this.props.deviceData[i-1].tank_status.time))}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -307,13 +309,13 @@ class Home extends Component {
                                                 <h2 className="p-b25">
                                                     <div className="row">
                                                         <div className="columns medium-10">
-                                                            Apartment Tank
+                                                            {this.props.deviceData[i].tank_name}
                                                         </div>
                                                     </div>
                                                 </h2>
                                                 <div className="chart-container text-center">
-                                                    <img src="public/images/apartment-tank-graph.png" alt="" width="240" />
-                                                    <div className="chart-text">80% Full <br/>at 12:15 PM</div>
+                                                    <CircularProgressbar  percentage={(this.props.deviceData[i].tank_status.percentage)}  className="progressbar-red" />
+                                                    <div className="chart-text">{this.props.deviceData[i].tank_status.percentage}% Full <br/>at {this.formatAMPM(new Date(this.props.deviceData[i].tank_status.time))}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -331,6 +333,37 @@ class Home extends Component {
         }
     }
 
+    /*
+@Method : renderContent
+@Params :
+@Returns : *
+*/
+    renderContent(){
+        if(this.props.loading || this.state.isLoading )
+        {
+            return (
+                <div>
+                    <Spinner size="large"/>
+                </div>
+            )
+        }
+        else{
+            return (
+                <div className="row">
+                    <div className="columns medium-12">
+                        <h1 className="page-title">Dashboard</h1>
+
+                        {this.renderLastGridData()}
+                        {this.renderListViewData()}
+
+                    </div>
+                </div>
+            );
+
+        }
+
+    }
+
 
 
     /*
@@ -342,32 +375,15 @@ class Home extends Component {
 
     render()
     {
-        if(this.props.loading || this.state.isLoading )
-        {
             return (
                 <div>
-                <Spinner size="large"/>
+                    <Header/>
+                    {this.renderContent()}
+                    <LedtNavigation/>
                 </div>
             )
-        }
-        else
-        {
-            return (
-                <div>
-                    <Header />
-                    <div className="row">
-                        <div className="columns medium-12">
-                            <h1 className="page-title">Dashboard</h1>
 
-                            {this.renderLastGridData()}
-                            {this.renderListViewData()}
 
-                        </div>
-                    </div>
-                    <LedtNavigation />
-                </div>
-            )
-        }
     };
 }
 

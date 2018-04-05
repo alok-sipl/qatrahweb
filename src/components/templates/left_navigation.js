@@ -1,12 +1,13 @@
 import React,{Component} from 'react';
 import Logout from './logout';
-import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class LeftNavigation extends Component{
 
     render(){
         return(
-            <div className="hide">
+            <Router>
+              <div className="hide">
                 <nav className="navigation" id="mobile_menu">
                     <ul>
                         <li className="user">
@@ -16,7 +17,7 @@ class LeftNavigation extends Component{
                             </a>
                         </li>
                         <li>
-                      <Link to="/Home"><i className="fa fa-home" aria-hidden="true"></i>Home</Link>
+                          <Link to="/Home"><i className="fa fa-home" aria-hidden="true"></i>Home</Link>
                         </li>
                         <li>
                         <Link to="/device"><i className="fa fa-list" aria-hidden="true"></i>Device Details</Link>
@@ -46,6 +47,8 @@ class LeftNavigation extends Component{
                     </ul>
                 </nav>
             </div>
+            </Router>
+
         )
     }
 }

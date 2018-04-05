@@ -318,7 +318,6 @@ class Home extends Component {
 
                                     }
                                 }
-
                             }
 
                             return(
