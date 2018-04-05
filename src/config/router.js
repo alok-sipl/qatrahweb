@@ -13,11 +13,11 @@ import EditDevice from '../components/edit_device';
 import DeviceDetail from '../components/device_detail';
 import DeviceComponent from '../components/Device/DeviceComponent';
 import DeviceReadingGraph from '../components/device_reading_graph';
-import ReminderSetting from '../components/reminder_setting';
+import RemainderSettings from '../components/settings/remainder_settings';
 import SearchSupplier from '../components/search_supplier';
 import SupplierListing from '../components/supplier_listing';
 import AlertsList from '../components/alert_list';
-import NotificationSetting from '../components/notification_setting';
+import NotificationSetting from '../components/settings/notification_setting';
 import Contact from '../components/contact';
 import TermsPolicy from '../components/terms_policy';
 import AboutUs from '../components/about_us';
@@ -43,7 +43,7 @@ export default class Router extends Component{
                             <Route path="/view-device" component={DeviceDetail} />
                             <Route path="/device" component={DeviceComponent} />
                             <Route path="/device-reading" component={DeviceReadingGraph} />
-                            <Route path="/reminder-setting" component={ReminderSetting} />
+                            <Route path="/remainder-setting" component={RemainderSettings} />
                             <Route path="/search-supplier" component={SearchSupplier} />
                             <Route path="/supplier" component={SupplierListing} />
                             <Route path="/alerts" component={AlertsList} />
