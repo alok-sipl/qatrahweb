@@ -484,6 +484,13 @@ input:checked + .slider:before {
     text-anchor: middle;
 }
 
+.CircularProgressbar .CircularProgressbar-red {
+    fill: "red";
+    font-size: 20px;
+    dominant-baseline: middle;
+    text-anchor: middle;
+}
+
 .CircularProgressbar .CircularProgressbar-background {
     fill: #d6d6d6;
 }

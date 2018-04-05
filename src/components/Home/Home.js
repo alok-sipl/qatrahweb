@@ -259,7 +259,7 @@ class Home extends Component {
                                                 </div>
                                             </h2>
                                             <div className="chart-container text-center" style={{width:240}}>
-                                                <CircularProgressbar percentage={(tank_status.percentage)} className="progressbar-red" />
+                                                <CircularProgressbar percentage={(tank_status.percentage)}  />
                                                 <div className="chart-text">{tank_status.percentage}% Full  <br/>at {this.formatAMPM(new Date(tank_status.time))}</div>
                                             </div>
                                         </div>

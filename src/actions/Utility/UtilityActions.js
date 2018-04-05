@@ -52,7 +52,7 @@ export const OnQueryChanged = (text) => {
    */
 export const getAlerts=()=>{
     return (dispatch) => {
-        //dispatch({type: LoadingStart});
+        dispatch({type: LoadingStart});
         const {currentUser} = firebase.auth();
         let ref = firebase.database().ref(`/alerts/${currentUser.uid}`);
         ref.limitToLast(100).on("value", snapshot => {

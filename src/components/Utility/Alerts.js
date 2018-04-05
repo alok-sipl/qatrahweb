@@ -10,6 +10,7 @@ import {Spinner} from '../common';
 
 
 class Alerts extends Component {
+    state = {isLoading:true};
 
     /*
 @Method : componentWillMount
@@ -57,7 +58,7 @@ class Alerts extends Component {
     }
 
     renderContent(){
-        if(this.props.loading)
+        if(this.props.loading || this.state.isLoading)
         {
             return(
                 <Spinner size="large"/>
@@ -113,6 +114,7 @@ const mapStateToProps = ({utility}) => {
     alerts = alerts.reverse();
     console.log(alerts);
     const {loading} = utility;
+    console.log(loading);
     return {alerts, loading};
 };
 

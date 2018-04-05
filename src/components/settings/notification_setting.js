@@ -49,7 +49,7 @@ class NotificationSetting extends Component {
   }
 
   render() {
-    let isChecked;
+    let isChecked = false;
     if(this.props.is_user_notification==true){
       isChecked=true;
     }
@@ -69,8 +69,8 @@ class NotificationSetting extends Component {
       <div className="card-panel">
       <div className="repeat"><span className="txt">Send Notification</span>
       <label className="switch notifi">
-      <input type="checkbox"  defaultChecked={isChecked} onChange={(event)=>{
-        this.OnSendNotificationChanged(event.target.value)}} value={this.props.is_user_notification}/>
+      <input type="checkbox"   onChange={(event)=>{
+        this.OnSendNotificationChanged(event.target.checked)}} value={this.props.is_user_notification}/>
         <span className="slider round"></span>
         </label>
         </div>
