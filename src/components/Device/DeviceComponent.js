@@ -5,9 +5,10 @@ import {connect} from 'react-redux';
 import {getDevices,getSearchDeviceList} from '../../actions';
 import _ from 'lodash';
 import firebase from 'firebase';
+import {Spinner} from '../common';
 
 class DeviceComponent extends Component {
-  state = {menuActive: false,isSearchClicked:false,searchText:""};
+  state = {menuActive: false,isSearchClicked:false,searchText:"",isLoading:true};
   componentWillMount() {
       firebase.auth().onAuthStateChanged((user)=>
       {
@@ -24,6 +25,14 @@ class DeviceComponent extends Component {
   }
 
 listViewData(){
+  if(this.props.loading || this.state.isLoading)
+  {
+      return(
+          <Spinner size="large"/>
+      )
+  }
+  else
+  {
 
     if(this.props.deviceData != undefined) {
     const totalDevice   = this.props.deviceData.length;
@@ -36,8 +45,10 @@ listViewData(){
   }
 
 }
+}
 
 DeviceDetailsInnerView() {
+
     if(this.props.deviceData != undefined) {
       return _.map(this.props.deviceData, (val,i)=> {
         const {
@@ -63,6 +74,16 @@ DeviceDetailsInnerView() {
       }
     }
   render() {
+    if(this.props.loading || this.state.isLoading )
+    {
+        return (
+            <div>
+            <Spinner size="large"/>
+            </div>
+        )
+    }
+    else
+    {
         return (
             <div>
                 <Header />
@@ -79,11 +100,13 @@ DeviceDetailsInnerView() {
         )
     }
 }
+}
 
 
 const mapStateToProps = ({device}) => {
     let deviceData =[];
     let deviceDataTemp=[];
+    let loading = true;
     if(device.deviceData)
     {
         deviceData =[];
@@ -106,7 +129,7 @@ const mapStateToProps = ({device}) => {
     }
     console.log(deviceData);
     deviceData = deviceData.reverse();
-    const {loading} = device;
+    loading = device.loading;
     return {loading, deviceData,deviceDataTemp};
 };
 
