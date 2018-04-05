@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import Logout from './logout';
+import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-router-dom";
 
 class LeftNavigation extends Component{
 
@@ -15,28 +16,29 @@ class LeftNavigation extends Component{
                             </a>
                         </li>
                         <li>
-                            <a href="dashboard"><i className="fa fa-home" aria-hidden="true"></i>Home</a>
+                      <Link to="/Home" className="fa fa-home" aria-hidden="true">Home</Link>
                         </li>
                         <li>
-                            <a href="device"><i className="fa fa-list" aria-hidden="true"></i>Device Details</a>
+                        <Link to="device" className="fa fa-list" aria-hidden="true">Device Details</Link>
                         </li>
                         <li>
-                            <a href="alerts"><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>Alerts</a>
+                        <Link to="alerts" className="fa fa-exclamation-triangle" aria-hidden="true">Alerts</Link>
                         </li>
                         <li>
-                            <a href="device-reading"><i className="fa fa-history" aria-hidden="true"></i>History</a>
+                        <Link to="device-reading" className="fa fa-history" aria-hidden="true">History</Link>
+
                         </li>
                         <li>
-                            <a href="reminder-setting"><i className="fa fa-calendar-o" aria-hidden="true"></i>Reminder Settings</a>
+                        <Link to="reminder-setting" className="fa fa-calendar-o" aria-hidden="true">Reminder Settings</Link>
                         </li>
                         <li>
-                            <a href="notification-setting"><i className="fa fa-bell" aria-hidden="true"></i>Notification Settings</a>
+                        <Link to="notification-setting" className="fa fa-bell" aria-hidden="true">Notification Settings</Link>
                         </li>
                         <li>
-                            <a href="profile"><i className="fa fa-user" aria-hidden="true"></i>My Profile</a>
+                        <Link to="profile" className="fa fa-user" aria-hidden="true">My Profile</Link>
                         </li>
                         <li>
-                            <a href="contact"><i className="fa fa-phone" aria-hidden="true"></i>Contact Us</a>
+                        <Link to="contact" className="fa fa-phone" aria-hidden="true">Contact Us</Link>
                         </li>
                         <li>
                             <Logout />
