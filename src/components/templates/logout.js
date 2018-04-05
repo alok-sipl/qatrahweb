@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-router-dom";
 
 
 class Logout extends Component {
@@ -13,7 +14,8 @@ class Logout extends Component {
 
     render() {
         return (
-            <a href="/login" onClick={this.doSignOut}><i className="fa fa-sign-out"></i>Logout1</a>
+          <Link to="/login" onClick={this.doSignOut}><i className="fa fa-sign-out" ></i>Logout</Link>
+
         )
     }
 }

@@ -16,29 +16,29 @@ class LeftNavigation extends Component{
                             </a>
                         </li>
                         <li>
-                      <Link to="/Home" className="fa fa-home" aria-hidden="true">Home</Link>
+                      <Link to="/Home"><i className="fa fa-home" aria-hidden="true"></i>Home</Link>
                         </li>
                         <li>
-                        <Link to="/device" className="fa fa-list" aria-hidden="true">Device Details</Link>
+                        <Link to="/device"><i className="fa fa-list" aria-hidden="true"></i>Device Details</Link>
                         </li>
                         <li>
-                        <Link to="/alerts" className="fa fa-exclamation-triangle" aria-hidden="true">Alerts</Link>
+                        <Link to="/alerts" ><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>Alerts</Link>
                         </li>
                         <li>
                             <Link to="/device-reading"><i className="fa fa-history" aria-hidden="true"></i>History</Link>
                         </li>
 
                         <li>
-                        <Link to="/reminder-setting" className="fa fa-calendar-o" aria-hidden="true">Reminder Settings</Link>
+                        <Link to="/reminder-setting"><i  className="fa fa-calendar-o" aria-hidden="true"></i>Reminder Settings</Link>
                         </li>
                         <li>
-                        <Link to="/notification-setting" className="fa fa-bell" aria-hidden="true">Notification Settings</Link>
+                        <Link to="/notification-setting" ><i className="fa fa-bell" aria-hidden="true"></i>Notification Settings</Link>
                         </li>
                         <li>
-                        <Link to="/profile" className="fa fa-user" aria-hidden="true">My Profile</Link>
+                        <Link to="/profile" ><i className="fa fa-user" aria-hidden="true"></i>My Profile</Link>
                         </li>
                         <li>
-                        <Link to="/contact" className="fa fa-phone" aria-hidden="true">Contact Us</Link>
+                        <Link to="/contact"><i  className="fa fa-phone" aria-hidden="true"></i>Contact Us</Link>
                         </li>
                         <li>
                             <Logout />
