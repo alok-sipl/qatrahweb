@@ -63,7 +63,9 @@ class Alerts extends Component {
             return(
                 <Spinner size="large"/>
             )
-        }else{
+        }
+
+        else{
 
             return (
                 <ul className="list-items">
