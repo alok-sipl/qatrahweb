@@ -11,6 +11,8 @@ import {
 import {connect} from 'react-redux';
 import {Spinner} from '../common'
 import {BrowserRouter as Router, Route, Link, Prompt, Redirect} from "react-router-dom";
+import RegistrationSuccess from '../../components/Auth/registration_success';
+
 
 
 class Signup extends Component {
@@ -388,7 +390,7 @@ class Signup extends Component {
             mobile === '';
 
         if(this.state.isRedirectCongrats == true){
-            return <Redirect to='/registration-success' />;
+            return <RegistrationSuccess  />;
 
         }
         else{

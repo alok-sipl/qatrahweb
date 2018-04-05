@@ -5,6 +5,8 @@ import {emailChanged, passwordChanged,loginUser, resetForm, facebookLogin,phoneC
 import {Spinner} from '../common'
 import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-router-dom";
 import _ from 'lodash';
+import RegistrationVerification from '../../components/Auth/registration_verification';
+
 
 
 
@@ -311,7 +313,7 @@ class Login extends Component {
             return <Redirect to='/signup'/>;
         }
         else if (this.state.isRedirectVerify == true) {
-            return <Redirect to='/registration-verification' />;
+            return <RegistrationVerification />;
         }
         else{
 

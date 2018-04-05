@@ -3,6 +3,8 @@ import firebase from 'firebase';
 import {Spinner} from '../common'
 import {BrowserRouter as Router, Route, Link, Prompt, Redirect} from "react-router-dom";
 import _ from 'lodash';
+import Login from '../../components/Auth/login';
+
 
 import {
     showToast
@@ -122,12 +124,10 @@ class RegistrationVerification extends Component {
 
     render() {
         if (this.state.isRedirectLogin == true) {
-            return <Redirect to='/login'/>;
+            return <Login />;
         }
         else {
             return (
-
-
 
                 <div>
                     <div className="columns medium-12">
