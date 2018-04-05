@@ -1,8 +1,6 @@
 import firebase from 'firebase';
-import {Actions} from 'react-native-router-flux';
 import {EMAIL_CHANGED,BASE_URL,SUPPLIER_FETCH_SUCCESS,SUPPLIER_FETCH_SUCCESS_FILTER,ALERT_FETCH_SUCCESS,NAME_CHANGED,QUERY_CHANGED,SUBMIT_QUERY_SUCCESS,SUBMIT_QUERY_FAIL,LoadingStart,showToast} from '../types'
 import _ from 'lodash';
-import axios from 'axios';
 
 
 
@@ -54,7 +52,7 @@ export const OnQueryChanged = (text) => {
    */
 export const getAlerts=()=>{
     return (dispatch) => {
-        dispatch({type: LoadingStart});
+        //dispatch({type: LoadingStart});
         const {currentUser} = firebase.auth();
         let ref = firebase.database().ref(`/alerts/${currentUser.uid}`);
         ref.limitToLast(100).on("value", snapshot => {

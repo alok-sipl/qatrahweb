@@ -13,14 +13,13 @@ import EditDevice from '../components/edit_device';
 import DeviceDetail from '../components/device_detail';
 import DeviceComponent from '../components/Device/DeviceComponent';
 import DeviceReadingGraph from '../components/device_reading_graph';
-import RemainderSettings from '../components/settings/remainder_settings';
-import SearchSupplier from '../components/search_supplier';
-import SupplierListing from '../components/supplier_listing';
-import AlertsList from '../components/alert_list';
-import NotificationSetting from '../components/settings/notification_setting';
-import Contact from '../components/contact';
-import TermsPolicy from '../components/terms_policy';
-import AboutUs from '../components/about_us';
+import ReminderSetting from '../components/reminder_setting';
+import Supplier from '../components/Utility/Supplier';
+import Alerts from '../components/Utility/Alerts';
+import NotificationSetting from '../components/Settings/notification_setting';
+import Contact from '../components/Utility/ContactUs';
+import TermsPolicy from '../components/Utility/TermsAndPolicy';
+import AboutUs from '../components/Utility/AboutUs';
 
 
 export default class Router extends Component{
@@ -43,10 +42,9 @@ export default class Router extends Component{
                             <Route path="/view-device" component={DeviceDetail} />
                             <Route path="/device" component={DeviceComponent} />
                             <Route path="/device-reading" component={DeviceReadingGraph} />
-                            <Route path="/remainder-setting" component={RemainderSettings} />
-                            <Route path="/search-supplier" component={SearchSupplier} />
-                            <Route path="/supplier" component={SupplierListing} />
-                            <Route path="/alerts" component={AlertsList} />
+                            <Route path="/reminder-setting" component={ReminderSetting} />
+                            <Route path="/supplier" component={Supplier} />
+                            <Route path="/alerts" component={Alerts} />
                             <Route path="/notification-setting" component={NotificationSetting} />
                             <Route path="/contact" component={Contact} />
                             <Route path="/terms-policy" component={TermsPolicy} />

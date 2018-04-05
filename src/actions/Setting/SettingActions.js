@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import {Actions} from 'react-native-router-flux';
 import {IntervalInMinutesForMinuteshanged,IntervalInMinutesForHoursChanged,NOTIFICATION_SETTING_FETCH_FAIL,FromDateChanged,SETTING_FETCH_FAIL,TitleChanged,ToDateChanged,IntervalInMinutesChanged,RepeatChanged,RepeatDurationChanged,AlertLevelChanged,SendNotificationChanged,SETTING_FETCH_SUCCESS,NOTIFICATION_FETCH_SUCCESS,LoadingStart,LoadingEnd,showToast} from '../types'
 import _ from 'lodash';
 
@@ -206,7 +205,7 @@ export const getUserDetailsForSettingsForBluetooth=(callback)=>{
    */
 export const getUserDetailsForSettings=(device_id)=>{
     return (dispatch) => {
-        dispatch({type: LoadingStart});
+        //dispatch({type: LoadingStart});
         const {currentUser} = firebase.auth();
         let ref = firebase.database().ref(`/devices/${currentUser.uid}`);
         ref.orderByChild("device_id").equalTo(`${device_id}`).on("value", snapshot => {
