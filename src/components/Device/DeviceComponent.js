@@ -74,16 +74,6 @@ DeviceDetailsInnerView() {
       }
     }
   render() {
-    if(this.props.loading || this.state.isLoading )
-    {
-        return (
-            <div>
-            <Spinner size="large"/>
-            </div>
-        )
-    }
-    else
-    {
         return (
             <div>
                 <Header />
@@ -98,7 +88,7 @@ DeviceDetailsInnerView() {
                 <LedtNavigation />
             </div>
         )
-    }
+
 }
 }
 

@@ -206,7 +206,7 @@ export const getUserDetailsForSettingsForBluetooth=(callback)=>{
 export const getUserDetailsForSettings=(device_id)=>{
     return (dispatch) => {
         //dispatch({type: LoadingStart});
-        const {currentUser} = firebase.auth();alert('i m herer'+ currentUser);
+        const {currentUser} = firebase.auth();
         let ref = firebase.database().ref(`/devices/${currentUser.uid}`);
         ref.orderByChild("device_id").equalTo(`${device_id}`).on("value", snapshot => {
             _.map(snapshot.val(),(val,uid)=>{

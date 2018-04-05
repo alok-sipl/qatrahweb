@@ -5,6 +5,9 @@ import Header from './../templates/header';
 import LedtNavigation from './../templates/left_navigation';
 import ListItemView from './ListItem';
 import _ from 'lodash';
+import firebase from 'firebase';
+import {Spinner} from '../common';
+
 
 class Alerts extends Component {
 
@@ -14,8 +17,19 @@ class Alerts extends Component {
 @Returns : *
 */
     componentWillMount() {
-        this.props.getUserDetailsForSettings();
-        this.props.getAlerts();
+        firebase.auth().onAuthStateChanged((user)=>
+        {
+            this.setState({isLoading:false})
+            if(user)
+            {
+                if(user.emailVerified)
+                {
+                    this.props.getUserDetailsForSettings();
+                    this.props.getAlerts();
+                }
+            }
+        });
+
     }
 
     AlertItem(props) {
@@ -42,42 +56,50 @@ class Alerts extends Component {
         }
     }
 
-    /*
-@Method : render
-@Params :
-@Returns : *
-*/
-    render() {
+    renderContent(){
         if(this.props.loading)
         {
             return(
                 <Spinner size="large"/>
             )
         }else{
-            return(
-                <div>
-                    <Header/>
-                    <div className="row">
-                        <div className="columns medium-12">
-                            <h1 className="page-title">Alerts</h1>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="columns medium-12">
-                            <ul className="list-items">
-                                {this.props.alerts.map((alert, i) =>
-                                    <li key={i}>{this.renderAlertIcon(alert['percentage'])} {alert['message']}</li>
-                                )}
 
-                            </ul>
+            return (
+                <ul className="list-items">
+                    {this.props.alerts.map((alert, i) =>
+                        <li key={i}>{this.renderAlertIcon(alert['percentage'])} {alert['message']}</li>
+                    )}
 
-                        </div>
-                    </div>
-                    <LedtNavigation/>
-                </div>
+                </ul>
             )
+
         }
     }
+
+    /*
+@Method : render
+@Params :
+@Returns : *
+*/
+
+    render() {
+        return (
+            <div>
+                <Header />
+                <div className="row">
+                    <div className="columns medium-12">
+                        <h1 className="page-title">Alerts</h1>
+                    </div>
+                </div>
+                <div className="row">
+                    {this.renderContent()}
+                </div>
+                <LedtNavigation />
+            </div>
+        )
+
+    }
+
 };
 
 const mapStateToProps = ({utility}) => {
@@ -89,6 +111,7 @@ const mapStateToProps = ({utility}) => {
         });
     }
     alerts = alerts.reverse();
+    console.log(alerts);
     const {loading} = utility;
     return {alerts, loading};
 };
