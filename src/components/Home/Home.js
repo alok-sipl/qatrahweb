@@ -351,7 +351,7 @@ class Home extends Component {
         {
             return(
                 <div style={styles.noRecordStyle}>
-                    No Records Found
+                    Your device has not been registered in the app.Please purchase device and registered it or visit our website www.qatrah.com to purchase.
                 </div>
             )
         }

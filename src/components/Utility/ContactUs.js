@@ -277,7 +277,7 @@ class ContactUs extends Component {
     }
 
     renderContent(){
-        if (this.props.loading || this.state.isLoading) {
+        if (this.state.isLoading) {
             return (
                 <Spinner size="large"/>
             )
