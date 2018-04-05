@@ -69,7 +69,7 @@ class NotificationSetting extends Component {
       <div className="card-panel">
       <div className="repeat"><span className="txt">Send Notification</span>
       <label className="switch notifi">
-      <input type="checkbox"   onChange={(event)=>{
+      <input type="checkbox"  defaultChecked={this.props.is_user_notification}  onChange={(event)=>{
         this.OnSendNotificationChanged(event.target.checked)}} value={this.props.is_user_notification}/>
         <span className="slider round"></span>
         </label>
@@ -85,7 +85,15 @@ class NotificationSetting extends Component {
   }
 
   const mapStateToProps = ({setting}) => {
-    const {loading,is_user_notification,userId} = setting;
+    const {loading,userId} = setting;
+    let is_user_notification = false;
+    if((setting.is_user_notification == undefined) || (setting.is_user_notification == false) || (setting.is_user_notification == "false")){
+        is_user_notification = false;
+    }
+    else{
+        is_user_notification = true;
+
+    }
     return {loading,is_user_notification,userId};
 
   };
