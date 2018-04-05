@@ -33,7 +33,7 @@ class Login extends Component {
             {
                 if(user.emailVerified)
                 {
-                    // Actions.Home();
+                   this.setState({isRedirectHome:true});
                 }
             }
         });
@@ -310,7 +310,7 @@ class Login extends Component {
    */
     render() {
         if (this.state.isRedirectHome == true) {
-            return <Redirect to='/signup'/>;
+            return <Redirect to='/home'/>;
         }
         else if (this.state.isRedirectVerify == true) {
             return <RegistrationVerification />;
