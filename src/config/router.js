@@ -6,7 +6,7 @@ import ForgotPassword from '../components/Auth/forgot_password';
 import AccountVerification from '../components/account_verification';
 import RegistrationSuccess from '../components/Auth/registration_success';
 import RegistrationVerification from '../components/Auth/registration_verification';
-import Dashboard from '../components/dashboard';
+import Home from '../components/Home/Home';
 import Profile from '../components/Auth/profile';
 import AddDevice from '../components/add_device';
 import EditDevice from '../components/edit_device';
@@ -36,7 +36,7 @@ export default class Router extends Component{
                             <Route path="/account-verification" component={AccountVerification} />
                             <Route path="/registration-success" component={RegistrationSuccess} />
                             <Route path="/registration-verification" component={RegistrationVerification}/>
-                            <Route path="/dashboard" component={Dashboard} />
+                            <Route path="/home" component={Home} />
                             <Route path="/profile" component={Profile} />
                             <Route path="/add-device" component={AddDevice} />
                             <Route path="/edit-device" component={EditDevice} />
