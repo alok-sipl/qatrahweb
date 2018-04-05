@@ -58,7 +58,7 @@ class NotificationSetting extends Component {
       }
 
         return (
-            <div>
+            <div> 
                 <Header />
                 <div className="row">
                     <div className="columns medium-12">
