@@ -64,6 +64,14 @@ class Alerts extends Component {
                 <Spinner size="large"/>
             )
         }
+        else if(this.props.alerts.length == 0)
+        {
+            return(
+                <div style={styles.noRecordStyle}>
+                    No Records Found
+                </div>
+            )
+        }
 
         else{
 
@@ -121,4 +129,14 @@ const mapStateToProps = ({utility}) => {
 
 export default connect(mapStateToProps, {getUserDetailsForSettings, getAlerts})(Alerts);
 
-
+const styles ={
+    noRecordStyle:{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        top: '50%',
+        left: '50%',
+        backgroundColor: "rgba(242, 242, 242, 0.4)",
+        zIndex: 2
+    }
+};

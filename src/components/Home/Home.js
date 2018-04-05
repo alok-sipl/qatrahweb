@@ -347,6 +347,14 @@ class Home extends Component {
                 </div>
             )
         }
+        else if(this.props.deviceData.length == 0)
+        {
+            return(
+                <div style={styles.noRecordStyle}>
+                    No Records Found
+                </div>
+            )
+        }
         else{
             return (
                 <div className="row">
@@ -425,6 +433,15 @@ const styles = {
     },
     progressBarBorderColor: '#2eb9f9',
     progressBarBorderColorDenger: 'red',
+    noRecordStyle:{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        top: '50%',
+        left: '50%',
+        backgroundColor: "rgba(242, 242, 242, 0.4)",
+        zIndex: 2
+    }
 }
 
 

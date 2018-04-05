@@ -31,6 +31,14 @@ listViewData(){
           <Spinner size="large"/>
       )
   }
+  else if(this.props.deviceData.length == 0)
+  {
+      return(
+          <div style={styles.noRecordStyle}>
+              No Records Found
+          </div>
+      )
+  }
   else
   {
 
@@ -124,3 +132,14 @@ const mapStateToProps = ({device}) => {
 };
 
 export default connect(mapStateToProps, {getDevices,getSearchDeviceList})(DeviceComponent);
+const styles ={
+    noRecordStyle:{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        top: '50%',
+        left: '50%',
+        backgroundColor: "rgba(242, 242, 242, 0.4)",
+        zIndex: 2
+    }
+};
