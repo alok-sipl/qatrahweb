@@ -10,85 +10,84 @@ class NotificationSetting extends Component {
 
 
   componentWillMount() {
-      firebase.auth().onAuthStateChanged((user)=>
+    firebase.auth().onAuthStateChanged((user)=>
+    {
+      this.setState({isLoading:false})
+      if(user)
       {
-          this.setState({isLoading:false})
-          if(user)
-          {
-              if(user.emailVerified)
-              {
-                this.props.getUserDetailsForNotificationSettings();
-              }
-          }
-      });
+        if(user.emailVerified)
+        {
+          this.props.getUserDetailsForNotificationSettings();
+        }
+      }
+    });
 
   }
 
 
   /*
-@Method : onButtonPress
-@Params :
-@Returns : *
-*/
+  @Method : onButtonPress
+  @Params :
+  @Returns : *
+  */
   onButtonPress(text) {
-      this.setState({isSubmitted: true})
-      const {userId} = this.props;
-      if (userId) {
-          this.props.addNotificationSettings({is_user_notification:text,userId});
-      }
+    this.setState({isSubmitted: true})
+    const {userId} = this.props;
+    if (userId) {
+      this.props.addNotificationSettings({is_user_notification:text,userId});
+    }
   }
 
   /*
-@Method : OnSendNotificationChanged
-@Params :
-@Returns : *
-*/
+  @Method : OnSendNotificationChanged
+  @Params :
+  @Returns : *
+  */
   OnSendNotificationChanged(text) {
-      this.props.OnSendNotificationChanged(text);
-      this.onButtonPress(text)
+    this.props.OnSendNotificationChanged(text);
+    this.onButtonPress(text)
   }
 
-    render() {
-      let isChecked;
-      if(this.props.is_user_notification==true){
-        isChecked=true;
-      }
-      else{
-        isChecked=false;
-      }
-
-        return (
-            <div> 
-                <Header />
-                <div className="row">
-                    <div className="columns medium-12">
-                        <h1 className="page-title">Notification Settings</h1>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="columns medium-12">
-                        <div className="card-panel">
-                            <div className="repeat"><span className="txt">Send Notification</span>
-                                <label className="switch notifi">
-                                    <input type="checkbox"  defaultChecked={isChecked} onChange={(event)=>{
-                                          this.OnSendNotificationChanged(event.target.value)}} value={this.props.is_user_notification}/>
-                                        <span className="slider round"></span>
-                                </label>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <LedtNavigation />
-            </div>
-        )
+  render() {
+    let isChecked;
+    if(this.props.is_user_notification==true){
+      isChecked=true;
     }
-}
+    else{
+      isChecked=false;
+    }
+    return (
+      <div>
+      <Header />
+      <div className="row">
+      <div className="columns medium-12">
+      <h1 className="page-title">Notification Settings</h1>
+      </div>
+      </div>
+      <div className="row">
+      <div className="columns medium-12">
+      <div className="card-panel">
+      <div className="repeat"><span className="txt">Send Notification</span>
+      <label className="switch notifi">
+      <input type="checkbox"  defaultChecked={isChecked} onChange={(event)=>{
+        this.OnSendNotificationChanged(event.target.value)}} value={this.props.is_user_notification}/>
+        <span className="slider round"></span>
+        </label>
+        </div>
 
-const mapStateToProps = ({setting}) => {
+        </div>
+        </div>
+        </div>
+        <LedtNavigation />
+        </div>
+      )
+    }
+  }
+
+  const mapStateToProps = ({setting}) => {
     const {loading,is_user_notification,userId} = setting;
     return {loading,is_user_notification,userId};
 
-};
+  };
 
-export default connect(mapStateToProps, {addNotificationSettings,getUserDetailsForNotificationSettings,OnSendNotificationChanged})(NotificationSetting);
+  export default connect(mapStateToProps, {addNotificationSettings,getUserDetailsForNotificationSettings,OnSendNotificationChanged})(NotificationSetting);
