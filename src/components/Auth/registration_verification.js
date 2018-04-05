@@ -3,6 +3,8 @@ import firebase from 'firebase';
 import {Spinner} from '../common'
 import {BrowserRouter as Router, Route, Link, Prompt, Redirect} from "react-router-dom";
 import _ from 'lodash';
+import Login from '../../components/Auth/login';
+
 
 import {
     showToast
@@ -13,6 +15,24 @@ class RegistrationVerification extends Component {
 
     componentWillMount() {
         this.setEmail();
+        // const messaging = firebase.messaging();
+        //
+        //
+        // messaging.requestPermission().then(function() {
+        //     messaging.getToken().then(function(currentToken) {
+        //         if (currentToken) {
+        //            alert(currentToken);
+        //         } else {
+        //             // Show permission request.
+        //             console.log('No Instance ID token available. Request permission to generate one.');
+        //         }
+        //     }).catch(function(err) {
+        //         console.log('An error occurred while retrieving token. ', err);
+        //     });
+        //     // ...
+        // }).catch(function(err) {
+        //    alert('Unable to get permission to notify.', err);
+        // });
     }
 
     setEmail() {
@@ -104,12 +124,10 @@ class RegistrationVerification extends Component {
 
     render() {
         if (this.state.isRedirectLogin == true) {
-            return <Redirect to='/login'/>;
+            return <Login />;
         }
         else {
             return (
-
-
 
                 <div>
                     <div className="columns medium-12">

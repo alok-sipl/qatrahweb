@@ -258,9 +258,6 @@ class Home extends Component {
                         >
                             <Card style={styles.progressStyle}>
                                 <Row>
-                                    <Text style={styles.progressBardTextStyle}> Water Level Status</Text>
-                                </Row>
-                                <Row>
                                     <CardItem>
                                         <Progress.Circle textStyle={colorProgress}
                                                          borderColor={colorProgress}
@@ -314,54 +311,50 @@ class Home extends Component {
                             const {device_id,tank_name,tank_status} = val;
                             let colorProgress = styles.progressBarBorderColor;
                             if (val.settings){
-                             {
-                                 if(parseFloat(val.settings.alert_level_change) > parseFloat(tank_status.percentage))
-                                 {
-                                     colorProgress =styles.progressBarBorderColorDenger;
+                                {
+                                    if(parseFloat(val.settings.alert_level_change) > parseFloat(tank_status.percentage))
+                                    {
+                                        colorProgress =styles.progressBarBorderColorDenger;
 
-                                 }
-                             }
-
+                                    }
+                                }
                             }
 
                             return(
-                                    <Grid>
-                                        <Col style={styles.listItemStyle}>
-                                            <TouchableOpacity   onPress={()=>{
-                                                this.onRowPress(val)
-                                            }}>
-                                                <Card style={styles.progressStyle}>
-                                                    <Row>
-                                                        <Text style={styles.progressBardTextStyle}> Water Level Status</Text>
-                                                    </Row>
-                                                    <Row>
-                                                        <CardItem>
-                                                            <Progress.Circle textStyle={colorProgress}
-                                                                             borderColor={colorProgress}
-                                                                             color={colorProgress} formatText={() => {
-                                                                return `${tank_status.percentage}%`
-                                                            }} progress={this.convertNumberToDetcimal(tank_status.percentage)} showsText={true} size={50}/>
-                                                        </CardItem>
-                                                    </Row>
-                                                    <Row>
-                                                        <Text style={styles.progressBardTextStyle}>{tank_name}</Text>
-                                                    </Row>
-                                                    <Row>
-                                                        <Text note>{tank_status.percentage}% Full </Text>
-                                                    </Row>
-                                                    <Row>
-                                                        <Text note>at {this.formatAMPM(new Date(tank_status.time))}</Text>
-                                                    </Row>
-                                                    <Row>
-                                                        <Icon  name="md-arrow-round-forward" style={styles.progressLinkIcon} />
-                                                    </Row>
-                                                </Card>
-                                            </TouchableOpacity>
-                                        </Col>
-                                        <Col>
-                                        </Col>
-                                    </Grid>
-                                )
+                                <Grid>
+                                    <Col style={styles.listItemStyle}>
+                                        <TouchableOpacity   onPress={()=>{
+                                            this.onRowPress(val)
+                                        }}>
+                                            <Card style={styles.progressStyle}>
+                                                <Row>
+                                                    <CardItem>
+                                                        <Progress.Circle textStyle={colorProgress}
+                                                                         borderColor={colorProgress}
+                                                                         color={colorProgress} formatText={() => {
+                                                            return `${tank_status.percentage}%`
+                                                        }} progress={this.convertNumberToDetcimal(tank_status.percentage)} showsText={true} size={50}/>
+                                                    </CardItem>
+                                                </Row>
+                                                <Row>
+                                                    <Text style={styles.progressBardTextStyle}>{tank_name}</Text>
+                                                </Row>
+                                                <Row>
+                                                    <Text note>{tank_status.percentage}% Full </Text>
+                                                </Row>
+                                                <Row>
+                                                    <Text note>at {this.formatAMPM(new Date(tank_status.time))}</Text>
+                                                </Row>
+                                                <Row>
+                                                    <Icon  name="md-arrow-round-forward" style={styles.progressLinkIcon} />
+                                                </Row>
+                                            </Card>
+                                        </TouchableOpacity>
+                                    </Col>
+                                    <Col>
+                                    </Col>
+                                </Grid>
+                            )
                         })
                     );
                 }
@@ -390,9 +383,6 @@ class Home extends Component {
                                                 this.onRowPress(this.props.deviceData[i-1])
                                             }}>
                                                 <Card style={styles.progressStyle}>
-                                                    <Row>
-                                                        <Text style={styles.progressBardTextStyle}> Water Level Status</Text>
-                                                    </Row>
                                                     <Row >
                                                         <CardItem>
                                                             <Progress.Circle textStyle={colorProgress}
@@ -422,9 +412,6 @@ class Home extends Component {
                                                 this.onRowPress(this.props.deviceData[i])
                                             }}>
                                                 <Card style={styles.progressStyle}>
-                                                    <Row>
-                                                        <Text style={styles.progressBardTextStyle}> Water Level Status</Text>
-                                                    </Row>
                                                     <Row>
                                                         <CardItem>
                                                             <Progress.Circle textStyle={colorProgress}
@@ -473,17 +460,17 @@ class Home extends Component {
                         <Item rounded>
                             <Icon name="ios-search" />
                             <Input onChangeText={this.onChangeSearch.bind(this)} value={this.state.searchText} placeholder="Search" />
-                            
-                                <Icon style={{color:'red'}}
-                                    onPress={()=>{
-                                        this.setState({isSearchClicked:false,menuActive:false})
-                                        this.onChangeSearch("");
 
-                                    }}
-                                 name="close"  />
+                            <Icon style={{color:'red'}}
+                                  onPress={()=>{
+                                      this.setState({isSearchClicked:false,menuActive:false})
+                                      this.onChangeSearch("");
+
+                                  }}
+                                  name="close"  />
                         </Item>
                     </Header>
-                 </ImageBackground>
+                </ImageBackground>
             )
         }
         else
@@ -632,9 +619,6 @@ const mapStateToProps = ({device}) => {
     {
         deviceData =[];
         _.map(device.deviceData,(val,uid)=>{
-            if(val.tank_name){
-                val.tank_name = val.tank_name.trim()
-            }
             deviceData.push(val)
         });
     }
@@ -642,14 +626,11 @@ const mapStateToProps = ({device}) => {
     {
         deviceDataTemp =[];
         _.map(device.deviceDataTemp,(val,uid)=>{
-            if(val.tank_name){
-                val.tank_name = val.tank_name.trim()
-            }
             deviceDataTemp.push(val)
         });
     }
     deviceData = deviceData.reverse();
-     loading = device.loading;
+    loading = device.loading;
     return {loading, deviceData,deviceDataTemp};
 };
 

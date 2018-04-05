@@ -1,11 +1,13 @@
 import React,{Component} from 'react';
 import Logout from './logout';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class LeftNavigation extends Component{
 
     render(){
         return(
-            <div className="hide">
+            <Router>
+              <div className="hide">
                 <nav className="navigation" id="mobile_menu">
                     <ul>
                         <li className="user">
@@ -15,28 +17,29 @@ class LeftNavigation extends Component{
                             </a>
                         </li>
                         <li>
-                            <a href="dashboard"><i className="fa fa-home" aria-hidden="true"></i>Home</a>
+                          <Link to="/Home"><i className="fa fa-home" aria-hidden="true"></i>Home</Link>
                         </li>
                         <li>
-                            <a href="device"><i className="fa fa-list" aria-hidden="true"></i>Device Details</a>
+                        <Link to="/device"><i className="fa fa-list" aria-hidden="true"></i>Device Details</Link>
                         </li>
                         <li>
-                            <a href="alerts"><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>Alerts</a>
+                        <Link to="/alerts" ><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>Alerts</Link>
                         </li>
                         <li>
-                            <a href="device-reading"><i className="fa fa-history" aria-hidden="true"></i>History</a>
+                            <Link to="/device-reading"><i className="fa fa-history" aria-hidden="true"></i>History</Link>
+                        </li>
+
+                        <li>
+                        <Link to="/reminder-setting"><i  className="fa fa-calendar-o" aria-hidden="true"></i>Reminder Settings</Link>
                         </li>
                         <li>
-                            <a href="reminder-setting"><i className="fa fa-calendar-o" aria-hidden="true"></i>Reminder Settings</a>
+                        <Link to="/notification-setting" ><i className="fa fa-bell" aria-hidden="true"></i>Notification Settings</Link>
                         </li>
                         <li>
-                            <a href="notification-setting"><i className="fa fa-bell" aria-hidden="true"></i>Notification Settings</a>
+                        <Link to="/profile" ><i className="fa fa-user" aria-hidden="true"></i>My Profile</Link>
                         </li>
                         <li>
-                            <a href="profile"><i className="fa fa-user" aria-hidden="true"></i>My Profile</a>
-                        </li>
-                        <li>
-                            <a href="contact"><i className="fa fa-phone" aria-hidden="true"></i>Contact Us</a>
+                        <Link to="/contact"><i  className="fa fa-phone" aria-hidden="true"></i>Contact Us</Link>
                         </li>
                         <li>
                             <Logout />
@@ -44,6 +47,8 @@ class LeftNavigation extends Component{
                     </ul>
                 </nav>
             </div>
+            </Router>
+
         )
     }
 }
