@@ -182,8 +182,6 @@ export const addContactUsDetails = ({name,email,query}) => {
             .then(() => {
                 showToast("success","Query has been submitted successfully");
                 dispatch ({type: SUBMIT_QUERY_SUCCESS});
-                Actions.Home();
-
             })
             .catch(function (error) {
                 showToast("danger","Sorry some error occurred, please try again later!");

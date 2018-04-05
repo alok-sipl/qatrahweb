@@ -114,7 +114,6 @@ const mapStateToProps = ({utility}) => {
         });
     }
     alerts = alerts.reverse();
-    console.log(alerts);
     const {loading} = utility;
     console.log(loading);
     return {alerts, loading};

@@ -5,6 +5,8 @@ import LedtNavigation from './../templates/left_navigation';
 import {addContactUsDetails, OnNameChanged, OnEmailChanged, resetForm, OnQueryChanged} from '../../actions';
 import firebase from 'firebase';
 //import {showToast} from "../../ref/src/actions/types";
+import {Spinner} from '../common'
+
 
 class ContactUs extends Component {
 
@@ -13,17 +15,24 @@ class ContactUs extends Component {
 
     }
 
-    state = {isSubmitted: false, validationError: ''};
+    state = {isSubmitted: false, validationError: '',isLoading:true};
 
     componentWillMount() {
         this.props.resetForm();
+        firebase.auth().onAuthStateChanged((user)=>
+        {
+            this.setState({isLoading:false})
+            if(user)
+            {
+                if(user.emailVerified)
+                {
+                    this.props.OnNameChanged(user.displayName);
+                    this.props.OnEmailChanged(user.email);
+                }
+            }
+        });
         let userInfo = firebase.auth().currentUser;
 
-            let displayName = '';
-            let email = '';
-
-        this.props.OnNameChanged(displayName);
-        this.props.OnEmailChanged(email);
     }
 
 
@@ -240,6 +249,102 @@ class ContactUs extends Component {
         return spacesAtStart;
     }
 
+    /*
+@Method : renderAction
+@Params :s
+@Returns : *
+*/
+    renderAction() {
+
+        if (this.props.loading || this.state.isLoading) {
+            return (
+                <Spinner size="small"/>
+            )
+        }
+        else {
+            return (
+                <input
+                    type="button"
+                    onClick={()=>{
+                        this.onButtonPress();
+                    }}
+                    className="btn-blue-block btn"
+                    value="Send"
+                    title="Send"
+                />
+            );
+        }
+    }
+
+    renderContent(){
+        if (this.props.loading || this.state.isLoading) {
+            return (
+                <Spinner size="large"/>
+            )
+        }
+        else{
+            return (
+
+                <div className="card-panel">
+                    <div className="form-comman">
+                        <form>
+                            <div className="form-group">
+                                <label><i className="fa fa-user f-" aria-hidden="true"></i></label>
+                                <input
+                                    onChange={(event)=>{
+                                        this.OnNameChanged(event.target.value)
+
+                                    }}
+                                    value = {this.props.name}
+                                    type="text"
+                                    placeholder="Name"
+                                    name="uname"
+                                />
+                                {this.renderErrorName(this.state.isSubmitted,this.validateText(this.props.name),this.props.name)}
+                            </div>
+                            <div className="form-group">
+                                <label><i className="fa fa-envelope" aria-hidden="true"></i></label>
+                                <input
+                                    onChange={(event)=>{
+                                        this.OnEmailChanged(event.target.value)
+
+                                    }}
+                                    value = {this.props.email}
+                                    type="text"
+                                    placeholder="Email ID"
+                                    name="emailid"
+                                    disabled={true}
+                                />
+                                {this.renderErrorEmail(this.state.isSubmitted,this.validateEmail(this.props.email),this.props.email)}
+                            </div>
+                            <div className="form-group">
+                                <label><i className="fa fa-comment f-" aria-hidden="true"></i></label>
+                                <textarea
+                                    onChange={(event)=>{
+                                        this.OnQueryChanged(event.target.value)
+
+                                    }}
+                                    value = {this.props.query}
+                                    cols="3" rows="3"
+                                    placeholder="Comment/Query">
+
+                                        </textarea>
+                                {this.renderErrorQuery(this.state.isSubmitted,this.validateText(this.props.query),this.props.query)}
+                            </div>
+                            <div className="form-group text-center">
+                                {this.renderAction()}
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            )
+
+        }
+
+    }
+
 
     render() {
         return (
@@ -252,65 +357,7 @@ class ContactUs extends Component {
                 </div>
                 <div className="row">
                     <div className="columns medium-12">
-                        <div className="card-panel">
-                            <div className="form-comman">
-                                <form>
-                                    <div className="form-group">
-                                        <label><i className="fa fa-user f-" aria-hidden="true"></i></label>
-                                        <input
-                                            onChange={(event)=>{
-                                                this.OnNameChanged(event.target.value)
-
-                                            }}
-                                            value = {this.props.name}
-                                            type="text"
-                                            placeholder="Name"
-                                            name="uname"
-                                        />
-                                        {this.renderErrorName(this.state.isSubmitted,this.validateText(this.props.name),this.props.name)}
-                                    </div>
-                                    <div className="form-group">
-                                        <label><i className="fa fa-envelope" aria-hidden="true"></i></label>
-                                        <input
-                                            onChange={(event)=>{
-                                                this.OnEmailChanged(event.target.value)
-
-                                            }}
-                                            value = {this.props.email}
-                                            type="text"
-                                            placeholder="Email ID"
-                                            name="emailid"
-                                        />
-                                        {this.renderErrorEmail(this.state.isSubmitted,this.validateEmail(this.props.email),this.props.email)}
-                                    </div>
-                                    <div className="form-group">
-                                        <label><i className="fa fa-comment f-" aria-hidden="true"></i></label>
-                                        <textarea
-                                            onChange={(event)=>{
-                                                this.OnQueryChanged(event.target.value)
-
-                                            }}
-                                            value = {this.props.query}
-                                            cols="3" rows="3"
-                                            placeholder="Comment/Query">
-
-                                        </textarea>
-                                        {this.renderErrorQuery(this.state.isSubmitted,this.validateText(this.props.query),this.props.query)}
-                                    </div>
-                                    <div className="form-group text-center">
-                                        <input
-                                            type="button"
-                                            onClick={()=>{
-                                                this.onButtonPress();
-                                            }}
-                                            className="btn-blue-block btn"
-                                            value="Send"
-                                            title="Send"
-                                        />
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        {this.renderContent()}
                     </div>
                 </div>
                 <LedtNavigation/>

@@ -3,7 +3,7 @@ const Spinner =({size})=>{
 
     if(size == "small"){
         return (
-            <div style={styles.spinnerStyle}>
+            <div >
               <img src="../../../public/images/small-loader.gif" />
             </div>
         );
