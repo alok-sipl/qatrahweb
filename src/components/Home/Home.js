@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
-import Header from '../templates/header';
+import {connect} from 'react-redux';
+import {Spinner} from '../common';
+import {getDevices,getSearchDeviceList,getUserDetails} from '../../actions';
+import _ from 'lodash';
+import firebase from 'firebase';
+import Header from '../templates/header'
 import LedtNavigation from '../templates/left_navigation';
 
 const divStyle = {
@@ -7,122 +12,428 @@ const divStyle = {
 };
 
 class Home extends Component {
+    state = {menuActive: false,isSearchClicked:false,isLoading:true,searchText:""};
+    /*
+@Method : componentWillMount
+@Params :
+@Returns : *
+*/
+    componentWillMount() {
+        firebase.auth().onAuthStateChanged((user)=>
+        {
+            this.setState({isLoading:false})
+            if(user)
+            {
+                if(user.emailVerified)
+                {
+                    this.props.getDevices();
+                    this.props.getUserDetails();
+                }
+            }
+        });
+
+    }
 
 
-    render() {
-        return (
-            <div>
-                <Header />
+
+    /*
+@Method : filter
+@Params :
+@Returns : *
+*/
+    filter(text)
+    {
+        let filteredDevices = this.props.deviceDataTemp.filter(devices => {
+            if(!(devices.tank_name == undefined))
+            {
+                return ((devices.tank_name.indexOf(text) > -1)||((devices.tank_name.toLowerCase().indexOf(text) > -1))||((devices.tank_name.toUpperCase().indexOf(text) > -1))) ;
+            }
+            else
+            {
+                return {};
+            }
+        });
+        this.props.getSearchDeviceList({"search":filteredDevices});
+
+
+    }
+
+    /*
+@Method : removeInvalidChars
+@Params :
+@Returns : *
+*/
+    removeInvalidChars(text) {
+        let newText = '';
+        let numbers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ';
+
+        for (var i = 0; i < text.length; i++) {
+            if ( numbers.indexOf(text[i]) > -1 ) {
+                newText = newText + text[i];
+            }
+        }
+
+        return newText;
+    }
+
+
+    /*
+@Method : onChangeSearch
+@Params :
+@Returns : *
+*/
+    onChangeSearch(text)
+    {
+        if(text)
+        {
+            this.setState({searchText:this.removeInvalidChars(text)});
+            this.filter(this.removeInvalidChars(text));
+
+        }
+        else
+        {
+            this.setState({searchText:""});
+            this.props.getDevices();
+        }
+    }
+
+
+
+    /*
+@Method : onRowPress
+@Params :
+@Returns : *
+*/
+    onRowPress(data) {
+        if(data.device_id)
+        {
+            // Actions.ViewDevice({deviceId:data.device_id});
+        }
+    }
+
+    /*
+@Method : convertDate
+@Params :
+@Returns : *
+*/
+    convertDate(inputFormat) {
+        function pad(s) { return (s < 10) ? '0' + s : s; }
+        var d = new Date(inputFormat);
+        return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+    }
+
+    /*
+@Method : formatAMPM
+@Params :
+@Returns : *
+*/
+    formatAMPM(date) {
+        let deviceDate = this.convertDate((new Date(date)));
+        let Today = this.convertDate((new Date()))
+        if(deviceDate == Today)
+        {
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0'+minutes : minutes;
+            let strTime = hours + ':' + minutes + ' ' + ampm;
+            return strTime;
+        }
+        else
+        {
+            return deviceDate;
+        }
+
+    }
+
+    /*
+@Method : convertNumberToDetcimal
+@Params :
+@Returns : *
+*/
+    convertNumberToDetcimal(number)
+    {
+        if(parseFloat(number))
+        {
+            let numberTemp = parseFloat(number)/100;
+            return numberTemp;
+        }
+        else
+        {
+            let numberTemp = 0;
+            return numberTemp;
+        }
+
+    }
+
+    /*
+  @Method : renderLastGridData
+  @Params :
+  @Returns : *
+  */
+
+    renderLastGridData()
+    {
+        if((this.props.deviceData.length>1) && (this.props.deviceData.length%2==1)) {
+
+            let colorProgress = styles.progressBarBorderColor;
+            if (this.props.deviceData[this.props.deviceData.length-1].settings){
+                {
+                    if(parseFloat(this.props.deviceData[this.props.deviceData.length-1].settings.alert_level_change) > parseFloat(this.props.deviceData[this.props.deviceData.length-1].tank_status.percentage))
+                    {
+                        colorProgress =styles.progressBarBorderColorDenger;
+
+                    }
+                }
+            }
+
+            return(
                 <div className="row">
-                    <div className="columns medium-12">
-                        <h1 className="page-title">Dashboard</h1>
-                        <div className="row eq-parent">
-                            <div className="columns medium-6">
-                                <div className="card-panel">
-                                    <h2 className="p-b25">
-                                        <div className="row">
-                                            <div className="columns medium-10">
-                                                Home Tank
-                                            </div>
-                                        </div>
-                                    </h2>
-                                    <div className="grey-bg payment-panel eq-child">
-                                        <div className="chart-container text-center">
-                                            <img src="public/images/home-tank-graph.png" alt="" width="240" />
-                                            <div className="chart-text">60% Full <br/>at 02:00 PM</div>
-                                        </div>
+                    <div className="columns medium-6">
+                        <div className="card-panel">
+                            <h2 className="p-b25">
+                                <div className="row">
+                                    <div className="columns medium-10">
+                                        Office Tank 2
                                     </div>
                                 </div>
-                            </div>
-                            <div className="columns medium-6">
-                                <div className="card-panel">
-                                    <h2 className="p-b25">
-                                        <div className="row">
-                                            <div className="columns medium-10">
-                                                Office Tank
-                                            </div>
-                                        </div>
-                                    </h2>
-                                    <div className="grey-bg payment-panel eq-child">
-                                        <div className="chart-container text-center" style={divStyle}>
-                                            <img src="public/images/office-tank-graph.png" alt="" width="240" />
-                                            <div className="chart-text">80% Full <br/>at 12:15 PM</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="columns medium-6">
-                                <div className="card-panel">
-                                    <h2 className="p-b25">
-                                        <div className="row">
-                                            <div className="columns medium-10">
-                                                Office Tank 2
-                                            </div>
-                                        </div>
-                                    </h2>
-                                    <div className="chart-container text-center">
-                                        <img src="public/images/office-tank2-graph.png" alt="" width="240" />
-                                        <div className="chart-text">25% Full <br/>at 01:00 PM</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="columns medium-6">
-                                <div className="card-panel">
-                                    <h2 className="p-b25">
-                                        <div className="row">
-                                            <div className="columns medium-10">
-                                                Apartment Tank
-                                            </div>
-                                        </div>
-                                    </h2>
-                                    <div className="chart-container text-center">
-                                        <img src="public/images/apartment-tank-graph.png" alt="" width="240" />
-                                        <div className="chart-text">80% Full <br/>at 12:15 PM</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="columns medium-6">
-                                <div className="card-panel">
-                                    <h2 className="p-b25">
-                                        <div className="row">
-                                            <div className="columns medium-10">
-                                                Home Tank 2
-                                            </div>
-                                        </div>
-                                    </h2>
-                                    <div className="chart-container text-center">
-                                        <img src="public/images/home-tank2-graph.png" alt="" width="240" />
-                                        <div className="chart-text">60% Full <br/>at 02:00 PM</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="columns medium-6">
-                                <div className="card-panel">
-                                    <h2 className="p-b25">
-                                        <div className="row">
-                                            <div className="columns medium-10">
-                                                Apartment Tank 2
-                                            </div>
-                                        </div>
-                                    </h2>
-                                    <div className="chart-container text-center">
-                                        <img src="public/images/apartment-tank2-graph.png" alt="" width="240" />
-                                        <div className="chart-text">80% Full <br/>at 12:15 PM</div>
-                                    </div>
-                                </div>
+                            </h2>
+                            <div className="chart-container text-center">
+                                <img src="public/images/office-tank2-graph.png" alt="" width="240" />
+                                <div className="chart-text">25% Full <br/>at 01:00 PM</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <LedtNavigation />
-            </div>
-        )
+            );
+        }
     }
+
+
+    /*
+@Method : renderListViewData
+@Params :
+@Returns : *
+*/
+    renderListViewData() {
+        if(this.props.loading || this.state.isLoading)
+        {
+            return(
+                <Spinner size="large"/>
+            )
+        }
+        else
+        {
+            if(this.props.deviceData.length>0)
+            {
+                if(this.props.deviceData.length ==1)
+                {
+                    return(
+                        _.map(this.props.deviceData,(val,i)=>{
+                            const {device_id,tank_name,tank_status} = val;
+                            let colorProgress = styles.progressBarBorderColor;
+                            if (val.settings){
+                                {
+                                    if(parseFloat(val.settings.alert_level_change) > parseFloat(tank_status.percentage))
+                                    {
+                                        colorProgress =styles.progressBarBorderColorDenger;
+
+                                    }
+                                }
+
+                            }
+
+                            return(
+                                <div className="row">
+                                    <div className="columns medium-6">
+                                        <div className="card-panel">
+                                            <h2 className="p-b25">
+                                                <div className="row">
+                                                    <div className="columns medium-10">
+                                                        Office Tank 2
+                                                    </div>
+                                                </div>
+                                            </h2>
+                                            <div className="chart-container text-center">
+                                                <img src="public/images/office-tank2-graph.png" alt="" width="240" />
+                                                <div className="chart-text">25% Full <br/>at 01:00 PM</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    );
+                }
+                else
+                {
+                    return(
+                        _.map(this.props.deviceData,(val,i)=>{
+                            const {device_id,tank_name,tank_status} = val;
+                            let colorProgress = styles.progressBarBorderColor;
+                            if (val.settings){
+                                {
+                                    if(parseFloat(val.settings.alert_level_change) > parseFloat(tank_status.percentage))
+                                    {
+                                        colorProgress =styles.progressBarBorderColorDenger;
+
+                                    }
+                                }
+                            }
+                            let tempId = i+1;
+                            if(tempId%2==0)
+                            {
+                                return(
+                                    <div className="row" key={i}>
+                                        <div className="columns medium-6">
+                                            <div className="card-panel">
+                                                <h2 className="p-b25">
+                                                    <div className="row">
+                                                        <div className="columns medium-10">
+                                                            Office Tank 2
+                                                        </div>
+                                                    </div>
+                                                </h2>
+                                                <div className="chart-container text-center">
+                                                    <img src="public/images/office-tank2-graph.png" alt="" width="240" />
+                                                    <div className="chart-text">25% Full <br/>at 01:00 PM</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="columns medium-6">
+                                            <div className="card-panel">
+                                                <h2 className="p-b25">
+                                                    <div className="row">
+                                                        <div className="columns medium-10">
+                                                            Apartment Tank
+                                                        </div>
+                                                    </div>
+                                                </h2>
+                                                <div className="chart-container text-center">
+                                                    <img src="public/images/apartment-tank-graph.png" alt="" width="240" />
+                                                    <div className="chart-text">80% Full <br/>at 12:15 PM</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        })
+                    );
+
+                }
+
+
+            }
+
+        }
+    }
+
+
+
+    /*
+@Method : render
+@Params :
+@Returns : *
+*/
+
+
+    render()
+    {
+        if(this.props.loading || this.state.isLoading )
+        {
+            return (
+                <div>
+                <Spinner size="large"/>
+                </div>
+            )
+        }
+        else
+        {
+            return (
+                <div>
+                    <Header />
+                    <div className="row">
+                        <div className="columns medium-12">
+                            <h1 className="page-title">Dashboard</h1>
+
+                            {this.renderLastGridData()}
+                            {this.renderListViewData()}
+
+                        </div>
+                    </div>
+                    <LedtNavigation />
+                </div>
+            )
+        }
+    };
+}
+
+const styles = {
+
+    containerBackgroundColor: {
+        backgroundColor: '#fbfbfe'
+    },
+    customHeaderStyle:{
+        backgroundColor:'transparent',
+        elevation: 0,
+        shadowOpacity:0,borderBottomWidth:0
+    },
+    titleStyle: {
+        fontSize: 18,
+        paddingLeft: 15
+    },
+    listItemStyle:{
+        borderWidth:8,
+        borderColor:'transparent'
+
+    },
+    progressBardTextStyle:
+        {
+            color: '#2eb9f9'
+        },
+    textStyle: {
+        color:'#000'
+    },
+    progressStyle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius:7,
+        paddingBottom:10
+    },
+    progressLinkIcon:{
+        color:"#2eb9f9",
+        fontSize:22
+    },
+    progressBarBorderColor: '#2eb9f9',
+    progressBarBorderColorDenger: 'red',
 }
 
 
-export default Home;
+const mapStateToProps = ({device}) => {
+    let deviceData =[];
+    let deviceDataTemp= [];
+    let loading = true;
+    if(device.deviceData)
+    {
+        deviceData =[];
+        _.map(device.deviceData,(val,uid)=>{
+            deviceData.push(val)
+        });
+    }
+    if(device.deviceDataTemp)
+    {
+        deviceDataTemp =[];
+        _.map(device.deviceDataTemp,(val,uid)=>{
+            deviceDataTemp.push(val)
+        });
+    }
+    console.log(deviceData);
+    deviceData = deviceData.reverse();
+    loading = device.loading;
+    return {loading, deviceData,deviceDataTemp};
+};
+
+export default connect(mapStateToProps, {getDevices,getSearchDeviceList,getUserDetails})(Home);

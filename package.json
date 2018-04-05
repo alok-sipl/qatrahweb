@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@cross2d/react-native-web-router-flux": "^1.0.0",
+    "axios": "^0.18.0",
     "babel-preset-stage-1": "^6.1.18",
     "firebase": "^4.12.1",
     "lodash": "^3.10.1",

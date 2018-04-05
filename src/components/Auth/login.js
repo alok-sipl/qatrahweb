@@ -12,7 +12,7 @@ import RegistrationVerification from '../../components/Auth/registration_verific
 
 
 class Login extends Component {
-    state = {isLoaded: null,isRedirectHome:false,isRedirectVerify:false,isEmailVerified:false, validationError: '',secureTextEntry:true, isSubmitted: false,showFooter:true};
+    state = {isLoaded: true,isRedirectHome:false,isRedirectVerify:false,isEmailVerified:false, validationError: '',secureTextEntry:true, isSubmitted: false,showFooter:true};
     constructor(props) {
         super(props);
 
@@ -28,7 +28,7 @@ class Login extends Component {
         this.props.resetForm();
         firebase.auth().onAuthStateChanged((user)=>
         {
-            this.setState({isLoaded:true});
+            this.setState({isLoaded:false});
             if(user)
             {
                 if(user.emailVerified)
@@ -309,7 +309,13 @@ class Login extends Component {
    @Returns : *
    */
     render() {
-        if (this.state.isRedirectHome == true) {
+        if(this.state.isLoaded)
+        {
+            return (
+                <Spinner size="large"/>
+            )
+        }
+        else if (this.state.isRedirectHome == true) {
             return <Redirect to='/home'/>;
         }
         else if (this.state.isRedirectVerify == true) {

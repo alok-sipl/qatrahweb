@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import {Actions} from 'react-native-router-flux';
 import {TankCountryChanged,COUNTRY_FETCH_SUCCESS,DeviceIdForConnection,RESET_DEVICE_DETAILS,DEVICE_FETCH_SUCCESS_FOR_FILTER,GET_HISTORY_SUCCESS,BASE_URL,DEVICE_ID_FETCH_SUCCESS,LOADER_START,LOADER_END,DEVICE_FETCH_SUCCESS,TankTypeChanged,DeviceIdChanged,DeviceNameChanged,TankNameChanged,TankLocationChanged,TankHeightChanged,TankWidthChanged,TankDepthChanged,TankCityChanged,TankAreaChanged,AREA_FETCH_SUCCESS,CITY_FETCH_SUCCESS,showToast} from '../types'
 import _ from 'lodash';
 import axios from 'axios';
@@ -450,7 +449,7 @@ export const updateDeviceDetails=({tank_country,uid,device_id, device_name,tank_
             .then(() => {
                 showToast("success","Device has been updated successfully");
                 requestSuccess(dispatch);
-                Actions.pop();
+                // Actions.pop();
 
             })
             .catch(function (error) {
@@ -480,13 +479,13 @@ export const deleteDeviceDetails=({uid,master_id})=>{
                              .update({user_id:"",id:""})
                              .then(() => {
                                  showToast("success","Device deleted successfully");
-                                 Actions.pop();
+                                 // Actions.pop();
                                  dispatch({type: RESET_DEVICE_DETAILS});
                                  requestSuccess(dispatch);
                              })
                              .catch(function (error) {
                                  showToast("success","Device deleted successfully");
-                                 Actions.pop();
+                                 // Actions.pop();
                                  dispatch({type: RESET_DEVICE_DETAILS});
                                  requestSuccess(dispatch);
                              });
@@ -494,7 +493,7 @@ export const deleteDeviceDetails=({uid,master_id})=>{
                      else
                      {
                          showToast("success","Device deleted successfully");
-                         Actions.pop();
+                         // Actions.pop();
                          dispatch({type: RESET_DEVICE_DETAILS});
                          requestSuccess(dispatch);
                      }
@@ -541,7 +540,7 @@ export const addDevice = ({tank_country,device_id, device_name,tank_name,tank_lo
                                 .update({user_id:currentUser.uid,id:snapshot.getKey()})
                                 .then(() => {
                                     showToast("success","Device added successfully");
-                                    Actions.pop();
+                                    // Actions.pop();
                                     dispatch({type: RESET_DEVICE_DETAILS});
                                     requestSuccess(dispatch);
                                 })
