@@ -8,7 +8,7 @@ import _ from 'lodash';
 import {NameChanged,getUserDetails,uploadPhoto,updateProfile,onChangeName,onAddressChange} from '../../actions';
 
 class Profile extends Component {
-  state = {file: '',imagePreviewUrl: '',menuActive: false,isLoaded:null,isNameEditActive:false,isAddressEditActive:false};
+  state = {file: '',imagePreviewUrl: '',chooseFile:false,menuActive: false,isLoaded:null,isNameEditActive:false,isAddressEditActive:false};
   /*
   @Method : componentWillMount
   @Desc   : will check that user is logged in or not
@@ -49,7 +49,7 @@ class Profile extends Component {
         imagePreviewUrl: reader.result
       });
     }
-
+alert(file);
     reader.readAsDataURL(file)
   }
 
@@ -329,7 +329,10 @@ if (imagePreviewUrl) {
     <div className="card-panel">
     <div className="my-profile">
 
+
     <div className="previewComponent">
+
+
            <form onSubmit={(e)=>this._handleSubmit(e)}>
              <input className="fileInput" ref="fileUploader"
                type="file"
