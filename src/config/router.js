@@ -49,7 +49,7 @@ export default class Router extends Component{
                             <Route path="/contact" component={Contact} />
                             <Route path="/terms-policy" component={TermsPolicy} />
                             <Route path="/about-us" component={AboutUs} />
-                            <Route path="/" component={Login} />
+                            <Route path="/" component={Home} />
                         </Switch>
                     </div>
                 </BrowserRouter>
