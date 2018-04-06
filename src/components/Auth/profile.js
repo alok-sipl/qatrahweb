@@ -8,7 +8,7 @@ import _ from 'lodash';
 import {NameChanged,getUserDetails,uploadPhoto,updateProfile,onChangeName,onAddressChange} from '../../actions';
 
 class Profile extends Component {
-  state = {file: '',imagePreviewUrl: '',menuActive: false,isLoaded:null,isNameEditActive:false,isAddressEditActive:false};
+  state = {file: '',imagePreviewUrl: '',chooseFile:false,menuActive: false,isLoaded:null,isNameEditActive:false,isAddressEditActive:false};
   /*
   @Method : componentWillMount
   @Desc   : will check that user is logged in or not
@@ -49,7 +49,7 @@ class Profile extends Component {
         imagePreviewUrl: reader.result
       });
     }
-
+alert(file);
     reader.readAsDataURL(file)
   }
 
@@ -195,11 +195,9 @@ class Profile extends Component {
   {
     if(this.state.isNameEditActive)
     {
-
-
         return(
         <div>
-        <input type="text" onChange={(event)=>{this.onChangeName(event.target.value)}} value={this.props.name} placeholder="Name"  placeholderTextColor="#fff"   style={styles.editProfileName.button} />
+        <input type="text" onChange={(event)=>{this.onChangeName(event.target.value)}} value={this.props.name} placeholder="Name"  placeholderTextColor="#fff" style={{backgroundColor:'transparent',borderColor:'transparent'}}  />
         <a  onClick={() => {this.updateName()}}><i className="fa fa-pencil" aria-hidden="true"></i></a>
         <a onClick={() => {this.setState({isNameEditActive:false})
         this.props.getUserDetails();
@@ -211,10 +209,9 @@ class Profile extends Component {
     }
     else
     {
-
       return(
         <div>
-          <div>hello Anchal</div>
+
         <div> {this.props.name}  </div>
         <a  onClick={() => {this.setState({isNameEditActive:true})}}><i className="fa fa-pencil" aria-hidden="true"></i></a>
 
@@ -325,7 +322,10 @@ if (imagePreviewUrl) {
     <div className="card-panel">
     <div className="my-profile">
 
+
     <div className="previewComponent">
+
+
            <form onSubmit={(e)=>this._handleSubmit(e)}>
              <input className="fileInput" ref="fileUploader"
                type="file"
