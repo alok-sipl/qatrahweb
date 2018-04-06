@@ -197,7 +197,7 @@ alert(file);
     {
         return(
         <div>
-        <input type="text" onChange={(event)=>{this.onChangeName(event.target.value)}} value={this.props.name} placeholder="Name"  placeholderTextColor="#fff"   style={styles.editProfileName.button} />
+        <input type="text" onChange={(event)=>{this.onChangeName(event.target.value)}} value={this.props.name} placeholder="Name"  placeholderTextColor="#fff" style={{backgroundColor:'transparent',borderColor:'transparent'}}  />
         <a  onClick={() => {this.updateName()}}><i className="fa fa-pencil" aria-hidden="true"></i></a>
         <a onClick={() => {this.setState({isNameEditActive:false})
         this.props.getUserDetails();
