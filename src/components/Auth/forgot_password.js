@@ -8,12 +8,14 @@ import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-rou
 
 class ForgotPassword extends Component{
 
-    state = {isLoaded: false, validationError: '', isSubmitted: false,showFooter:true};
+    state = {isLoaded: true, validationError: '', isSubmitted: false,showFooter:true};
 
     constructor(props) {
         super(props);
 
     }
+
+
 
     /*
 @Method : componentWillUnmount
@@ -21,8 +23,21 @@ class ForgotPassword extends Component{
 @Params :
 @Returns : *
 */
-    componentWillUnmount () {
+    componentWillMount() {
         this.props.resetForm();
+        firebase.auth().onAuthStateChanged((user)=>
+        {
+            this.setState({isLoaded:false});
+            if(user)
+            {
+                if(user.emailVerified)
+                {
+                    // this.setState({isRedirectHome:true});
+                    window.location.href = "/Home";
+
+                }
+            }
+        });
     }
 
     /*
@@ -119,42 +134,52 @@ class ForgotPassword extends Component{
 
 
     render(){
-        return (
+        if(this.state.isLoaded)
+        {
+            return (
+                <Spinner size="large"/>
+            )
+        }
+        else{
+
+            return (
                 <div className="columns medium-12">
                     <div className="form-wrapper">
                         <div className="card">
                             <div className="card-inner">
                                 <div className="form-logo">
                                     <img src="public/images/logo.png" className="logo"/>
-                                        <h3>Forgot Password?</h3>
-                                        <h5 className="sub-heading">Enter your email address to recover<br/> your password</h5>
-                                        <form>
-                                            <div className="form-group">
-                                                <label><i className="fa fa-envelope" aria-hidden="true"></i></label>
-                                                <input
-                                                    onChange={(event)=>{
-                                                        this.onChangeEmail(event.target.value)
+                                    <h3>Forgot Password?</h3>
+                                    <h5 className="sub-heading">Enter your email address to recover<br/> your password</h5>
+                                    <form>
+                                        <div className="form-group">
+                                            <label><i className="fa fa-envelope" aria-hidden="true"></i></label>
+                                            <input
+                                                onChange={(event)=>{
+                                                    this.onChangeEmail(event.target.value)
 
-                                                    }} value={this.props.email}
-                                                    type="text"
-                                                    placeholder="Email ID"
-                                                    name="emailid"
-                                                    />
-                                                {this.renderErrorEmail(this.state.isSubmitted,this.validateEmail(this.props.email),this.props.email)}
-                                            </div>
+                                                }} value={this.props.email}
+                                                type="text"
+                                                placeholder="Email ID"
+                                                name="emailid"
+                                            />
+                                            {this.renderErrorEmail(this.state.isSubmitted,this.validateEmail(this.props.email),this.props.email)}
+                                        </div>
 
-                                            <div className="form-group">
-                                                {this.renderAction()}
-                                            </div>
-                                            <div className="form-fooetr">Back to <Link to="/login">Log In </Link></div>
+                                        <div className="form-group">
+                                            {this.renderAction()}
+                                        </div>
+                                        <div className="form-fooetr">Back to <Link to="/login">Log In </Link></div>
 
-                                        </form>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-        )
+            )
+
+        }
     }
 }
 

@@ -21,18 +21,30 @@ class Signup extends Component {
     constructor(props) {
         super(props);
 
-
     }
 
-    /*
-    @Method : componentWillMount
-    @Desc   : will check that user is logged in or not
-    @Params :
-    @Returns : *
-    */
-    componentWillMount() {
 
+    /*
+       @Method : componentWillMount
+       @Desc   : will check that user is logged in or not
+       @Params :
+       @Returns : *
+       */
+    componentWillMount() {
         this.props.resetForm();
+        firebase.auth().onAuthStateChanged((user)=>
+        {
+            this.setState({isLoaded:false});
+            if(user)
+            {
+                if(user.emailVerified)
+                {
+                    // this.setState({isRedirectHome:true});
+                    window.location.href = "/Home";
+
+                }
+            }
+        });
     }
 
     /*
@@ -389,7 +401,13 @@ class Signup extends Component {
             email === '' ||
             mobile === '';
 
-        if(this.state.isRedirectCongrats == true){
+        if(this.state.isLoaded || this.props.loading)
+        {
+            return (
+                <Spinner size="large"/>
+            )
+        }
+        else if(this.state.isRedirectCongrats == true){
             return <RegistrationSuccess  />;
 
         }
