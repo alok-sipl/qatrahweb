@@ -36,6 +36,8 @@ class Profile extends Component {
   }
 
   _handleImageChange(e) {
+    //alert('hiiiii');
+    this.refs.fileUploader.click();
     e.preventDefault();
 
     let reader = new FileReader();
@@ -262,9 +264,54 @@ class Profile extends Component {
 
 }
 
+    onUploadProfilePress()
+    {
+
+            //this.props.changeProfilePicture(image);
+            this.props.uploadPhoto('image',this.props.userId);
+
+    }
+
+/*
+@Method : renderProfilePicture
+ @Params :
+ @Returns : *
+ */
+ renderProfilePicture() {
+     if(this.props.loading)
+     {
+         return (
+             <Spinner size="large"/>
+         )
+     }
+     else
+     {
+
+         if(this.props.profile_picture)
+         {
+             return(
+                 <div  onClick={()=>{
+                     this.onUploadProfilePress();
+                 }}>
+                     <img  src={{ uri: this.props.profile_picture }} />
+                 </div>
+             );
+         }
+         else
+         {
+             return(
+                 <div onClick={()=>{
+                     this.onUploadProfilePress();
+                 }}>
+                     <img src="public/images/no_photo.jpg" />
+                 </div>
+
+             );
+         }
+     }
 
 
-
+}
 
 
 renderData() {
@@ -284,7 +331,7 @@ if (imagePreviewUrl) {
 
     <div className="previewComponent">
            <form onSubmit={(e)=>this._handleSubmit(e)}>
-             <input className="fileInput"
+             <input className="fileInput" ref="fileUploader"
                type="file"
                onChange={(e)=>this._handleImageChange(e)} />
              <button className="submitButton"
@@ -297,8 +344,8 @@ if (imagePreviewUrl) {
          </div>
 
 
-    <img src="public/images/user-profile.png"/>
-    <div className="upload-pic"><a href="#"><img src="public/images/camera.png"/></a></div>
+    {this.renderProfilePicture()}
+    <div className="upload-pic"><img onClick={(e)=>{this._handleImageChange(e)}} src="public/images/camera.png"/></div>
 
     {this.renderNameTextBoxOrEditIcon()}
     </div>
