@@ -64,7 +64,7 @@ class Supplier extends Component {
 @Returns : *
 */
     openFilter() {
-        this.setState({isFilterShow: false})
+        this.setState({isFilterShow: true})
     }
 
     /*
@@ -74,6 +74,15 @@ class Supplier extends Component {
 */
     openSearch() {
         this.setState({isSearchClicked: true})
+    }
+
+    /*
+@Method : closeSearch
+@Params :
+@Returns : *
+*/
+    closeSearch() {
+        this.setState({isSearchClicked: false})
     }
 
 
@@ -126,7 +135,7 @@ class Supplier extends Component {
         }
         else {
             this.setState({searchText: ""});
-            this.props.getSearchSupplier([true, true, true, true], this.props.tankCity, this.props.tankArea);
+            this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
         }
     }
 
@@ -186,10 +195,9 @@ class Supplier extends Component {
     renderLikeButton(supplier, uid) {
         if (supplier.is_fav) {
             return (
-                <span className="favourite" onClick={()=>{
-                    this.props.likeSupplier(supplier.supplier_id,supplier.email,false,uid,()=>{
-                        if(this.state.supplierFilterValue.length > 0)
-                        {
+                <span className="favourite" onClick={() => {
+                    this.props.likeSupplier(supplier.supplier_id, supplier.email, false, uid, () => {
+                        if (this.state.supplierFilterValue.length > 0) {
                             this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
                         }
                     })
@@ -199,10 +207,9 @@ class Supplier extends Component {
         }
         else {
             return (
-                <span className="favourite" onClick={()=>{
-                    this.props.likeSupplier(supplier.supplier_id,supplier.email,true,uid,()=>{
-                        if(this.state.supplierFilterValue.length > 0)
-                        {
+                <span className="favourite" onClick={() => {
+                    this.props.likeSupplier(supplier.supplier_id, supplier.email, true, uid, () => {
+                        if (this.state.supplierFilterValue.length > 0) {
                             this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
                         }
                     })
@@ -227,24 +234,9 @@ class Supplier extends Component {
         else {
             if (this.state.isMapActive) {
                 return (
-                    <View style={{
-                        flex: 1,
-                        position: 'absolute',
-                        bottom: 0,
-                        height: Dimensions.get('window').height - 110
-                    }}>
-                        <MapView
-                            style={styles.map}
-                            initialRegion={{
-                                latitude: this.props.latitude,
-                                longitude: this.props.longitude,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421
-                            }}
-                        >
-                            {this.renderMarkers()}
-                        </MapView>
-                    </View>
+                    <div>
+                        {this.renderMarkers()}
+                    </div>
                 )
             }
             else {
@@ -257,27 +249,19 @@ class Supplier extends Component {
                     if (this.props.suppliers.length > 0) {
 
                         return (
-                            <Content refreshControl={
-                                <RefreshControl
-                                    refreshing={this.state.refreshing}
-                                    onRefresh={this._onRefresh.bind(this)}
-                                />
-                            }>
-                                <View>
-                                    {this.renderListItem()}
-                                </View>
-                            </Content>
+                            <div>
+                                {this.renderListItem()}
+                            </div>
                         )
                     }
                     else {
                         return (
-                            <Content>
-                                <Text>No Record Found</Text>
-                            </Content>
+                            <div>
+                                <span>No Record Found</span>
+                            </div>
 
                         )
                     }
-
                 }
 
             }
@@ -293,6 +277,9 @@ class Supplier extends Component {
         this.setState({region});
     }
 
+    CheckCheckBox() {
+        alert('I m herer');
+    }
 
     /*
     @Method : renderHeader
@@ -303,11 +290,81 @@ class Supplier extends Component {
         if (this.state.isSearchClicked) {
             return (
                 <div className="row">
-                    <div className="columns medium-12">
-                        <p className="information m-t20" style={{"textAlign": "center",position: "relative"}}>
-                            <input type="text" onClick={this.onChangeSearch.bind(this)} placeholder="Search"/>
-                            <i className="fa fa-times" style={{position: "absolute",top: "17",right: "24"}} aria-hidden="true"></i>
+                    <div className="columns medium-8">
+                        <h1 className="page-title">Search Suppliers</h1>
+                        <p className="information m-t20" style={{"textAlign": "center", position: "relative"}}>
+                            <input type="text"
+                                   name="searchText"
+                                   value={this.props.searchText}
+                                   onChange={() => this.onChangeSearch(e)}
+                                   placeholder="Search"
+                            />
                         </p>
+                    </div>
+                    <div className="columns medium-4">
+                        <i onClick={() => this.closeSearch()} className="fa fa-times"
+                           style={{position: "absolute", top: "17", right: "24"}} aria-hidden="true"></i>
+                    </div>
+                </div>
+            )
+        } else if (this.state.isFilterShow) {
+            return (
+                <div className="row">
+                    <div className="columns medium-12">
+                        <h1 className="page-title">Search Suppliers
+                            <div className="fr" onClick={() => this.openSearch()}>
+                                <i className="fa fa-search p-l10 gray" aria-hidden="true"></i></div>
+                            <div className="fr filter" onClick={()=>{
+                                this.setState({isFilterShow:true,menuActive:false})
+                            }}>
+                                <i className="fa fa-filter gray" aria-hidden="true"></i>
+                            </div>
+                        </h1>
+                        <div className="filter-box" onClick={() => this.openFilter()}>
+                            <ul>
+                                <li><input
+                                    type="checkbox"
+                                    onChange={() => {
+                                        this.setSupplierFilterValueWithCheckAll()
+                                    }}
+                                    checked={this.state.isCheckedAll}
+                                />All
+                                </li>
+                                <li>
+                                    <input
+                                        onChange={() => {
+                                            this.setSupplierFilterValue(0)
+                                        }}
+                                        checked={this.state.supplierFilterValue[0]}
+                                        type="checkbox"
+                                    />5(m3)
+                                </li>
+                                <li><input
+                                    type="checkbox"
+                                    onChange={() => {
+                                        this.setSupplierFilterValue(1)
+                                    }}
+                                    checked={this.state.supplierFilterValue[1]}
+                                />12(m3)
+                                </li>
+                                <li><input
+                                    type="checkbox"
+                                    onChange={() => {
+                                        this.setSupplierFilterValue(2)
+                                    }}
+                                    checked={this.state.supplierFilterValue[2]}
+                                />18(m3)
+                                </li>
+                                <li><input
+                                    type="checkbox"
+                                    onChange={() => {
+                                        this.setSupplierFilterValue(3)
+                                    }}
+                                    checked={this.state.supplierFilterValue[3]}
+                                />32(m3)
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             )
@@ -317,33 +374,15 @@ class Supplier extends Component {
                 <div className="row">
                     <div className="columns medium-12">
                         <h1 className="page-title">Search Suppliers
-                            <a href="#" className="fr" onClick={() => this.openSearch()}>
+                            <div className="fr" onClick={() => this.openSearch()}>
                                 <i className="fa fa-search p-l10 gray" aria-hidden="true"></i>
-                            </a>
-                            <a href="#" className="fr filter" onClick={() => this.openFilter()}>
+                            </div>
+                            <div className="fr filter" onClick={()=>{
+                                this.setState({isFilterShow:true,menuActive:false})
+                            }}>
                                 <i className="fa fa-filter gray" aria-hidden="true"></i>
-                            </a>
+                            </div>
                         </h1>
-                        <div className="filter-box">
-                            <ul>
-                                <li><input type="checkbox"
-                                           value="1"
-                                />5(m3)
-                                </li>
-                                <li><input type="checkbox"
-                                           value="1"
-                                />12(m3)
-                                </li>
-                                <li><input type="checkbox"
-                                           value="1"
-                                />18(m3)
-                                </li>
-                                <li><input type="checkbox"
-                                           value="1"
-                                />32(m3)
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             )
@@ -393,9 +432,8 @@ class Supplier extends Component {
     @Returns : *
     */
     SupplierItem(props) {
-        if(this.props.loading || this.state.isLoading)
-        {
-            return(
+        if (this.props.loading || this.state.isLoading) {
+            return (
                 <Spinner size="large"/>
             )
         } else if (this.props.suppliers.length > 0) {
@@ -427,80 +465,229 @@ class Supplier extends Component {
     @Params :
     @Returns : *
     */
-    render() {
-        if (this.props.loading || this.state.isLoading) {
+    // render() {
+    //     if (this.props.loading || this.state.isLoading) {
+    //         return (
+    //             <div>
+    //                 <Spinner size="large"/>
+    //             </div>
+    //         )
+    //     } else if (this.state.isMapActive) {
+    //         return (
+    //             <div>
+    //                 <Header/>
+    //                 {this.renderHeader()}
+    //                 <div className="row">
+    //                     <div className="columns medium-12">
+    //                         <div className="card-panel">
+    //                             {this.renderTab()}
+    //                             <div id="map" className="tabcontent text-center" style={{display: "block"}}>
+    //                                 <iframe
+    //                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3132.9347225924394!2d-104.61148568466835!3d38.25781997967432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8713a31fa0b6bf4b%3A0x82d3881a6684aa9e!2sClark+Spring+Water+Co!5e0!3m2!1sen!2sin!4v1521636106302"
+    //                                     width="100%" height="400" style={{border: "0"}}></iframe>
+    //                             </div>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //                 <LedtNavigation/>
+    //             </div>
+    //         )
+    //     } else {
+    //         return (
+    //             <div>
+    //                 <Header/>
+    //                 {this.renderHeader()}
+    //                 <div className="row">
+    //                     <div className="columns medium-12">
+    //                         <div className="card-panel">
+    //                             {this.renderTab()}
+    //                             <ul className="list-items">
+    //                                 {this.props.suppliers.map((supplier, i) =>
+    //                                     <li key={i}><h4>{supplier.name}</h4>
+    //                                         <p className="information m-t20"><span className="details"><i
+    //                                             className="fa fa-map-marker"
+    //                                             aria-hidden="true"></i></span>{supplier.city_name}, {supplier.country_name}
+    //                                             {this.renderLikeButton(supplier, firebase.auth().currentUser)}</p>
+    //                                         <p className="information"><span className="details"><i
+    //                                             className="fa fa-envelope"
+    //                                             aria-hidden="true"></i></span>{supplier.email} </p>
+    //                                         <p className="information"><span className="details"><i
+    //                                             className="fa fa-phone"
+    //                                             aria-hidden="true"></i></span>{supplier.mobile_number} </p></li>
+    //                                 )}
+    //                             </ul>
+    //                         </div>
+    //                     </div>
+    //                 </div>
+    //                 <LedtNavigation/>
+    //             </div>
+    //         )
+    //     }
+    // }
+
+
+    /*
+     @Method : renderContent
+     @Params :
+     @Returns : *
+     */
+    renderNavigatorButtons() {
+        if (this.state.isMapActive) {
             return (
-                <div>
-                    <Spinner size="large"/>
+                <div className="tab">
+                    <button style={{color: '#949eaa'}} className="tablinks" onclick={() => {
+                        this.setState({isMapActive: true})
+                    }}><span>Map View</span></button>
+                    <button style={{color: '#2eb9f9'}} className="tablinks" onclick={() => {
+                        this.setState({isMapActive: false})
+                    }}><span>List View</span></button>
+                </div>
+            );
+        }
+        else {
+            return (
+                <div className="tab">
+                    <button style={{color: '#949eaa'}} className="tablinks" onclick={() => {
+                        this.setState({isMapActive: true})
+                    }}><span>Map View</span></button>
+                    <button style={{color: '#2eb9f9'}} className="tablinks" onclick={() => {
+                        this.setState({isMapActive: false})
+                    }}><span>List View</span></button>
+                </div>
+            );
+        }
+
+    }
+
+
+    /*
+       @Method : renderMarkers
+       @Params :
+       @Returns : *
+       */
+    renderListItem() {
+        return (
+            <ul className="list-items">
+                {this.props.suppliers.map((supplier, i) =>
+                    <li key={i}><h4>{supplier.name}</h4>
+                        <p className="information m-t20"><span className="details"><i
+                            className="fa fa-map-marker"
+                            aria-hidden="true"></i></span>{supplier.city_name}, {supplier.country_name}
+                            {this.renderLikeButton(supplier, firebase.auth().currentUser)}</p>
+                        <p className="information"><span className="details"><i
+                            className="fa fa-envelope"
+                            aria-hidden="true"></i></span>{supplier.email} </p>
+                        <p className="information"><span className="details"><i
+                            className="fa fa-phone"
+                            aria-hidden="true"></i></span>{supplier.mobile_number} </p></li>
+                )}
+            </ul>
+        )
+    }
+
+
+    /*
+@Method : renderSearch
+@Params :
+@Returns : *
+*/
+
+    renderSearch() {
+        if (this.props.suppliers.length > 0) {
+            return (
+                <div className="fr" onClick={() => {
+                    this.setState({isSearchClicked: true, menuActive: false})
+                }}>
+                    <i className="fa fa-search p-l10 gray" aria-hidden="true"></i>
                 </div>
             )
-        } else if (this.state.isMapActive) {
-            return (
-                <div>
-                    <Header/>
-                    {this.renderHeader()}
+        }
+
+    }
+
+
+    /*
+    @Method : renderHeader
+    @Params :
+    @Returns : *
+    */
+    renderHeader() {
+        if (this.state.isSearchClicked) {
+            return (<div>
                     <div className="row">
                         <div className="columns medium-12">
-                            <div className="card-panel">
-                                {this.renderTab()}
-                                <div id="map" className="tabcontent text-center" style={{display: "block"}}>
-                                    <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3132.9347225924394!2d-104.61148568466835!3d38.25781997967432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8713a31fa0b6bf4b%3A0x82d3881a6684aa9e!2sClark+Spring+Water+Co!5e0!3m2!1sen!2sin!4v1521636106302"
-                                        width="100%" height="400" style={{border: "0"}}></iframe>
-                                </div>
-                            </div>
+                            <h1 className="page-title">Search Suppliers</h1>
+                            <input type="text"
+                                   name="searchText"
+                                   value={this.props.searchText}
+                                   onChange={(e) => this.onChangeSearch(e)}
+                                   placeholder="Search"
+                            />
+
+                            <i onClick={() => {
+                                this.setState({isSearchClicked: false, menuActive: false})
+                                this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
+                            }} className="fa fa-times"
+                               style={{position: "absolute", top: "17", right: "24"}} aria-hidden="true"></i>
                         </div>
                     </div>
-                    <LedtNavigation/>
                 </div>
             )
-        } else {
+        }
+        else {
             return (
-                <div>
-                    <Header/>
-                    {this.renderHeader()}
-                    <div className="row">
-                        <div className="columns medium-12">
-                            <div className="card-panel">
-                                {this.renderTab()}
-                                <ul className="list-items">
-                                    {this.props.suppliers.map((supplier, i) =>
-                                        <li key={i}><h4>{supplier.name}</h4>
-                                            <p className="information m-t20"><span className="details"><i
-                                                className="fa fa-map-marker"
-                                                aria-hidden="true"></i></span>{supplier.city_name}, {supplier.country_name}
-                                                {this.renderLikeButton(supplier, firebase.auth().currentUser)}</p>
-                                            <p className="information"><span className="details"><i
-                                                className="fa fa-envelope"
-                                                aria-hidden="true"></i></span>{supplier.email} </p>
-                                            <p className="information"><span className="details"><i
-                                                className="fa fa-phone"
-                                                aria-hidden="true"></i></span>{supplier.mobile_number} </p></li>
-                                    )}
-                                </ul>
+                <div className="row">
+                    <div className="columns medium-12">
+                        <h1 className="page-title">Search Suppliers
+                            {this.renderSearch()}
+                            <div className="fr filter" onClick={() => {
+                                this.setState({isFilterShow: true, menuActive: false})
+                            }}>
+                                <i className="fa fa-filter gray" aria-hidden="true"></i>
                             </div>
-                        </div>
+                        </h1>
                     </div>
-                    <LedtNavigation/>
                 </div>
             )
         }
     }
+
+    render() {
+        return (
+            <div>
+                <Header/>
+                {this.renderHeader()}
+                <div className="row">
+                    <div className="columns medium-12">
+                        <div className="card-panel">
+                            {this.renderNavigatorButtons()}
+                            {this.renderMapOrListData()}
+                        </div>
+                    </div>
+                </div>
+                <LedtNavigation/>
+            </div>
+        );
+    }
+    ;
+
+
 }
 
 
-const mapStateToProps = ({utility}) => {
-    let latitude = 0;
-    let longitude = 0;
+const
+    mapStateToProps = ({utility}) => {
+        let latitude = 0;
+        let longitude = 0;
 
-    if (utility.suppliersTemp.length > 0) {
-        latitude = parseFloat(utility.suppliersTemp[0].latitude);
-        longitude = parseFloat(utility.suppliersTemp[0].longitude);
+        if (utility.suppliersTemp.length > 0) {
+            latitude = parseFloat(utility.suppliersTemp[0].latitude);
+            longitude = parseFloat(utility.suppliersTemp[0].longitude);
 
-    }
-    const {loading, suppliers, suppliersTemp} = utility;
-    return {loading, suppliers, suppliersTemp, latitude, longitude};
-};
+        }
+        const {loading, suppliers, suppliersTemp} = utility;
+        return {loading, suppliers, suppliersTemp, latitude, longitude};
+    };
 
 
 export default connect(mapStateToProps, {
@@ -508,4 +695,9 @@ export default connect(mapStateToProps, {
     likeSupplier,
     getLocalSearchSupplierList,
     getSearchSupplier
-})(Supplier);
+})
+
+(
+    Supplier
+)
+;

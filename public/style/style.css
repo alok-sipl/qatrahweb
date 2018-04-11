@@ -417,7 +417,6 @@ input:checked + .slider:before {
 .my-profile p {font-size: 19px; color: #fff; margin-top: 16px; }
 .profile-details i{color: #0facf3;margin-right: 10px;}
 .profile-details p{margin-left: 30px;}
-.filter-box{display: none;}
 .filter-box {background: #fff; padding: 28px; max-width: 400px; width: 100%; position: absolute; z-index: 99; right: 0; border-radius: 20px;}
 .filter-box:before {position:  absolute; content:  ''; border-left: 25px solid transparent; border-right: 25px solid transparent; border-bottom: 50px solid #ffffff; right: 12px; top: -23px; }
 
