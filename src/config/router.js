@@ -15,7 +15,7 @@ import DeviceComponent from '../components/Device/DeviceComponent';
 import History from '../components/Device/History';
 import ViewDevice from '../components/Device/ViewDevice';
 
-import ReminderSetting from '../components/reminder_setting';
+import ReminderSetting from '../components/Settings/remainder_settings';
 import Supplier from '../components/Utility/Supplier';
 import Alerts from '../components/Utility/Alerts';
 import NotificationSetting from '../components/Settings/notification_setting';
@@ -47,7 +47,7 @@ export default class Router extends Component{
                             <Route path="/device-detail/:id" component={ViewDevice} />
 
                             
-                            <Route path="/reminder-setting" component={ReminderSetting} />
+                            <Route path="/reminder-setting/:device_id" component={ReminderSetting} />
                             <Route path="/supplier/:device_id" component={Supplier} />
                             <Route path="/alerts" component={Alerts} />
                             <Route path="/notification-setting" component={NotificationSetting} />

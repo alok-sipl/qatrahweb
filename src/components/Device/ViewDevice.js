@@ -255,6 +255,33 @@ onDeviceIdChanged(deviceId) {
 
     }
 
+
+
+          /*
+@Method : renderSettingLink
+@Params :
+@Returns : *
+*/
+renderSettingLink(){
+    if(this.props.device_id)
+    {
+        return (
+            <Link to={`/reminder-setting/${this.props.device_id}`}>
+                Setting
+            </Link>
+        );
+    }
+    else{
+        return (
+            <Link to={`reminder-setting/${this.props.match.params.id}`}>
+              Setting
+            </Link>
+        );
+
+    }
+
+}
+
     /*
     @Method : renderPickerItems
     @Params :
@@ -370,6 +397,7 @@ onDeviceIdChanged(deviceId) {
     renderContent() {
        return (
         <div className="form-comman">
+              {this.renderSettingLink()}
               {this.renderPickerItems()}
         <form>
         
