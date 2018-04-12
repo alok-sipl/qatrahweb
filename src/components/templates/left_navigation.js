@@ -25,7 +25,7 @@ class LeftNavigation extends Component{
                                 <Link to="/alerts" ><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>Alerts</Link>
                             </li>
                             <li>
-                                <Link to="/device-reading"><i className="fa fa-history" aria-hidden="true"></i>History</Link>
+                                <Link to="/history"><i className="fa fa-history" aria-hidden="true"></i>History</Link>
                             </li>
 
                             <li>

@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import {Spinner} from '../common'
 import {BrowserRouter as Router, Route, Link, Prompt, Redirect} from "react-router-dom";
 import RegistrationSuccess from '../../components/Auth/registration_success';
-
+import firebase from 'firebase';
 
 
 class Signup extends Component {

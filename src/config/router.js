@@ -12,11 +12,11 @@ import AddDevice from '../components/add_device';
 import EditDevice from '../components/edit_device';
 import DeviceDetail from '../components/device_detail';
 import DeviceComponent from '../components/Device/DeviceComponent';
-import DeviceReadingGraph from '../components/device_reading_graph';
+import History from '../components/Device/History';
 import ReminderSetting from '../components/reminder_setting';
 import Supplier from '../components/Utility/Supplier';
 import Alerts from '../components/Utility/Alerts';
-import NotificationSetting from '../components/Settings/notification_setting';
+import NotificationSetting from '../components/settings/notification_setting';
 import Contact from '../components/Utility/ContactUs';
 import TermsPolicy from '../components/Utility/TermsAndPolicy';
 import AboutUs from '../components/Utility/AboutUs';
@@ -41,7 +41,7 @@ export default class Router extends Component{
                             <Route path="/edit-device" component={EditDevice} />
                             <Route path="/view-device" component={DeviceDetail} />
                             <Route path="/device" component={DeviceComponent} />
-                            <Route path="/device-reading" component={DeviceReadingGraph} />
+                            <Route path="/history" component={History} />
                             <Route path="/reminder-setting" component={ReminderSetting} />
                             <Route path="/supplier" component={Supplier} />
                             <Route path="/alerts" component={Alerts} />
