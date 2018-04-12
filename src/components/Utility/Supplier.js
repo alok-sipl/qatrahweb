@@ -183,11 +183,7 @@ class Supplier extends Component {
             let latitude = parseFloat(marker.latitude);
             let longitude = parseFloat(marker.longitude);
             return (
-                <MapView.Marker
-                    coordinate={{latitude: latitude, longitude: longitude}}
-                    title={marker.company_name}
-                    description={`${marker.area_name} , ${marker.city_name}`}
-                />
+                <div></div>
             )
         });
     }
@@ -364,6 +360,12 @@ class Supplier extends Component {
                                 />32(m3)
                                 </li>
                             </ul>
+                            <button onClick={() => {
+                                this.setSupplierFilterCheckBox()
+                            }}>APPLY</button>
+                            <button onClick={() => {
+                                this.cancelSupplierFilterCheckBox()
+                            }}>CANCEL</button>
                         </div>
                     </div>
                 </div>
@@ -605,6 +607,104 @@ class Supplier extends Component {
 
     }
 
+setSupplierFilterCheckBox(){
+  if (this.state.isFilterShow) {
+    let tempValue = this.state.supplierFilterValue;
+                if(tempValue[0] == false && tempValue[1] == false && tempValue[2] == false && tempValue[3] == false)
+                {
+                    alert('denger','Please Select Tank Capacity')
+
+                }
+                else
+                {
+                    this.props.getSearchSupplier(this.state.supplierFilterValue,'-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
+                    this.setState({isFilterShow:false});
+                }
+  }
+}
+
+
+cancelSupplierFilterCheckBox(){
+  if (this.state.isFilterShow) {
+    let tempValue = this.state.supplierFilterValue;
+                if(tempValue[0] == false && tempValue[1] == false && tempValue[2] == false && tempValue[3] == false)
+                {
+                    alert('denger','Please Select Tank Capacity')
+                }
+                else
+                {
+                    this.setState({isFilterShow:false});
+                }
+  }
+}
+
+
+
+    renderSliderFilter()
+    {
+        if(this.state.isFilterShow){
+            return(
+                <div className="filter-box" onClick={() => this.openFilter()}>
+                    <ul>
+                        <li><input
+                            type="checkbox"
+                            onChange={() => {
+                                this.setSupplierFilterValueWithCheckAll()
+                            }}
+                            checked={this.state.isCheckedAll}
+                        />All
+                        </li>
+                        <li>
+                            <input
+                                onChange={() => {
+                                    this.setSupplierFilterValue(0)
+                                }}
+                                checked={this.state.supplierFilterValue[0]}
+                                type="checkbox"
+                            />5(m3)
+                        </li>
+                        <li><input
+                            type="checkbox"
+                            onChange={() => {
+                                this.setSupplierFilterValue(1)
+                            }}
+                            checked={this.state.supplierFilterValue[1]}
+                        />12(m3)
+                        </li>
+                        <li><input
+                            type="checkbox"
+                            onChange={() => {
+                                this.setSupplierFilterValue(2)
+                            }}
+                            checked={this.state.supplierFilterValue[2]}
+                        />18(m3)
+                        </li>
+                        <li><input
+                            type="checkbox"
+                            onChange={() => {
+                                this.setSupplierFilterValue(3)
+                            }}
+                            checked={this.state.supplierFilterValue[3]}
+                        />32(m3)
+                        </li>
+                    </ul>
+                    <button onClick={() => {
+                        this.setSupplierFilterCheckBox()
+                    }}>APPLY</button>
+                    <button onClick={() => {
+                        this.cancelSupplierFilterCheckBox()
+                    }}>CANCEL</button>
+                </div>
+            )
+        }else{
+            return(
+                <div>
+                </div>
+            )
+        }
+
+    }
+
 
     /*
     @Method : renderHeader
@@ -656,6 +756,7 @@ class Supplier extends Component {
         return (
             <div>
                 <Header/>
+                {this.renderSliderFilter()}
                 {this.renderHeader()}
                 <div className="row">
                     <div className="columns medium-12">
