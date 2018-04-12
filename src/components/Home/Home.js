@@ -7,6 +7,8 @@ import firebase from 'firebase';
 import Header from '../templates/header'
 import LedtNavigation from '../templates/left_navigation';
 import CircularProgressbar from 'react-circular-progressbar';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 
 
 const divStyle = {
@@ -193,6 +195,7 @@ class Home extends Component {
 
             return(
                 <div className="row" key ={this.props.deviceData[this.props.deviceData.length-1].device_id}>
+                   <Link to={`device-detail/${this.props.deviceData[this.props.deviceData.length-1].device_id}`}>
                     <div className="columns medium-6">
                         <div className="card-panel">
                             <h2 className="p-b25">
@@ -208,6 +211,7 @@ class Home extends Component {
                             </div>
                         </div>
                     </div>
+                    </Link>
                 </div>
             );
         }
@@ -249,6 +253,7 @@ class Home extends Component {
 
                             return(
                                 <div className="row" key ={device_id}>
+                                 <Link to={`device-detail/${device_id}`}>
                                     <div className="columns medium-6">
                                         <div className="card-panel">
                                             <h2 className="p-b25">
@@ -264,6 +269,7 @@ class Home extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                    </Link>
                                 </div>
                             )
                         })
@@ -289,6 +295,7 @@ class Home extends Component {
                             {
                                 return(
                                     <div className="row" key= {this.props.deviceData[i-1].device_id}>
+                                        <Link to={`device-detail/${this.props.deviceData[i-1].device_id}`}>
                                         <div className="columns medium-6">
                                             <div className="card-panel">
                                                 <h2 className="p-b25">
@@ -304,6 +311,8 @@ class Home extends Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        </Link>
+                                        <Link to={`device-detail/${this.props.deviceData[i].device_id}`}>
                                         <div className="columns medium-6">
                                             <div className="card-panel">
                                                 <h2 className="p-b25">
@@ -319,6 +328,7 @@ class Home extends Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        </Link>
                                     </div>
                                 )
                             }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Spinner} from "../common";
-import {getDevices,resetDeviceDetails,onDeviceIdChanged,getHistory} from '../../actions';
+import {getDevices,resetDeviceDetails,onDeviceIdChanged,getHistory,getDevicesByDeviceId} from '../../actions';
 import _ from 'lodash';
 import Header from '../templates/header';
 import LedtNavigation from '../templates/left_navigation';
@@ -9,6 +9,8 @@ import firebase from 'firebase';
 import {Bar} from 'react-pathjs-chart';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
 
 
 
@@ -17,6 +19,7 @@ class ViewDevice extends Component {
 
     componentWillMount()
     {
+
         firebase.auth().onAuthStateChanged((user)=>
         {
             this.setState({isLoading:false})
@@ -25,11 +28,11 @@ class ViewDevice extends Component {
                 if(user.emailVerified)
                 {
                     this.props.getDevices();
-                    if(this.props.deviceId)
+                    if(this.props.match.params.id)
                     {
-                        this.props.getDevicesByDeviceId(this.props.deviceId);
-                        this.props.onDeviceIdChanged(this.props.deviceId);
-                        this.props.getHistory({time_filter:'day',device_id:this.props.deviceId,date:this.formatDate(new Date()),type:"device"});
+                        this.props.getDevicesByDeviceId(this.props.match.params.id);
+                        this.props.onDeviceIdChanged(this.props.match.params.id);
+                        this.props.getHistory({time_filter:'day',device_id:this.props.match.params.id,date:this.formatDate(new Date()),type:"device"});
                     }
                 }
             }
@@ -223,6 +226,35 @@ onDeviceIdChanged(deviceId) {
 
     }
 
+        /*
+@Method : renderSupplierLink
+@Params :
+@Returns : *
+*/
+    renderSupplierLink(){
+        if(this.props.device_id)
+        {
+            return (
+                <Link to={`/supplier/${this.props.device_id}`}>
+                <div className="form-group text-center">
+                                    <input type="button" className="btn-blue-block btn" value="Search the suppliers" title="Submit" />
+                                </div>
+                </Link>
+            );
+        }
+        else{
+            return (
+                <Link to={`supplier/${this.props.match.params.id}`}>
+                <div className="form-group text-center">
+                                    <input type="button" className="btn-blue-block btn" value="Search the suppliers" title="Submit" />
+                                </div>
+                </Link>
+            );
+
+        }
+
+    }
+
     /*
     @Method : renderPickerItems
     @Params :
@@ -346,6 +378,7 @@ onDeviceIdChanged(deviceId) {
                   <div>Consumption(%)</div>
             {this.renderChartContent()}
             </div>
+            {this.renderSupplierLink()}
           
         </form>
         </div>
@@ -484,4 +517,4 @@ const mapStateToProps = ({device}) => {
 
 };
 
-export default connect(mapStateToProps, {getDevices,getHistory,resetDeviceDetails,onDeviceIdChanged})(ViewDevice);
+export default connect(mapStateToProps, {getDevices,getHistory,resetDeviceDetails,onDeviceIdChanged,getDevicesByDeviceId})(ViewDevice);
