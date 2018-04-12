@@ -7,6 +7,7 @@ import _ from 'lodash';
 import firebase from 'firebase';
 import {Spinner} from '../common';
 
+
 class DeviceComponent extends Component {
   state = {menuActive: false,isSearchClicked:false,searchText:"",isLoading:true};
   componentWillMount() {

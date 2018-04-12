@@ -1,22 +1,39 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-router-dom";
-
+import firebase from 'firebase';
 
 class Logout extends Component {
+    state = {isLoaggedOut:false};
     constructor(props) {
         super(props)
+        this.state.isLoaggedOut = false;
     }
 
     doSignOut = () => {
-        alert('Hey');
+        firebase.auth().signOut().then(function() {
+         
+        }, function(error) {
 
+      });
+      
+
+    }
+    componentWillMount(){
+    
     }
 
     render() {
-        return (
-          <Link to="/login" onClick={this.doSignOut}><i className="fa fa-sign-out" ></i>Logout</Link>
+        if(this.state.isLoaggedOut == true){
 
-        )
+        }
+        else{
+            return (
+                <Link to="" onClick={()=>{
+                  this.doSignOut()
+                }} href="" ><i className="fa fa-sign-out" ></i>Logout</Link>      
+              )
+        }
+      
     }
 }
 
