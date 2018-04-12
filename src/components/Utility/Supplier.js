@@ -183,11 +183,7 @@ class Supplier extends Component {
             let latitude = parseFloat(marker.latitude);
             let longitude = parseFloat(marker.longitude);
             return (
-                <MapView.Marker
-                    coordinate={{latitude: latitude, longitude: longitude}}
-                    title={marker.company_name}
-                    description={`${marker.area_name} , ${marker.city_name}`}
-                />
+                <div></div>
             )
         });
     }
