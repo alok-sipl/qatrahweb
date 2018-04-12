@@ -18,7 +18,7 @@ import ViewDevice from '../components/Device/ViewDevice';
 import ReminderSetting from '../components/reminder_setting';
 import Supplier from '../components/Utility/Supplier';
 import Alerts from '../components/Utility/Alerts';
-import NotificationSetting from '../components/settings/notification_setting';
+import NotificationSetting from '../components/Settings/notification_setting';
 import Contact from '../components/Utility/ContactUs';
 import TermsPolicy from '../components/Utility/TermsAndPolicy';
 import AboutUs from '../components/Utility/AboutUs';
