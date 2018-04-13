@@ -15,21 +15,19 @@ class Supplier extends Component {
 
     constructor(props) {
         super(props);
-
+        this.state = {
+            searchText: "",
+            isFilterShow: false,
+            isSearchClicked: false,
+            isMapActive: false,
+            isCheckedAll: true,
+            latitude: 23.8859,
+            longitude: 45.0792,
+            supplierFilterValue: [true, true, true, true]
+        }
     }
 
-    state = {
-        menuActive: false,
-        searchText: "",
-        isFilterShow: false,
-        isSearchClicked: false,
-        isMapActive: false,
-        isCheckedAll: true,
-        latitude: 0,
-        longitude: 0,
-        supplierFilterValue: [true, true, true, true],
-        refreshing: false
-    }
+
 
     /*
 @Method : componentWillMount
@@ -46,46 +44,6 @@ class Supplier extends Component {
             }
         });
 
-    }
-
-    /*
-    @Method : openCity
-    @Params :
-    @Returns : *
-    */
-    openCity(cityName) {
-        if (cityName == 'map') {
-            this.setState({isMapActive: true, isCheckedAll: false})
-        } else {
-            this.setState({isMapActive: false, isCheckedAll: true})
-        }
-    }
-
-    /*
-@Method : openFilter
-@Params :
-@Returns : *
-*/
-    openFilter() {
-        this.setState({isFilterShow: true})
-    }
-
-    /*
-@Method : openSearch
-@Params :
-@Returns : *
-*/
-    openSearch() {
-        this.setState({isSearchClicked: true})
-    }
-
-    /*
-@Method : closeSearch
-@Params :
-@Returns : *
-*/
-    closeSearch() {
-        this.setState({isSearchClicked: false})
     }
 
 
@@ -183,18 +141,24 @@ class Supplier extends Component {
     @Returns : *
     */
     renderMarkers() {
-            return (
-              <div id="map" className="tabcontent text-center" style={{display: 'block'}}>
-              <Map initialCenter={{
-            lat: 22.7,
-            lng: 75.4
-          }} google={this.props.google} style={{width: '1130px', height: '500px'}} zoom={6}>
-              {this.props.suppliers.map((supplier, i) =>
-                  <Marker id={i} title={supplier.area_name} name={supplier.name} position={{lat: parseFloat(supplier.latitude), lng: parseFloat(supplier.longitude)}}/>
-              )}
-                </Map>
-                </div>
-            )
+      if (this.props.loading) {
+          return (
+              <Spinner size="large"/>
+          )
+      }else{
+        return (
+          <div id="map" className="tabcontent text-center" style={{display: 'block'}}>
+          <Map initialCenter={{
+        lat: this.props.latitude,
+        lng: this.props.longitude
+      }} google={this.props.google} style={{width: '1130px', height: '500px'}} zoom={6}>
+          {this.props.suppliers.map((supplier, i) =>
+              <Marker id={i} title={supplier.area_name} name={supplier.name} position={{lat: parseFloat(supplier.latitude), lng: parseFloat(supplier.longitude)}}/>
+          )}
+            </Map>
+            </div>
+        )
+      }
     }
 
 
@@ -284,131 +248,6 @@ class Supplier extends Component {
         this.setState({region});
     }
 
-    CheckCheckBox() {
-        alert('I m herer');
-    }
-
-    /*
-    @Method : renderHeader
-    @Params :
-    @Returns : *
-    */
-    renderHeader() {
-        if (this.state.isSearchClicked) {
-            return (
-                <div className="row">
-                    <div className="columns medium-12">
-                        <h1 className="page-title">Search Suppliers</h1>
-                        <p className="information m-t20" style={{"textAlign": "center", position: "relative"}}>
-                        <div className="supplier-search-box">
-                          <input type="text"
-                              className="supplier-search"
-                                 name="searchText"
-                                 value={this.props.searchText}
-                                 onChange={(e) => this.onChangeSearch(e)}
-                                 placeholder="Search"
-                          />
-                          <a href="#"><i onClick={() => {
-                              this.setState({isSearchClicked: false, menuActive: false})
-                              this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
-                          }} className="fa fa-times" aria-hidden="true"></i></a>
-                          </div>
-                        </p>
-                    </div>
-                </div>
-            )
-        } else if (this.state.isFilterShow) {
-            return (
-                <div className="row">
-                    <div className="columns medium-12">
-                        <h1 className="page-title">Search Suppliers
-                            <div className="fr" onClick={() => this.openSearch()}>
-                                <i className="fa fa-search p-l10 gray" aria-hidden="true"></i></div>
-                            <div className="fr filter" onClick={()=>{
-                                this.setState({isFilterShow:true,menuActive:false})
-                            }}>
-                                <i className="fa fa-filter gray" aria-hidden="true"></i>
-                            </div>
-                        </h1>
-                        <div className="filter-box" onClick={() => this.openFilter()}>
-                        <h3 className="popup-heading">Tank Capacity(m3)</h3>
-                            <ul  className="tank-list">
-                                <li className="tank-item"><input
-                                    type="checkbox"
-                                    onChange={() => {
-                                        this.setSupplierFilterValueWithCheckAll()
-                                    }}
-                                    checked={this.state.isCheckedAll}
-                                />All
-                                </li>
-                                <li className="tank-item">
-                                    <input
-                                        onChange={() => {
-                                            this.setSupplierFilterValue(0)
-                                        }}
-                                        checked={this.state.supplierFilterValue[0]}
-                                        type="checkbox"
-                                    />5(m3)
-                                </li>
-                                <li className="tank-item"><input
-                                    type="checkbox"
-                                    onChange={() => {
-                                        this.setSupplierFilterValue(1)
-                                    }}
-                                    checked={this.state.supplierFilterValue[1]}
-                                />12(m3)
-                                </li>
-                                <li className="tank-item"><input
-                                    type="checkbox"
-                                    onChange={() => {
-                                        this.setSupplierFilterValue(2)
-                                    }}
-                                    checked={this.state.supplierFilterValue[2]}
-                                />18(m3)
-                                </li>
-                                <li className="tank-item"><input
-                                    type="checkbox"
-                                    onChange={() => {
-                                        this.setSupplierFilterValue(3)
-                                    }}
-                                    checked={this.state.supplierFilterValue[3]}
-                                />32(m3)
-                                </li>
-                            </ul>
-                            <div className="columns medium-12 m-t30">
-                            <button className="btn act"  onClick={() => {
-                                this.setSupplierFilterCheckBox()
-                            }}>APPLY</button>
-                            <button className="btn act" onClick={() => {
-                                this.cancelSupplierFilterCheckBox()
-                            }}>CANCEL</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )
-        }
-        else {
-            return (
-                <div className="row">
-                    <div className="columns medium-12">
-                        <h1 className="page-title">Search Suppliers
-                            <div className="fr" onClick={() => this.openSearch()}>
-                                <i className="fa fa-search p-l10 gray" aria-hidden="true"></i>
-                            </div>
-                            <div className="fr filter" onClick={()=>{
-                                this.setState({isFilterShow:true,menuActive:false})
-                            }}>
-                                <i className="fa fa-filter gray" aria-hidden="true"></i>
-                            </div>
-                        </h1>
-                    </div>
-                </div>
-            )
-        }
-
-    }
-
     /*
     @Method : renderTab
     @Params :
@@ -477,73 +316,6 @@ class Supplier extends Component {
             )
         }
     }
-
-
-    /*
-    @Method : render
-    @Params :
-    @Returns : *
-    */
-    // render() {
-    //     if (this.props.loading || this.state.isLoading) {
-    //         return (
-    //             <div>
-    //                 <Spinner size="large"/>
-    //             </div>
-    //         )
-    //     } else if (this.state.isMapActive) {
-    //         return (
-    //             <div>
-    //                 <Header/>
-    //                 {this.renderHeader()}
-    //                 <div className="row">
-    //                     <div className="columns medium-12">
-    //                         <div className="card-panel">
-    //                             {this.renderTab()}
-    //                             <div id="map" className="tabcontent text-center" style={{display: "block"}}>
-    //                                 <iframe
-    //                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3132.9347225924394!2d-104.61148568466835!3d38.25781997967432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8713a31fa0b6bf4b%3A0x82d3881a6684aa9e!2sClark+Spring+Water+Co!5e0!3m2!1sen!2sin!4v1521636106302"
-    //                                     width="100%" height="400" style={{border: "0"}}></iframe>
-    //                             </div>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //                 <LedtNavigation/>
-    //             </div>
-    //         )
-    //     } else {
-    //         return (
-    //             <div>
-    //                 <Header/>
-    //                 {this.renderHeader()}
-    //                 <div className="row">
-    //                     <div className="columns medium-12">
-    //                         <div className="card-panel">
-    //                             {this.renderTab()}
-    //                             <ul className="list-items">
-    //                                 {this.props.suppliers.map((supplier, i) =>
-    //                                     <li key={i}><h4>{supplier.name}</h4>
-    //                                         <p className="information m-t20"><span className="details"><i
-    //                                             className="fa fa-map-marker"
-    //                                             aria-hidden="true"></i></span>{supplier.city_name}, {supplier.country_name}
-    //                                             {this.renderLikeButton(supplier, firebase.auth().currentUser)}</p>
-    //                                         <p className="information"><span className="details"><i
-    //                                             className="fa fa-envelope"
-    //                                             aria-hidden="true"></i></span>{supplier.email} </p>
-    //                                         <p className="information"><span className="details"><i
-    //                                             className="fa fa-phone"
-    //                                             aria-hidden="true"></i></span>{supplier.mobile_number} </p></li>
-    //                                 )}
-    //                             </ul>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //                 <LedtNavigation/>
-    //             </div>
-    //         )
-    //     }
-    // }
-
 
     /*
      @Method : renderContent
@@ -615,7 +387,7 @@ class Supplier extends Component {
         if (this.props.suppliers.length > 0) {
             return (
                 <div className="fr" onClick={() => {
-                    this.setState({isSearchClicked: true, menuActive: false})
+                    this.setState({isSearchClicked: true})
                 }}>
                     <i className="fa fa-search p-l10 gray" aria-hidden="true"></i>
                 </div>
@@ -642,26 +414,51 @@ setSupplierFilterCheckBox(){
 
 
 cancelSupplierFilterCheckBox(){
-  if (this.state.isFilterShow) {
-    let tempValue = this.state.supplierFilterValue;
-                if(tempValue[0] == false && tempValue[1] == false && tempValue[2] == false && tempValue[3] == false)
-                {
-                    alert('denger','Please Select Tank Capacity')
-                }
-                else
-                {
-                    this.setState({isFilterShow:false});
-                }
-  }
+    this.setState({isFilterShow:false});
 }
-
-
-
-    renderSliderFilter()
-    {
-        if(this.state.isFilterShow){
-            return(
-              <div className="filter-box" onClick={() => this.openFilter()}>
+    /*
+    @Method : renderHeader
+    @Params :
+    @Returns : *
+    */
+    renderHeader() {
+        if (this.state.isSearchClicked) {
+            return (<div>
+                    <div className="row">
+                        <div className="columns medium-12">
+                            <h1 className="page-title">Search Suppliers</h1>
+                            <div className="supplier-search-box">
+                              <input type="text"
+                              className="supplier-search"
+                                     name="searchText"
+                                     value={this.props.searchText}
+                                     onChange={(e) => this.onChangeSearch(e)}
+                                     placeholder="Search"
+                              />
+                              <a href="#"><i onClick={() => {
+                                  this.setState({isSearchClicked: false})
+                                  this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
+                              }} className="fa fa-times" aria-hidden="true"></i></a>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }else if (this.state.isFilterShow) {
+            return (
+              <div className="row">
+                    <div className="columns medium-12">
+                          <h1 className="page-title">Search Suppliers
+                              <div className="fr">
+                                    <i className="fa fa-search p-l10 gray" aria-hidden="true"></i>
+                              </div>
+                              <div className="fr filter" onClick={()=>{
+                                          this.setState({isFilterShow:true})
+                                      }}>
+                                      <i className="fa fa-filter gray" aria-hidden="true"></i>
+                              </div>
+                        </h1>
+              <div className="filter-box">
               <h3 className="popup-heading">Tank Capacity(m3)</h3>
                   <ul  className="tank-list">
                       <li className="tank-item">
@@ -734,44 +531,8 @@ cancelSupplierFilterCheckBox(){
                   }}>CANCEL</button>
                   </div>
               </div>
-            )
-        }else{
-            return(
-                <div>
-                </div>
-            )
-        }
-
-    }
-
-
-    /*
-    @Method : renderHeader
-    @Params :
-    @Returns : *
-    */
-    renderHeader() {
-        if (this.state.isSearchClicked) {
-            return (<div>
-                    <div className="row">
-                        <div className="columns medium-12">
-                            <h1 className="page-title">Search Suppliers</h1>
-                            <div className="supplier-search-box">
-                              <input type="text"
-                              className="supplier-search"
-                                     name="searchText"
-                                     value={this.props.searchText}
-                                     onChange={(e) => this.onChangeSearch(e)}
-                                     placeholder="Search"
-                              />
-                              <a href="#"><i onClick={() => {
-                                  this.setState({isSearchClicked: false, menuActive: false})
-                                  this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
-                              }} className="fa fa-times" aria-hidden="true"></i></a>
-                              </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
+              </div>
             )
         }
         else {
@@ -781,7 +542,7 @@ cancelSupplierFilterCheckBox(){
                         <h1 className="page-title">Search Suppliers
                             {this.renderSearch()}
                             <div className="fr filter" onClick={() => {
-                                this.setState({isFilterShow: true, menuActive: false})
+                                this.setState({isFilterShow: true})
                             }}>
                                 <i className="fa fa-filter gray" aria-hidden="true"></i>
                             </div>
@@ -796,7 +557,6 @@ cancelSupplierFilterCheckBox(){
         return (
             <div>
                 <Header/>
-                {this.renderSliderFilter()}
                 {this.renderHeader()}
                 <div className="row">
                     <div className="columns medium-12">
