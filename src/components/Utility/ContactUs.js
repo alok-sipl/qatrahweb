@@ -349,9 +349,10 @@ class ContactUs extends Component {
     render() {
         return (
             <div>
-                <Header/>
                 <div className="row">
                     <div className="columns medium-12">
+                    <Header/>
+
                         <h1 className="page-title">Contact Us</h1>
                     </div>
                 </div>

@@ -7,10 +7,13 @@ import  {createStore,applyMiddleware} from 'redux';
 import  ReduxThunk from 'redux-thunk';
 import  reducers from './reducers';
 let     store = createStore(reducers,{},applyMiddleware(ReduxThunk));
+import { BrowserRouter as Router, Route, Link ,Redirect} from "react-router-dom";
+
 
 
 class App extends Component {
-
+    
+state ={isLoaggedOut:false}
     componentWillMount()
     {
         const config = {
@@ -25,12 +28,17 @@ class App extends Component {
         if (!firebase.apps.length) {
             firebase.initializeApp(config);
         }
+
     }
+
+
+
+  
 
     render() {
         return (
             <Provider store={store}  >
-                <div >
+                <div style={{overflow:'hidden'}} >
                     <RouterComponent/>
                 </div>
             </Provider>

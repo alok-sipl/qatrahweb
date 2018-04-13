@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Link, Prompt,Redirect } from "react-rou
 
 class ForgotPassword extends Component{
 
-    state = {isLoaded: true, validationError: '', isSubmitted: false,showFooter:true};
+    state = {isLoaded: true,isRedirectHome:false, validationError: '', isSubmitted: false,showFooter:true};
 
     constructor(props) {
         super(props);
@@ -32,8 +32,7 @@ class ForgotPassword extends Component{
             {
                 if(user.emailVerified)
                 {
-                    // this.setState({isRedirectHome:true});
-                    window.location.href = "/Home";
+                    this.setState({isRedirectHome:true});
 
                 }
             }
@@ -139,6 +138,9 @@ class ForgotPassword extends Component{
             return (
                 <Spinner size="large"/>
             )
+        }
+        else if (this.state.isRedirectHome == true) {
+            return <Redirect to='/home'/>;
         }
         else{
 

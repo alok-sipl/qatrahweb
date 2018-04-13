@@ -421,6 +421,32 @@ export const getDevicesByDeviceId=(device_id)=>{
 
 
 /*
+   @Method : getDevicesByDeviceIdForEditDevice
+   @Params :
+   @Returns : *
+   */
+  export const getDevicesByDeviceIdForEditDevice=(device_id,callback)=>{
+    return (dispatch) => {
+        dispatch({type: LOADER_START})
+        const {currentUser} = firebase.auth();
+        let ref = firebase.database().ref(`/devices/${currentUser.uid}`);
+        ref.orderByChild("device_id").equalTo(`${device_id}`).on("value", snapshot => {
+           let deviceData = "";
+            _.map(snapshot.val(),(val,uid)=>{
+                val.uid = uid;
+                if(val.device_id)
+                {
+                    deviceData = val;
+
+                }
+            });
+            callback(deviceData);
+        });
+    };
+}
+
+
+/*
    @Method : updateDeviceDetailsByBlutooth
    @Params :
    @Returns : *

@@ -33,8 +33,7 @@ class Login extends Component {
             {
                 if(user.emailVerified)
                 {
-                   // this.setState({isRedirectHome:true});
-                    window.location.href = "/Home";
+                   this.setState({isRedirectHome:true});
 
                 }
             }

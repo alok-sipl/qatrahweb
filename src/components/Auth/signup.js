@@ -16,7 +16,7 @@ import firebase from 'firebase';
 
 
 class Signup extends Component {
-    state = {isLoaded: false, validationError: '', isRedirectCongrats:false,secureTextEntry: true, isSubmitted: false, showFooter: true};
+    state = {isRedirectHome:false,isLoaded: true, validationError: '', isRedirectCongrats:false,secureTextEntry: true, isSubmitted: false, showFooter: true};
 
     constructor(props) {
         super(props);
@@ -39,8 +39,7 @@ class Signup extends Component {
             {
                 if(user.emailVerified)
                 {
-                    // this.setState({isRedirectHome:true});
-                    window.location.href = "/Home";
+                    this.setState({isRedirectHome:true});
 
                 }
             }
@@ -406,6 +405,9 @@ class Signup extends Component {
             return (
                 <Spinner size="large"/>
             )
+        }
+        else if (this.state.isRedirectHome == true) {
+            return <Redirect to='/home'/>;
         }
         else if(this.state.isRedirectCongrats == true){
             return <RegistrationSuccess  />;

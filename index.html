@@ -8,15 +8,50 @@
     <meta name="keywords" content="DR Reports"><meta charset="utf-8">
     <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:200,200i,300,300i,400,400i,600,600i,700,700i,900&amp;subset=latin-ext" rel="stylesheet">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgl1GwebuB9n6gz7k2wbWpZ4xDca4NDq0&libraries=places"></script>
+    <link rel="stylesheet" href="https://saeedalipoor.github.io/icono/icono.min.css">
+
+
+
+    <link rel="stylesheet" href="public/style/react-drawer.css">
+
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="public/style/style.css">
     <link rel="stylesheet" href="public/style/grid.css">
     <link rel="stylesheet" href="public/style/datepicker.css">
 
+
     <script type="text/javascript" rel="dns-prefetch" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="public/js/plugins.js"></script>
-    <script src="public/js/site.js"></script>
+
   </head>
+  <style type="text/css">
+    /* Navigation */
+    body{margin: 0px;}
+    .sidenav {max-width: 400px;}
+    .user {background: #18aff5;}
+    .user a {text-overflow: ellipsis; white-space: nowrap; overflow: hidden; color: inherit; line-height: 20px; display: block; padding: 1rem 20px 1rem 20px; margin: 0; font-size: 1.150rem; } 
+    .user a span {margin-left: 20px;}
+    .sidenav-list{padding-left: 0px; }
+    .sidenav-list .user{list-style: none;} 
+    .sidenav-list .list-item {list-style: none; padding:0; background: #fff;    font-family: 'Titillium Web', sans-serif !important;}
+    .sidenav-list .list-item a:hover {background: #18aff5; color: #fff;}
+    .sidenav-list .list-item a{color: #8893a0 !important;text-overflow: ellipsis; white-space: nowrap; overflow: hidden; color: inherit; line-height: 20px; display: block; padding: 1rem 10px 1rem 20px; margin: 0; font-size: 1.150rem; text-decoration: none;transition: all ease-in 300ms;} 
+    .sidenav-list .list-item a i {color: #18aff5;font-size: 24px; display: inline-block; width: 30px; vertical-align: middle; margin-right: 9px;} 
+    .sidenav-list .list-item a:hover{color: #fff !important;}
+    .close-menu{margin-top: 21px;}
+    .sidenav-list .list-item:hover a i {color: #fff;}
+    .user {background: #18aff5; }
+    .user a{color: #fff !important;    text-decoration: none; border-bottom: 1px solid #ccedfc;    font-family: 'Titillium Web', sans-serif !important;}
+    .user .user-name {margin-top: -40px; position: relative; top: -22px;}
+    .user a span{margin-left: 20px;}
+    /* Navigation end */
+    /* search box */
+    .search-box{position: relative;}
+    .search::after {content: ""; clear: both; display: table; }
+    .search {padding: 12px 15px 12px 15px; border-radius: 25px; box-shadow: none; border-style: solid !important; border-width: 1px !important; border-color: #b8b8b8 !important; width: 100%; }
+    .search-box i {position: absolute; right: 18px; top: 12px; color: #bababa; }
+    .search:focus {outline: none;}
+    </style>
   <body>
     <div id="wrapper" class="mm-page"></div>
   </body>

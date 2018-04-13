@@ -7,7 +7,7 @@ import firebase from 'firebase';
 import Header from '../templates/header'
 import LedtNavigation from '../templates/left_navigation';
 import CircularProgressbar from 'react-circular-progressbar';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link,Redirect } from "react-router-dom";
 
 
 
@@ -16,7 +16,7 @@ const divStyle = {
 };
 
 class Home extends Component {
-    state = {menuActive: false,isSearchClicked:false,isLoading:true,searchText:""};
+    state = {isLoaggedOut:false,menuActive: false,isSearchClicked:false,isLoading:true,searchText:""};
     /*
 @Method : componentWillMount
 @Params :
@@ -33,6 +33,14 @@ class Home extends Component {
                     this.props.getDevices();
                     this.props.getUserDetails();
                 }
+                else{
+                    this.setState({isLoaggedOut:true});
+
+                }
+            
+            }
+            else{
+                this.setState({isLoaggedOut:true});
             }
         });
 
@@ -349,7 +357,11 @@ class Home extends Component {
 @Returns : *
 */
     renderContent(){
-        if(this.props.loading || this.state.isLoading )
+        if(this.state.isLoaggedOut == true){
+            return <Redirect to={"login"} />;
+
+        }
+        else if(this.props.loading || this.state.isLoading )
         {
             return (
                 <div>
@@ -360,8 +372,15 @@ class Home extends Component {
         else if(this.props.deviceData.length == 0)
         {
             return(
+                <div className="row">
+
+                    <div className="columns medium-12">
+                    <Header/>
+
                 <div style={styles.noRecordStyle}>
                     Your device has not been registered in the app.Please purchase device and registered it or visit our website www.qatrah.com to purchase.
+                </div>
+                </div>
                 </div>
             )
         }
@@ -369,7 +388,9 @@ class Home extends Component {
             return (
                 <div className="row">
                     <div className="columns medium-12">
+                    <Header/>
                         <h1 className="page-title">Dashboard</h1>
+
 
                         {this.renderLastGridData()}
                         {this.renderListViewData()}
@@ -395,9 +416,7 @@ class Home extends Component {
     {
             return (
                 <div>
-                    <Header/>
                     {this.renderContent()}
-                    <LedtNavigation/>
                 </div>
             )
 

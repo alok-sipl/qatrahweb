@@ -6,18 +6,9 @@ class Logout extends Component {
     state = {isLoaggedOut:false};
     constructor(props) {
         super(props)
-        this.state.isLoaggedOut = false;
     }
 
-    doSignOut = () => {
-        firebase.auth().signOut().then(function() {
-         
-        }, function(error) {
-
-      });
-      
-
-    }
+  
     componentWillMount(){
     
     }
@@ -28,9 +19,9 @@ class Logout extends Component {
         }
         else{
             return (
-                <Link to="" onClick={()=>{
+                <a onClick={()=>{
                   this.doSignOut()
-                }} href="" ><i className="fa fa-sign-out" ></i>Logout</Link>      
+                }}  ><i className="fa fa-sign-out" ></i>Logout</a>      
               )
         }
       

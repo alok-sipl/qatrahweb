@@ -67,6 +67,7 @@ class NotificationSetting extends Component {
                 <div>
                     <div className="row">
                         <div className="columns medium-12">
+                        <Header/>
                             <h1 className="page-title">Notification Settings</h1>
                         </div>
                     </div>
@@ -105,7 +106,6 @@ class NotificationSetting extends Component {
 
         return (
             <div>
-                <Header/>
                 {this.renderContent()}
                 <LedtNavigation/>
             </div>

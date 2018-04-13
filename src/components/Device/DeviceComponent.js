@@ -6,10 +6,12 @@ import {getDevices,getSearchDeviceList} from '../../actions';
 import _ from 'lodash';
 import firebase from 'firebase';
 import {Spinner} from '../common';
+import { BrowserRouter as Router, Route, Link,Redirect } from "react-router-dom";
+
 
 
 class DeviceComponent extends Component {
-  state = {menuActive: false,isSearchClicked:false,searchText:"",isLoading:true};
+  state = {isLoaggedOut:false,menuActive: false,isSearchClicked:false,searchText:"",isLoading:true};
   componentWillMount() {
       firebase.auth().onAuthStateChanged((user)=>
       {
@@ -20,7 +22,15 @@ class DeviceComponent extends Component {
               {
                   this.props.getDevices();
               }
+              else{
+                this.setState({isLoaggedOut:true});
+
+              }
           }
+          else{
+            this.setState({isLoaggedOut:true});
+        }
+          
       });
 
   }
@@ -66,7 +76,8 @@ DeviceDetailsInnerView() {
         console.log(val);
 
   return (
-          <div className="row" key={i}>
+    <Link to={`/edit-device/${device_id}`}>
+        <div className="row" key={i}>
               <div className="columns medium-12">
                   <ul className="list-items">
                       <li>
@@ -78,16 +89,25 @@ DeviceDetailsInnerView() {
 
               </div>
           </div>
+
+    </Link>
+    
           );
         });
       }
     }
   render() {
+    if(this.state.isLoaggedOut == true){
+        return <Redirect to={"login"} />;
+
+    }
+    else{
         return (
             <div>
-                <Header />
                 <div className="row">
                     <div className="columns medium-12">
+                    <Header />
+
                         <h1 className="page-title">My Devices</h1>
                     </div>
                 </div>
@@ -97,6 +117,8 @@ DeviceDetailsInnerView() {
                 <LedtNavigation />
             </div>
         )
+    }
+   
 
 }
 }

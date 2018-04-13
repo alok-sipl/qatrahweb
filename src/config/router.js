@@ -9,7 +9,7 @@ import RegistrationVerification from '../components/Auth/registration_verificati
 import Home from '../components/Home/Home';
 import Profile from '../components/Auth/profile';
 import AddDevice from '../components/add_device';
-import EditDevice from '../components/edit_device';
+import EditDevice from '../components/Device/EditDeviceComponent';
 import DeviceDetail from '../components/device_detail';
 import DeviceComponent from '../components/Device/DeviceComponent';
 import History from '../components/Device/History';
@@ -40,7 +40,7 @@ export default class Router extends Component{
                             <Route path="/home" component={Home} />
                             <Route path="/profile" component={Profile} />
                             <Route path="/add-device" component={AddDevice} />
-                            <Route path="/edit-device" component={EditDevice} />
+                            <Route path="/edit-device/:device_id" component={EditDevice} />
                             <Route path="/view-device" component={DeviceDetail} />
                             <Route path="/device" component={DeviceComponent} />
                             <Route path="/history" component={History} />

@@ -586,9 +586,9 @@ renderErrorTitle = (isSubmitted,value)=>
 render() {
     return (
         <div>
-            <Header />
             <div className="row">
                 <div className="columns medium-12">
+                <Header />
                 <h1 className="page-title">Reminder Settings</h1>
                 </div>
             </div>

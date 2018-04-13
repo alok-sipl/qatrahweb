@@ -386,9 +386,10 @@ render() {
   {
     return (
       <div style={styles.containerBackgroundColor}>
-      <Header />
       <div className="row">
       <div className="columns medium-12">
+      <Header />
+
       <h1 className="page-title">My Profile</h1>
       </div>
       </div>
