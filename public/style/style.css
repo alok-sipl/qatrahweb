@@ -301,8 +301,9 @@ footer .copyright{text-align: center; background-color: #2eb9f9; padding: 12px 0
 }
 
 /* Change background color of buttons on hover */
-.tab button:hover {
-    background-color: #ebf9ff;
+.tab button:hover, .tab button.active, .tab button:focus  {
+  background-color: #2eb9f9;
+  color: #fff !important;
 }
 
 /* Create an active/current tablink class */
@@ -417,8 +418,8 @@ input:checked + .slider:before {
 .my-profile p {font-size: 19px; color: #fff; margin-top: 16px; }
 .profile-details i{color: #0facf3;margin-right: 10px;}
 .profile-details p{margin-left: 30px;}
-.filter-box {background: #fff; padding: 28px; max-width: 400px; width: 100%; position: absolute; z-index: 99; right: 0; border-radius: 20px;}
-.filter-box:before {position:  absolute; content:  ''; border-left: 25px solid transparent; border-right: 25px solid transparent; border-bottom: 50px solid #ffffff; right: 12px; top: -23px; }
+.filter-box {background: #fff;top: 24%; right: 3% !important; padding: 28px; max-width: 350px; width: 100%; position: absolute; z-index: 99; right: 0; border-radius: 20px;box-shadow: 2px 1px 7px 5px #ddeff7;}
+.filter-box:before { position: absolute; right: 40px; top: -35px; color: #fbfbfe; font: normal normal normal 51px/1 FontAwesome; content: "\f0d8"; text-shadow: 0px -4px #ddeff7; }
 
 @media screen and (max-width: 1024px) {
     .logo { padding-left: 7px; }
@@ -518,3 +519,32 @@ input:checked + .slider:before {
 .CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-trail {
     stroke: transparent;
 }
+
+
+/* search box */
+.supplier-search-box{}
+.search::after {content: ""; clear: both; display: table; }
+.supplier-search {position: relative;    margin-bottom: 20px !important; padding: 12px 15px 12px 15px; border-radius: 25px; box-shadow: none; border-style: solid !important; border-width: 1px !important; border-color: #b8b8b8 !important; width: 100%; }
+.supplier-search-box i {position: absolute;color: #bababa;top: 99px; left: 63%; }
+.search:focus {outline: none;}
+
+/* filter pop up css*/
+.checkbox-wrapper {display: block; position: relative; padding-left: 35px; margin-bottom: 12px; cursor: pointer; font-size: 20px; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;    color: #8893a0;}
+/* Hide the browser's default checkbox */
+.checkbox-wrapper input {position: absolute; opacity: 0; cursor: pointer;}
+/* Create a custom checkbox */
+.checkmark {position: absolute; top: 4px; left: 0; height: 25px; width: 25px; background-color: #eee;}
+/* On mouse-over, add a grey background color */
+.checkbox-wrapper:hover input ~ .checkmark {background-color: #ccc;}
+/* When the checkbox is checked, add a blue background */
+.checkbox-wrapper input:checked ~ .checkmark {background-color: #18aff5;}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {content: ""; position: absolute; display: none;}
+/* Show the checkmark when checked */
+.checkbox-wrapper input:checked ~ .checkmark:after {display: block;}
+/* Style the checkmark/indicator */
+.checkbox-wrapper .checkmark:after {left: 9px; top: 5px; width: 5px; height: 10px; border: solid white; border-width: 0 3px 3px 0; -webkit-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg);}
+.tank-list .tank-item {list-style: none; padding: 16px 0px 3px 0px; border-bottom: 1px solid #cfcfcf;}
+.popup-heading{color: #8893a0; text-align: center; margin-bottom: 30px; font-size: 22px;}
+.act {color: #18aff5;font-weight: bold; font-size: 18px;background: transparent;}
+.act:hover, .act:focus {color: #077ab2; background: transparent;}

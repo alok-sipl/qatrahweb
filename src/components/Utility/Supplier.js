@@ -7,6 +7,9 @@ import LedtNavigation from './../templates/left_navigation';
 import _ from 'lodash';
 import {Spinner} from '../common';
 import CircularProgressbar from 'react-circular-progressbar';
+import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+
+const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class Supplier extends Component {
 
@@ -130,6 +133,7 @@ class Supplier extends Component {
 */
     onChangeSearch(text) {
         if (text) {
+          text = text.target.value;
             this.setState({searchText: this.removeInvalidChars(text)});
             this.filter(this.removeInvalidChars(text));
         }
@@ -179,14 +183,21 @@ class Supplier extends Component {
     @Returns : *
     */
     renderMarkers() {
-        return _.map(this.props.suppliers, (marker, i) => {
-            let latitude = parseFloat(marker.latitude);
-            let longitude = parseFloat(marker.longitude);
             return (
-                <div></div>
+              <div id="map" className="tabcontent text-center" style={{display: 'block'}}>
+              <Map initialCenter={{
+            lat: 22.7,
+            lng: 75.4
+          }} google={this.props.google} style={{width: '1130px', height: '500px'}} zoom={6}>
+              {this.props.suppliers.map((supplier, i) =>
+                  <Marker id={i} title={supplier.area_name} name={supplier.name} position={{lat: parseFloat(supplier.latitude), lng: parseFloat(supplier.longitude)}}/>
+              )}
+                </Map>
+                </div>
             )
-        });
     }
+
+
 
     renderLikeButton(supplier, uid) {
         if (supplier.is_fav) {
@@ -286,20 +297,23 @@ class Supplier extends Component {
         if (this.state.isSearchClicked) {
             return (
                 <div className="row">
-                    <div className="columns medium-8">
+                    <div className="columns medium-12">
                         <h1 className="page-title">Search Suppliers</h1>
                         <p className="information m-t20" style={{"textAlign": "center", position: "relative"}}>
-                            <input type="text"
-                                   name="searchText"
-                                   value={this.props.searchText}
-                                   onChange={() => this.onChangeSearch(e)}
-                                   placeholder="Search"
-                            />
+                        <div className="supplier-search-box">
+                          <input type="text"
+                              className="supplier-search"
+                                 name="searchText"
+                                 value={this.props.searchText}
+                                 onChange={(e) => this.onChangeSearch(e)}
+                                 placeholder="Search"
+                          />
+                          <a href="#"><i onClick={() => {
+                              this.setState({isSearchClicked: false, menuActive: false})
+                              this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
+                          }} className="fa fa-times" aria-hidden="true"></i></a>
+                          </div>
                         </p>
-                    </div>
-                    <div className="columns medium-4">
-                        <i onClick={() => this.closeSearch()} className="fa fa-times"
-                           style={{position: "absolute", top: "17", right: "24"}} aria-hidden="true"></i>
                     </div>
                 </div>
             )
@@ -317,8 +331,9 @@ class Supplier extends Component {
                             </div>
                         </h1>
                         <div className="filter-box" onClick={() => this.openFilter()}>
-                            <ul>
-                                <li><input
+                        <h3 className="popup-heading">Tank Capacity(m3)</h3>
+                            <ul  className="tank-list">
+                                <li className="tank-item"><input
                                     type="checkbox"
                                     onChange={() => {
                                         this.setSupplierFilterValueWithCheckAll()
@@ -326,7 +341,7 @@ class Supplier extends Component {
                                     checked={this.state.isCheckedAll}
                                 />All
                                 </li>
-                                <li>
+                                <li className="tank-item">
                                     <input
                                         onChange={() => {
                                             this.setSupplierFilterValue(0)
@@ -335,7 +350,7 @@ class Supplier extends Component {
                                         type="checkbox"
                                     />5(m3)
                                 </li>
-                                <li><input
+                                <li className="tank-item"><input
                                     type="checkbox"
                                     onChange={() => {
                                         this.setSupplierFilterValue(1)
@@ -343,7 +358,7 @@ class Supplier extends Component {
                                     checked={this.state.supplierFilterValue[1]}
                                 />12(m3)
                                 </li>
-                                <li><input
+                                <li className="tank-item"><input
                                     type="checkbox"
                                     onChange={() => {
                                         this.setSupplierFilterValue(2)
@@ -351,7 +366,7 @@ class Supplier extends Component {
                                     checked={this.state.supplierFilterValue[2]}
                                 />18(m3)
                                 </li>
-                                <li><input
+                                <li className="tank-item"><input
                                     type="checkbox"
                                     onChange={() => {
                                         this.setSupplierFilterValue(3)
@@ -360,12 +375,14 @@ class Supplier extends Component {
                                 />32(m3)
                                 </li>
                             </ul>
-                            <button onClick={() => {
+                            <div className="columns medium-12 m-t30">
+                            <button className="btn act"  onClick={() => {
                                 this.setSupplierFilterCheckBox()
                             }}>APPLY</button>
-                            <button onClick={() => {
+                            <button className="btn act" onClick={() => {
                                 this.cancelSupplierFilterCheckBox()
                             }}>CANCEL</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -401,12 +418,12 @@ class Supplier extends Component {
         if (this.state.isMapActive) {
             return (
                 <div className="tab">
-                    <button className="tablinks" onClick={(event) => {
-                        this.openCity(event, 'map')
+                    <button className="tablinks" onClick={() => {
+                        this.setState({isMapActive:true})
                     }}>Map View
                     </button>
-                    <button className="tablinks" onClick={(event) => {
-                        this.openCity(event.target.value, 'list')
+                    <button className="tablinks" onClick={() => {
+                        this.setState({isMapActive:true})
                     }}>List View
                     </button>
                 </div>
@@ -414,12 +431,12 @@ class Supplier extends Component {
         } else {
             return (
                 <div className="tab">
-                    <button className="tablinks" onClick={(event) => {
-                        this.openCity(event, 'map')
+                    <button className="tablinks" onClick={() => {
+                        this.setState({isMapActive:true})
                     }}>Map View
                     </button>
-                    <button className="tablinks" onClick={(event) => {
-                        this.openCity(event.target.value, 'list')
+                    <button className="tablinks" onClick={() => {
+                        this.setState({isMapActive:true})
                     }}>List View
                     </button>
                 </div>
@@ -537,10 +554,10 @@ class Supplier extends Component {
         if (this.state.isMapActive) {
             return (
                 <div className="tab">
-                    <button style={{color: '#949eaa'}} className="tablinks" onclick={() => {
+                    <button style={{color: '#949eaa'}} className="tablinks" onClick={() => {
                         this.setState({isMapActive: true})
                     }}><span>Map View</span></button>
-                    <button style={{color: '#2eb9f9'}} className="tablinks" onclick={() => {
+                    <button style={{color: '#2eb9f9'}} className="tablinks" onClick={() => {
                         this.setState({isMapActive: false})
                     }}><span>List View</span></button>
                 </div>
@@ -549,10 +566,10 @@ class Supplier extends Component {
         else {
             return (
                 <div className="tab">
-                    <button style={{color: '#949eaa'}} className="tablinks" onclick={() => {
+                    <button style={{color: '#949eaa'}} className="tablinks" onClick={() => {
                         this.setState({isMapActive: true})
                     }}><span>Map View</span></button>
-                    <button style={{color: '#2eb9f9'}} className="tablinks" onclick={() => {
+                    <button style={{color: '#2eb9f9'}} className="tablinks" onClick={() => {
                         this.setState({isMapActive: false})
                     }}><span>List View</span></button>
                 </div>
@@ -563,7 +580,7 @@ class Supplier extends Component {
 
 
     /*
-       @Method : renderMarkers
+       @Method : renderListItem
        @Params :
        @Returns : *
        */
@@ -644,57 +661,79 @@ cancelSupplierFilterCheckBox(){
     {
         if(this.state.isFilterShow){
             return(
-                <div className="filter-box" onClick={() => this.openFilter()}>
-                    <ul>
-                        <li><input
-                            type="checkbox"
-                            onChange={() => {
-                                this.setSupplierFilterValueWithCheckAll()
-                            }}
-                            checked={this.state.isCheckedAll}
-                        />All
-                        </li>
-                        <li>
-                            <input
-                                onChange={() => {
-                                    this.setSupplierFilterValue(0)
-                                }}
-                                checked={this.state.supplierFilterValue[0]}
-                                type="checkbox"
-                            />5(m3)
-                        </li>
-                        <li><input
-                            type="checkbox"
-                            onChange={() => {
-                                this.setSupplierFilterValue(1)
-                            }}
-                            checked={this.state.supplierFilterValue[1]}
-                        />12(m3)
-                        </li>
-                        <li><input
-                            type="checkbox"
-                            onChange={() => {
-                                this.setSupplierFilterValue(2)
-                            }}
-                            checked={this.state.supplierFilterValue[2]}
-                        />18(m3)
-                        </li>
-                        <li><input
-                            type="checkbox"
-                            onChange={() => {
-                                this.setSupplierFilterValue(3)
-                            }}
-                            checked={this.state.supplierFilterValue[3]}
-                        />32(m3)
-                        </li>
-                    </ul>
-                    <button onClick={() => {
-                        this.setSupplierFilterCheckBox()
-                    }}>APPLY</button>
-                    <button onClick={() => {
-                        this.cancelSupplierFilterCheckBox()
-                    }}>CANCEL</button>
-                </div>
+              <div className="filter-box" onClick={() => this.openFilter()}>
+              <h3 className="popup-heading">Tank Capacity(m3)</h3>
+                  <ul  className="tank-list">
+                      <li className="tank-item">
+                      <label className="checkbox-wrapper">All
+                      <input
+                          type="checkbox"
+                          onChange={() => {
+                              this.setSupplierFilterValueWithCheckAll()
+                          }}
+                          checked={this.state.isCheckedAll}
+                      />
+                      <span className="checkmark"></span>
+                      </label>
+                      </li>
+                      <li className="tank-item">
+                      <label className="checkbox-wrapper">5(m3)
+                          <input
+                              onChange={() => {
+                                  this.setSupplierFilterValue(0)
+                              }}
+                              checked={this.state.supplierFilterValue[0]}
+                              type="checkbox"
+                          />
+                          <span className="checkmark"></span>
+                          </label>
+                      </li>
+                      <li className="tank-item">
+                      <label className="checkbox-wrapper">12(m3)
+                      <input
+                          type="checkbox"
+                          onChange={() => {
+                              this.setSupplierFilterValue(1)
+                          }}
+                          checked={this.state.supplierFilterValue[1]}
+                      />
+                      <span className="checkmark"></span>
+                      </label>
+                      </li>
+                      <li className="tank-item">
+                      <label className="checkbox-wrapper">18(m3)
+                      <input
+                          type="checkbox"
+                          onChange={() => {
+                              this.setSupplierFilterValue(2)
+                          }}
+                          checked={this.state.supplierFilterValue[2]}
+                      />
+                      <span className="checkmark"></span>
+                      </label>
+                      </li>
+                      <li className="tank-item">
+                      <label className="checkbox-wrapper">11(m3)
+                      <input
+                          type="checkbox"
+                          onChange={() => {
+                              this.setSupplierFilterValue(3)
+                          }}
+                          checked={this.state.supplierFilterValue[3]}
+                      />
+                      <span className="checkmark"></span>
+                      </label>
+                      </li>
+                  </ul>
+                  <div className="columns medium-12 m-t30">
+                  <button className="btn act"  onClick={() => {
+                      this.setSupplierFilterCheckBox()
+                  }}>APPLY</button>
+                  <button className="btn act fr" onClick={() => {
+                      this.cancelSupplierFilterCheckBox()
+                  }}>CANCEL</button>
+                  </div>
+              </div>
             )
         }else{
             return(
@@ -717,18 +756,19 @@ cancelSupplierFilterCheckBox(){
                     <div className="row">
                         <div className="columns medium-12">
                             <h1 className="page-title">Search Suppliers</h1>
-                            <input type="text"
-                                   name="searchText"
-                                   value={this.props.searchText}
-                                   onChange={(e) => this.onChangeSearch(e)}
-                                   placeholder="Search"
-                            />
-
-                            <i onClick={() => {
-                                this.setState({isSearchClicked: false, menuActive: false})
-                                this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
-                            }} className="fa fa-times"
-                               style={{position: "absolute", top: "17", right: "24"}} aria-hidden="true"></i>
+                            <div className="supplier-search-box">
+                              <input type="text"
+                              className="supplier-search"
+                                     name="searchText"
+                                     value={this.props.searchText}
+                                     onChange={(e) => this.onChangeSearch(e)}
+                                     placeholder="Search"
+                              />
+                              <a href="#"><i onClick={() => {
+                                  this.setState({isSearchClicked: false, menuActive: false})
+                                  this.props.getSearchSupplier([true, true, true, true], '-L82T1vm2EaoP8-bssF0', '-L8XdAiPQ3e-mUfjp2P6');
+                              }} className="fa fa-times" aria-hidden="true"></i></a>
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -791,14 +831,11 @@ const
     };
 
 
-export default connect(mapStateToProps, {
-    getSuppliers,
+export default connect(mapStateToProps,
+    {getSuppliers,
     likeSupplier,
     getLocalSearchSupplierList,
-    getSearchSupplier
-})
-
-(
-    Supplier
-)
-;
+    getSearchSupplier}
+)(GoogleApiWrapper({
+    apiKey: ('AIzaSyAvFpr7G5Gfl6FW8_bU9APcr4Q9rFWJjX0')
+})(Supplier));
