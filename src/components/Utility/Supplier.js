@@ -8,6 +8,8 @@ import _ from 'lodash';
 import {Spinner} from '../common';
 import CircularProgressbar from 'react-circular-progressbar';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import {showToast} from '../../actions/types';
+
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
@@ -23,11 +25,29 @@ class Supplier extends Component {
             isCheckedAll: true,
             latitude: 23.8859,
             longitude: 45.0792,
-            supplierFilterValue: [true, true, true, true]
+            isLoading: true,
+            supplierFilterValue: [true, true, true, true],
+            showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {}
         }
     }
 
+    onMarkerClick = (props, marker, e) =>
+        this.setState({
+          selectedPlace: props,
+          activeMarker: marker,
+          showingInfoWindow: true
+        });
 
+      onMapClicked = (props) => {
+        if (this.state.showingInfoWindow) {
+          this.setState({
+            showingInfoWindow: false,
+            activeMarker: null
+          })
+        }
+      };
 
     /*
 @Method : componentWillMount
@@ -141,21 +161,30 @@ class Supplier extends Component {
     @Returns : *
     */
     renderMarkers() {
-      if (this.props.loading) {
+      if (this.props.loading || this.state.isLoading) {
           return (
               <Spinner size="large"/>
           )
       }else{
         return (
-          <div id="map" className="tabcontent text-center" style={{display: 'block'}}>
-          <Map initialCenter={{
-        lat: this.props.latitude,
-        lng: this.props.longitude
-      }} google={this.props.google} style={{width: '1130px', height: '500px'}} zoom={6}>
-          {this.props.suppliers.map((supplier, i) =>
-              <Marker id={i} title={supplier.area_name} name={supplier.name} position={{lat: parseFloat(supplier.latitude), lng: parseFloat(supplier.longitude)}}/>
-          )}
-            </Map>
+          <div className="mpa-container" style={{height: '450px'}}>
+            <div id="map" className="tabcontent text-center" style={{display: 'block'}}>
+            <Map initialCenter={{
+          lat: this.props.latitude,
+          lng: this.props.longitude
+        }} google={this.props.google} zoom={6} style={{width: '1130px'}}>
+            {this.props.suppliers.map((supplier, i) =>
+                <Marker onClick={this.onMarkerClick} key={i}  name={supplier.name + " " + supplier.area_name + ", " + supplier.city_name} position={{lat: parseFloat(supplier.latitude), lng: parseFloat(supplier.longitude)}}/>
+            )}
+            <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}>
+              <div>
+                <h3>{this.state.selectedPlace.name}</h3>
+              </div>
+          </InfoWindow>
+              </Map>
+              </div>
             </div>
         )
       }
@@ -254,29 +283,29 @@ class Supplier extends Component {
     @Returns : *
     */
     renderTab() {
-        if (this.state.isMapActive) {
+        if (!this.state.isMapActive) {
             return (
                 <div className="tab">
                     <button className="tablinks" onClick={() => {
                         this.setState({isMapActive:true})
-                    }}>Map View
-                    </button>
-                    <button className="tablinks" onClick={() => {
-                        this.setState({isMapActive:true})
                     }}>List View
+                    </button>
+                    <button className="tablinks active" onClick={() => {
+                        this.setState({isMapActive:true})
+                    }}>Map View
                     </button>
                 </div>
             )
         } else {
             return (
                 <div className="tab">
-                    <button className="tablinks" onClick={() => {
+                    <button className="tablinks active" onClick={() => {
                         this.setState({isMapActive:true})
-                    }}>Map View
+                    }}>List View
                     </button>
                     <button className="tablinks" onClick={() => {
                         this.setState({isMapActive:true})
-                    }}>List View
+                    }}>Map View
                     </button>
                 </div>
             )
@@ -326,24 +355,24 @@ class Supplier extends Component {
         if (this.state.isMapActive) {
             return (
                 <div className="tab">
-                    <button style={{color: '#949eaa'}} className="tablinks" onClick={() => {
-                        this.setState({isMapActive: true})
-                    }}><span>Map View</span></button>
                     <button style={{color: '#2eb9f9'}} className="tablinks" onClick={() => {
                         this.setState({isMapActive: false})
                     }}><span>List View</span></button>
+                    <button style={{color: '#949eaa'}} className="tablinks active" onClick={() => {
+                        this.setState({isMapActive: true})
+                    }}><span>Map View</span></button>
                 </div>
             );
         }
         else {
             return (
                 <div className="tab">
+                    <button style={{color: '#2eb9f9'}} className="tablinks active"  onClick={() => {
+                        this.setState({isMapActive: false})
+                    }}><span>List View</span></button>
                     <button style={{color: '#949eaa'}} className="tablinks" onClick={() => {
                         this.setState({isMapActive: true})
                     }}><span>Map View</span></button>
-                    <button style={{color: '#2eb9f9'}} className="tablinks" onClick={() => {
-                        this.setState({isMapActive: false})
-                    }}><span>List View</span></button>
                 </div>
             );
         }
@@ -401,7 +430,7 @@ setSupplierFilterCheckBox(){
     let tempValue = this.state.supplierFilterValue;
                 if(tempValue[0] == false && tempValue[1] == false && tempValue[2] == false && tempValue[3] == false)
                 {
-                    alert('denger','Please Select Tank Capacity')
+                    showToast('denger','Please Select Tank Capacity')
 
                 }
                 else
@@ -553,6 +582,23 @@ cancelSupplierFilterCheckBox(){
         }
     }
 
+    renderContentData(){
+      if (this.props.loading || this.state.isLoading) {
+          return (
+              <Spinner size="large"/>
+          )
+      }
+      else{
+        return (
+          <div className="card-panel">
+              {this.renderNavigatorButtons()}
+              {this.renderMapOrListData()}
+          </div>
+        )
+      }
+
+    }
+
     render() {
         return (
             <div>
@@ -560,10 +606,8 @@ cancelSupplierFilterCheckBox(){
                 {this.renderHeader()}
                 <div className="row">
                     <div className="columns medium-12">
-                        <div className="card-panel">
-                            {this.renderNavigatorButtons()}
-                            {this.renderMapOrListData()}
-                        </div>
+                    {this.renderContentData()}
+
                     </div>
                 </div>
                 <LedtNavigation/>
@@ -597,5 +641,5 @@ export default connect(mapStateToProps,
     getLocalSearchSupplierList,
     getSearchSupplier}
 )(GoogleApiWrapper({
-    apiKey: ('AIzaSyAvFpr7G5Gfl6FW8_bU9APcr4Q9rFWJjX0')
+    apiKey: ('AIzaSyBgl1GwebuB9n6gz7k2wbWpZ4xDca4NDq0')
 })(Supplier));
