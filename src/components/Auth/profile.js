@@ -200,13 +200,14 @@ class Profile extends Component {
     if(this.state.isNameEditActive)
     {
         return(
-        <div>
-        <input type="text" onChange={(event)=>{this.onChangeName(event.target.value)}} value={this.props.name} placeholder="Name"  placeholderTextColor="#fff" style={{backgroundColor:'transparent',borderColor:'transparent'}}  />
-        <a  onClick={() => {this.updateName()}}><i className="fa fa-pencil" aria-hidden="true"></i></a>
+        <div style={{position:'relative'}}>
+        <input type="text" onChange={(event)=>{this.onChangeName(event.target.value)}} value={this.props.name} placeholder="Name"  placeholderTextColor="#fff" style={{backgroundColor:'transparent',borderColor:'transparent',marginTop:20, color:'white'}}  />
+        <div className="edit-name">
+        <a  onClick={() => {this.updateName()}}><i className="fa fa-pencil" aria-hidden="true" style={{color:'white'}}></i></a>
         <a onClick={() => {this.setState({isNameEditActive:false})
         this.props.getUserDetails();
       }}><i className="fa fa-close" aria-hidden="true"></i></a>
-
+</div>
         </div>
 
       )
@@ -214,11 +215,11 @@ class Profile extends Component {
     else
     {
       return(
-        <div>
+        <div >
 
-        <div> {this.props.name}  </div>
-        <a  onClick={() => {this.setState({isNameEditActive:true})}}><i className="fa fa-pencil" aria-hidden="true"></i></a>
-
+        <div style={{marginTop:20,marginBottom:20,color:'white'}}> {this.props.name} <a  onClick={() => {this.setState({isNameEditActive:true})}}><i className="fa fa-pencil" aria-hidden="true" style={{marginLeft:10, color:'white'}}></i></a>
+ </div>
+        
         </div>
       );
     }
@@ -238,12 +239,13 @@ class Profile extends Component {
       return(
 
         <div>
-        <input type="text" multiline={true} maxLength={130} numberOfLines={5} style={{maxHeight:180,height:100,left:10}} onChange={(event)=>{this.onChangeAddress(event.target.value)}} value={this.props.address}   placeholder="Address" />
-
+        <input type="text" multiline={true} maxLength={130} numberOfLines={5} style={{maxHeight:50,height:100,left:10,maxWidth:"100%",top:10,position:'relative'}} onChange={(event)=>{this.onChangeAddress(event.target.value)}} value={this.props.address}   placeholder="Address" />
+<div className="act-group">
         <a  onClick={() => {this.updateAddress()}}><i className="fa fa-pencil" aria-hidden="true"></i></a>
         <a onClick={() => {this.setState({isAddressEditActive:false})
         this.props.getUserDetails();
       }}><i className="fa fa-close" aria-hidden="true"></i></a>
+      </div>
       </div>
 
     );
@@ -290,7 +292,7 @@ class Profile extends Component {
                  <div  onClick={()=>{
                      this.onUploadProfilePress();
                  }}>
-                     <img  src={this.props.profile_picture} />
+                     <img  src={this.props.profile_picture} className="profile-icon"/>
                  </div>
              );
          }
@@ -360,7 +362,7 @@ if (imagePreviewUrl) {
     <p className="device-id">{this.props.phone}</p>
     </li>
     <li>
-    <h4><span><i className="fa fa-map-marker" aria-hidden="true"></i></span> Address <span><a  onClick={() => {this.setState({isAddressEditActive:true})}}><i className="fa fa-pencil" aria-hidden="true"></i></a></span></h4>
+    <h4><span><i className="fa fa-map-marker" aria-hidden="true"></i></span> Address <span><a  onClick={() => {this.setState({isAddressEditActive:true})}}><i className="fa fa-pencil" aria-hidden="true" style={{float:'right'}}></i></a></span></h4>
     <p className="device-id"> {this.renderAddressTextBoxOrEditIcon()}</p>
     </li>
 
