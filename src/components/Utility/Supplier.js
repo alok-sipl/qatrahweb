@@ -619,7 +619,7 @@ cancelSupplierFilterCheckBox(){
 
 }
 
-
+ 
 const
     mapStateToProps = ({utility}) => {
         let latitude = 0;
