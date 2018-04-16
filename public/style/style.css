@@ -211,9 +211,17 @@ html.mm-opening .mm-page, html.mm-opening #mm-blocker {-webkit-transform: transl
 .mm-menu .mm-list > li:after {border-color: rgba(255, 255, 255, 0.15);}
 /******************************** MM MENU ENDS  ********************************************/
 .chart-container{height: 300px;margin: 0 auto;}
-
+.react-datepicker-wrapper {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+.react-datepicker__input-container {
+    position: relative;
+    display: block !important;
+}
 /******************************** Form  ********************************************/
-input, select{max-width: 400px;font-size: 16px;box-shadow: none !important;width: 100%;border:1px solid #dce2e9 !important;border-radius: 53px;min-height: 50px;padding: 0px 55px !important;margin: 0 auto !important;}
+input, select{max-width: 400px;font-size: 16px;box-shadow: none !important;width: 100%;border:1px solid #dce2e9 !important;border-radius: 53px !important;min-height: 50px;padding: 0px 55px !important;margin: 0 auto !important;}
 input:focus, select:focus{outline: none;}
 input::placeholder, select::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #8893a0; font-size: 16px;
@@ -416,12 +424,16 @@ input:checked + .slider:before {
 .my-profile {background: #2eb9f9; padding: 30px;position: relative;}
 .my-profile img {border: 1px solid #fff;    position: relative; border-radius: 50%;background: #fff;}
 .imgPreview img {width: 152px; height: 152px;}
-.upload-pic {position:  absolute;right: 43%; top: 59%; width: 38px; }
+.profile-icon {width: 157px; height: 157px; position: relative; }
+.upload-pic {position: absolute; right: 42%; top: 43%; width: 38px;}
 .my-profile p {font-size: 19px; color: #fff; margin-top: 16px; }
 .profile-details i{color: #0facf3;margin-right: 10px;}
 .profile-details p{margin-left: 30px;}
-.filter-box {background: #fff;top: 24%; right: 3% !important; padding: 28px; max-width: 350px; width: 100%; position: absolute; z-index: 99; right: 0; border-radius: 20px;box-shadow: 2px 1px 7px 5px #ddeff7;}
+.filter-box {background: #fff;top: 24%; right: 3% !important; padding: 28px; max-width: 350px; width: 100%; position: absolute; z-index: 1; right: 0; border-radius: 20px;box-shadow: 2px 1px 7px 5px #ddeff7;}
 .filter-box:before { position: absolute; right: 40px; top: -35px; color: #fbfbfe; font: normal normal normal 51px/1 FontAwesome; content: "\f0d8"; text-shadow: 0px -4px #ddeff7; }
+.act-group {position: absolute; top: 72px; right: 28px; }
+.edit-name {position:  absolute; top: 0; right: 34%; top: 29%; }
+.edit-name i {margin-left: 13px; color: #fff;}
 
 @media screen and (max-width: 1024px) {
     .logo { padding-left: 7px; }
