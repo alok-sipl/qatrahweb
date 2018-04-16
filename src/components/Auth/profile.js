@@ -348,9 +348,11 @@ if (imagePreviewUrl) {
 
 
     {this.renderProfilePicture()}
+    <div style={{marginTop:20}}>
     <div className="upload-pic"><img onClick={(e)=>{this._handleImageChange(e)}} src="public/images/camera.png"/></div>
 
     {this.renderNameTextBoxOrEditIcon()}
+    </div>
     </div>
     <ul className="list-divs m-t20 profile-details list-items">
     <li>
