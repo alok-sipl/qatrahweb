@@ -253,7 +253,7 @@ input::-ms-input-placeholder, select::-ms-input-placeholder { /* Microsoft Edge 
 .form-fooetr {padding: 40px 0px 0px; color: #09a8f2; font-weight: 28px;}
 .form-fooetr a{color: #09a8f2; font-weight: bold;}
 
-.form-comman label {position: absolute;left: 21px;top: 36px;font-size: 18px;color: #09a8f2;z-index: 9;}
+.form-comman label {position: absolute;left: 21px;top: 36px;font-size: 18px;color: #09a8f2;z-index: 1;}
 .form-comman input{ color: #8893a0; font-size: 16px; margin: 0 !important; font-family: 'Titillium Web', sans-serif !important; font-size: 1rem;}
 .form-comman select{ color: #8893a0;  }
 .form-comman input[type="text"], .form-comman input[type="tel"], .form-comman input[type="password"]{max-width: 100%;}
@@ -434,7 +434,7 @@ input:checked + .slider:before {
 .act-group {position: absolute; top: 72px; right: 28px; }
 .edit-name {position:  absolute; top: 0; right: 34%; top: 29%; }
 .edit-name i {margin-left: 13px; color: #fff;}
-
+.react-datepicker-popper[data-placement^="bottom"] {z-index: 9; }
 @media screen and (max-width: 1024px) {
     .logo { padding-left: 7px; }
     .menu-icon {right: 7px; top: 17px;}
