@@ -13,7 +13,7 @@ class Header extends Component {
 
     state = {
         open: false,
-        position: 'right',
+        position: 'left',
         noOverlay: true,
         isLoading: true,
         name:"",
@@ -102,9 +102,6 @@ class Header extends Component {
                            <Link to="/history"><i className="fa fa-history" aria-hidden="true"></i>History</Link>
                        </li>
 
-                       <li className="list-item">
-                           <Link to="/reminder-setting"><i  className="fa fa-calendar-o" aria-hidden="true"></i>Reminder Settings</Link>
-                       </li>
                        <li className="list-item">
                            <Link to="/notification-setting" ><i className="fa fa-bell" aria-hidden="true"></i>Notification Settings</Link>
                        </li>
