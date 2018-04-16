@@ -56,7 +56,7 @@ class Header extends Component {
         if(user.emailVerified)
         {
             this.setState({name:firebase.auth().currentUser.displayName});
-            // this.setState({photo:firebase.auth().currentUser.photoURL})
+            this.setState({photo:firebase.auth().currentUser.photoURL})
     
         }
         else{
@@ -151,7 +151,7 @@ class Header extends Component {
                     <div className="row">
                         <div className="medium-3 large-4 small-3 logo column">
                             <a href="/qatrah-web-html" title="Qatrah">
-                                <img src="public/images/logo-main.png"/>
+                                <img src="/public/images/logo-main.png"/>
                             </a>
                         </div>
                         <div className="medium-9 large-8 small-9 column text-right">
