@@ -345,7 +345,7 @@ if (imagePreviewUrl) {
 
     {this.renderNameTextBoxOrEditIcon()}
     </div>
-    <ul className="list-divs m-t20 profile-details">
+    <ul className="list-divs m-t20 profile-details list-items">
     <li>
     <h4><span><i className="fa fa-envelope" aria-hidden="true"></i></span> Email ID</h4>
     <p className="device-id">{this.props.email}</p>
