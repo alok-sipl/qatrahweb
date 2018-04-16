@@ -36,21 +36,25 @@ class Profile extends Component {
   }
 
   _handleImageChange(e) {
-    //alert('hiiiii');
     this.refs.fileUploader.click();
     e.preventDefault();
 
-    let reader = new FileReader();
+//    let reader = new FileReader();
+//    let file = e.target.files[0];
+    if(e.target.files.length > 0){
     let file = e.target.files[0];
+    console.log(file);
 
-    reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
-      });
     }
-alert(file);
-    reader.readAsDataURL(file)
+//
+//    reader.onloadend = () => {
+//      this.setState({
+//        file: file,
+//        imagePreviewUrl: reader.result
+//      });
+//
+//    }
+
   }
 
 
@@ -286,7 +290,7 @@ alert(file);
                  <div  onClick={()=>{
                      this.onUploadProfilePress();
                  }}>
-                     <img  src={{ uri: this.props.profile_picture }} />
+                     <img  src={this.props.profile_picture} />
                  </div>
              );
          }
@@ -322,7 +326,7 @@ if (imagePreviewUrl) {
     <div className="card-panel">
     <div className="my-profile">
 
-
+  <div style={{display:"none"}} >
     <div className="previewComponent">
 
 
@@ -337,6 +341,7 @@ if (imagePreviewUrl) {
            <div className="imgPreview">
              {$imagePreview}
            </div>
+         </div>
          </div>
 
 
