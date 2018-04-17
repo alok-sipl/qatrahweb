@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDrawer from 'react-drawer';
 import LeftNavigation from './left_navigation';
-import { BrowserRouter as Router, Route, Link ,Redirect} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link ,Redirect,NavLink} from "react-router-dom";
 import firebase from 'firebase';
 import Logout from './logout';
 
@@ -60,7 +60,7 @@ class Header extends Component {
         {
             this.setState({name:firebase.auth().currentUser.displayName});
             this.setState({photo:firebase.auth().currentUser.photoURL})
-    
+
         }
         else{
             this.setState({isLoaggedOut:true});
@@ -92,27 +92,28 @@ class Header extends Component {
                                <span className="user-name">{this.state.name}</span><span className="close-menu"><i className="fa fa-times" aria-hidden="true"></i></span>
                            </a>
                        </li>
+
                        <li className="list-item">
-                           <Link to="/Home"><i className="fa fa-home" aria-hidden="true"></i>Home</Link>
+                             <NavLink activeStyle={styles.activeStyle} to="/Home"><i className="fa fa-home" aria-hidden="true"></i>Home</NavLink>
                        </li>
                        <li className="list-item">
-                           <Link to="/device"><i className="fa fa-list" aria-hidden="true"></i>Device Details</Link>
+                           <NavLink activeStyle={styles.activeStyle} to="/device"><i className="fa fa-list" aria-hidden="true"></i>Device Details</NavLink>
                        </li>
                        <li className="list-item">
-                           <Link to="/alerts" ><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>Alerts</Link>
+                           <NavLink  activeStyle={styles.activeStyle} to="/alerts" ><i className="fa fa-exclamation-triangle" aria-hidden="true"></i>Alerts</NavLink>
                        </li>
                        <li className="list-item">
-                           <Link to="/history"><i className="fa fa-history" aria-hidden="true"></i>History</Link>
+                           <NavLink  activeStyle={styles.activeStyle} to="/history"><i className="fa fa-history" aria-hidden="true"></i>History</NavLink>
                        </li>
 
                        <li className="list-item">
-                           <Link to="/notification-setting" ><i className="fa fa-bell" aria-hidden="true"></i>Notification Settings</Link>
+                           <NavLink  activeStyle={styles.activeStyle} to="/notification-setting" ><i className="fa fa-bell" aria-hidden="true"></i>Notification Settings</NavLink>
                        </li>
                        <li className="list-item">
-                           <Link to="/profile" ><i className="fa fa-user" aria-hidden="true"></i>My Profile</Link>
+                           <NavLink activeStyle={styles.activeStyle} to="/profile" ><i className="fa fa-user" aria-hidden="true"></i>My Profile</NavLink>
                        </li>
                        <li className="list-item">
-                           <Link to="/contact"><i  className="fa fa-phone" aria-hidden="true"></i>Contact Us</Link>
+                           <NavLink  activeStyle={styles.activeStyle} to="/contact"><i  className="fa fa-phone" aria-hidden="true"></i>Contact Us</NavLink>
                        </li>
                        <li className="list-item">
                        <a onClick={()=>{
@@ -176,6 +177,15 @@ class Header extends Component {
         }
       
     }
+}
+
+const styles = {
+activeStyle :
+  {
+    color: "#fff",
+    backgroundColor: "#18aff5"
+
+  }
 }
 
 export default Header;
