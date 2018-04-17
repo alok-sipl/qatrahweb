@@ -4,6 +4,9 @@ import LeftNavigation from './left_navigation';
 import { BrowserRouter as Router, Route, Link ,Redirect,NavLink} from "react-router-dom";
 import firebase from 'firebase';
 import Logout from './logout';
+import {showToast} from '../../actions/types'
+import _ from 'lodash';
+
 
 
 
@@ -34,14 +37,54 @@ class Header extends Component {
 
          let  confirmLogout = confirm("Are you sure, you want to logout?");
            if (confirmLogout == true) {
-             firebase.auth().signOut().then(function() {
-            this.setState({isLoaggedOut:true});
-            }, function(error) {
 
+             const messaging = firebase.messaging();
+               messaging.getToken().then(token => {
+              let user = firebase.auth().currentUser;
+              let ref = firebase.database().ref(`/tokens/${user.uid}`);
+              ref.orderByChild("device_token").equalTo(token).once('value')
+              .then(function(dataSnapshot) {
+                if(dataSnapshot.val() == null)
+                {
+                  firebase.auth().signOut().then(function() {
+                   this.setState({isLoaggedOut:true});
+
+                  }, function(error) {
+                   showToast("danger","Sorry some error occurred, please try again later!")
+                  });
+                }
+                else
+                {
+                  _.map(dataSnapshot.val(),(value,key)=>{
+                    firebase.database().ref(`/tokens/${user.uid}/${key}`)
+                    .remove()
+                    .then(() => {
+                      firebase.auth().signOut().then(function() {
+                          this.setState({isLoaggedOut:true});
+                      }, function(error) {
+                         showToast("danger","Sorry some error occurred, please try again later!")
+                      });
+                    })
+                    .catch(() => {
+                       showToast("danger","Sorry some error occurred, please try again later!")
+
+                    })
+                  });
+
+                }
+              })
+              .catch(() => {
+                   showToast("danger","Sorry some error occurred, please try again later!")
+
+              });
+            }).catch(() => {
+               firebase.auth().signOut().then(function() {
+                 this.setState({isLoaggedOut:true});
+                }, function(error) {
+               });
             });
+
        }
-
-
     }
 
         /*

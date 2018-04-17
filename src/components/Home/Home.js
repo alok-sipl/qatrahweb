@@ -25,13 +25,15 @@ class Home extends Component {
     componentWillMount() {
         firebase.auth().onAuthStateChanged((user)=>
         {
-            this.setState({isLoading:false})
             if(user)
             {
                 if(user.emailVerified)
                 {
                     this.props.getDevices();
                     this.props.getUserDetails();
+                    this.setState({isLoading:false})
+
+
                 }
                 else{
                     this.setState({isLoaggedOut:true});

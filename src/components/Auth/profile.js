@@ -21,12 +21,13 @@ class Profile extends Component {
   componentWillMount() {
     firebase.auth().onAuthStateChanged((user)=>
     {
-      this.setState({isLoading:false})
       if(user)
       {
         if(user.emailVerified)
         {
           this.props.getUserDetails();
+          this.setState({isLoading:false})
+
         }
       }
     });

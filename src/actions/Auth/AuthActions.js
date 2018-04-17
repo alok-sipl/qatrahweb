@@ -398,14 +398,13 @@ export const updateUserState = ({isOnline}) => {
     };
 };
 
-
-
 /*
    @Method : loginUser
    @Params :
    @Returns : *
    */
 export const loginUser = ({email, password},callback) => {
+
     return (dispatch) => {
         dispatch({type: LOGIN_USER});
 
@@ -438,17 +437,49 @@ export const loginUser = ({email, password},callback) => {
 
                                         }, function(error) {
                                             showToast("danger","Invalid email or password,Please try again!")
-
                                             loginUserFail(dispatch);
+
                                         });
                                     }
                                     else
                                     {
-                                        loginUserSuccess(dispatch, user);
-                                        callback("success");
+                                       const messaging = firebase.messaging();
+                                         messaging.getToken().then(token => {
+                                            let ref = firebase.database().ref(`/tokens/${user.uid}`);
+                                            ref.orderByChild("device_token").equalTo(token).once('value')
+                                                .then(function(dataSnapshot) {
+                                                    if(dataSnapshot.val() == null)
+                                                    {
+                                                        let user = firebase.auth().currentUser;
+                                                        firebase.database().ref(`/tokens/${user.uid}`)
+                                                            .push({device_token:token,updated_at:Date.now()})
+                                                            .then(() => {
+                                                                loginUserSuccess(dispatch, user);
+                                                                 callback("success");
+                                                            })
+                                                            .catch(() => {
+                                                                loginUserFail(dispatch);
+                                                                showToast("danger","Sorry some error occurred, please try again later!")
+                                                            })
+                                                    }
+                                                    else
+                                                    {
+                                                        loginUserSuccess(dispatch, user);
+                                                         callback("success");
+                                                    }
+                                                })
+                                                .catch(() => {
+                                                    loginUserFail(dispatch);
+                                                    showToast("danger","Sorry some error occurred, please try again later!")
 
+                                                });
+                                        }).catch(() => {
+                                                loginUserSuccess(dispatch, user);
+                                                callback("success");
 
+                                        });
                                     }
+
                                 });
                             }
                             else
@@ -468,7 +499,6 @@ export const loginUser = ({email, password},callback) => {
                                 showToast("danger","Invalid email or password,Please try again!")
                                 loginUserFail(dispatch);
 
-
                             }, function(error) {
                                 showToast("danger","Invalid email or password,Please try again!")
                                 loginUserFail(dispatch);
@@ -477,7 +507,6 @@ export const loginUser = ({email, password},callback) => {
                 }
                 else
                 {
-                    // Actions.Verify();
                     callback("verify");
                 }
             })
@@ -487,6 +516,94 @@ export const loginUser = ({email, password},callback) => {
             })
     };
 };
+
+///*
+//   @Method : loginUser
+//   @Params :
+//   @Returns : *
+//   */
+//export const loginUser = ({email, password},callback) => {
+//    return (dispatch) => {
+//        dispatch({type: LOGIN_USER});
+//
+//        firebase.auth().signInWithEmailAndPassword(email, password)
+//            .then(user => {
+//                let userDetails = firebase.auth().currentUser;
+//                if(userDetails.emailVerified)
+//                {
+//                    let refUser = firebase.database().ref(`/users`);
+//                    refUser.orderByChild("id").equalTo(userDetails.uid).once('value')
+//                        .then(function(dataSnapshotUser) {
+//                            if (dataSnapshotUser.val() != null) {
+//                                _.map(dataSnapshotUser.val(),(valUserData,uid)=>{
+//                                    if(valUserData.is_deleted == true)
+//                                    {
+//                                        firebase.auth().signOut().then(function() {
+//                                            showToast("danger","Your account has been disabled, please contact your system administrator");
+//                                            loginUserFail(dispatch);
+//
+//                                        }, function(error) {
+//                                            showToast("danger","Sorry some error occurred, please try again later!")
+//                                            loginUserFail(dispatch);
+//                                        });
+//                                    }
+//                                    else if(valUserData.is_admin == true)
+//                                    {
+//                                        firebase.auth().signOut().then(function() {
+//                                            showToast("danger","Invalid email or password,Please try again!")
+//                                            loginUserFail(dispatch);
+//
+//                                        }, function(error) {
+//                                            showToast("danger","Invalid email or password,Please try again!")
+//
+//                                            loginUserFail(dispatch);
+//                                        });
+//                                    }
+//                                    else
+//                                    {
+//                                        loginUserSuccess(dispatch, user);
+//                                        callback("success");
+//
+//
+//                                    }
+//                                });
+//                            }
+//                            else
+//                            {
+//                                firebase.auth().signOut().then(function() {
+//                                    showToast("danger","Invalid email or password,Please try again!")
+//                                    loginUserFail(dispatch);
+//
+//                                }, function(error) {
+//                                    showToast("danger","Invalid email or password,Please try again!")
+//                                    loginUserFail(dispatch);
+//                                });
+//                            }
+//                        })
+//                        .catch(() => {
+//                            firebase.auth().signOut().then(function() {
+//                                showToast("danger","Invalid email or password,Please try again!")
+//                                loginUserFail(dispatch);
+//
+//
+//                            }, function(error) {
+//                                showToast("danger","Invalid email or password,Please try again!")
+//                                loginUserFail(dispatch);
+//                            });
+//                        })
+//                }
+//                else
+//                {
+//                    // Actions.Verify();
+//                    callback("verify");
+//                }
+//            })
+//            .catch(() => {
+//                showToast("danger","Invalid email or password,Please try again!")
+//                loginUserFail(dispatch);
+//            })
+//    };
+//};
 
 /*
    @Method : getCurrentUserAuthDetails
