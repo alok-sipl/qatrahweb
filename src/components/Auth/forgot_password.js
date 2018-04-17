@@ -162,6 +162,7 @@ class ForgotPassword extends Component{
 
                                                 }} value={this.props.email}
                                                 type="text"
+                                                maxLength={45}
                                                 placeholder="Email ID"
                                                 name="emailid"
                                             />

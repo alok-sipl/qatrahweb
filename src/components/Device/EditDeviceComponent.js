@@ -444,7 +444,7 @@ class EditDeviceComponent extends Component {
         }
         else {
             return (
-                <input type="button" onClick={this.onButtonPressDelete.bind(this)} className="btn-blue-block btn" value="Delete" title="Submit" />
+                <input type="button" onClick={this.onButtonPressDelete.bind(this)} className="btn-red-block btn" value="Delete" title="Submit" />
             );
         }
 
@@ -460,50 +460,46 @@ class EditDeviceComponent extends Component {
         const {uid,master_id} = this.props;
         if((master_id) || (master_id != undefined))
         {
-            this.props.deleteDeviceDetails({uid,master_id});
 
-            // alert(
-            //     'Confirm',
-            //     'Are you sure,you want to delete this device ?',
-            //     [
-            //         {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-            //         {text: 'Yes', onPress: () => {
-            //             this.props.deleteDeviceDetails({uid,master_id});
-            //         }},
-            //     ],
-            //     { cancelable: false }
-            // );
+          let  confirmDelete = confirm("Are you sure,you want to delete this device ?");
+           if (confirmDelete == true) {
+           this.props.deleteDeviceDetails({uid,master_id});
+
+          }
+
         }
         else
         {
-            this.props.deleteDeviceDetails({uid,master_id:""});
+          let  confirmDelete = confirm("Are you sure,you want to delete this device ?");
+           if (confirmDelete == true) {
+               this.props.deleteDeviceDetails({uid,master_id:""});
+            }
 
-            // alert(
-            //     'Confirm',
-            //     'Are you sure,you want to delete this device ?',
-            //     [
-            //         {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-            //         {text: 'Yes', onPress: () => {
-            //             this.props.deleteDeviceDetails({uid,master_id:""});
-            //         }},
-            //     ],
-            //     { cancelable: false }
-            // );
         }
 
 
     }
 
-    /*
+        /*
 @Method : renderTankImage
 @Params :
 @Returns : *
 */
 
     renderTankImage(){
-        // return (
-        //     <Image source={require('../../images/water_level_app-2_april/tank_image/centre_align/tank_opt1.png')}  />
-        // );
+        if(this.props.tank_type == 'vertical')
+        {
+            return (
+                <img src={'/public/images/water_level_app-2_april/tank_image/centre_align/tank_opt1.png'}  />
+            );
+        }
+        else{
+            return (
+                <img src={'/public/images/water_level_app-2_april/tank_image/centre_align/tank_opt2.png'}  />
+            );
+
+        }
+
     }
 
     /*
@@ -855,13 +851,13 @@ handleChange(address) {
                         <form>
                             <div className="form-group">
                                 <label><i className="fa fa-file-text" aria-hidden="true"></i></label>
-                                <input type="text" placeholder="Device Id" name="DeviceId" disabled="true" 
+                                <input maxLength={80} type="text" placeholder="Device Id" name="DeviceId" disabled="true"
                                 value={this.props.device_id}   />
                             </div>
 
                               <div className="form-group">
                                 <label><i className="fa fa-file-text" aria-hidden="true"></i></label>
-                                <input type="text" placeholder="Device Name"  onChange={(event)=>{
+                                <input maxLength={80} type="text" placeholder="Device Name"  onChange={(event)=>{
                                                            this.onDeviceNameChanged(event.target.value)
 
                                                        }} name="DeviceName"  
@@ -908,14 +904,14 @@ handleChange(address) {
                                </select>
                             </div>
 
-                              <div className="form-group">
+                             <div className="form-group text-center">
                                {this.renderTankImage()}
                               </div>
                               
                             <div className="form-group">
                                 <ul className="medium-block-grid-2 small-block-grid-2">
                                     <li>
-                                      <input type="text" placeholder="Height(Mtr)"  onChange={(event)=>{
+                                      <input maxLength={3} type="text" placeholder="Height(Mtr)"  onChange={(event)=>{
                                                            this.onTankHeightChanged(event.target.value)
 
                                                        }} name="Height(Mtr)"  
@@ -924,7 +920,7 @@ handleChange(address) {
                                      
                                       </li>
                                     <li>
-                                    <input type="text" placeholder="Width(Mtr)"  onChange={(event)=>{
+                                    <input maxLength={3}  type="text" placeholder="Width(Mtr)"  onChange={(event)=>{
                                                            this.onTankWidthChanged(event.target.value)
 
                                                        }} name="Width(Mtr)"  
@@ -935,11 +931,20 @@ handleChange(address) {
                                 </ul>
                             </div>
                             <p className="text-center p-18x">Tank Capacity: (Computed by system in ltr)</p>
-                            <div className="form-group text-center">
-                             {this.renderAction()}
-                            </div>
-                            <div className="form-group text-center">
-                             {this.renderActionDelete()}
+
+
+                             <div className="form-group text-center">
+                                <ul className="medium-block-grid-2 small-block-grid-2">
+                                    <li>
+                                      {this.renderAction()}
+
+
+                                      </li>
+                                    <li>
+                                    {this.renderActionDelete()}
+
+                                     </li>
+                                </ul>
                             </div>
                             
                         </form>

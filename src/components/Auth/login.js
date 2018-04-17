@@ -337,7 +337,7 @@ class Login extends Component {
                                             <div className="form-group">
                                                 <label><i className="fa fa-envelope" aria-hidden="true"></i></label>
                                                 <input type="email"
-                                                maxLength={100}
+                                                maxLength={45}
                                                        placeholder="Email ID"
                                                        name="email"
                                                        onChange={(event)=>{

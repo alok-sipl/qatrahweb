@@ -1,5 +1,7 @@
 // import {Alert} from 'react-native';
 // import {Toast} from 'native-base';
+import {toastr} from 'react-redux-toastr'
+
 //common
 export const LOADER_START = 'loader_start';
 export const LOADER_END = 'loader_end';
@@ -78,23 +80,16 @@ export const BLUETOOTH_DEVICE_NAME = "SIPL";
 
 export const showToast=(type="success",message)=>
 {
-    alert(message)
-    // if(type =='success')
-    // {
-    //     Alert.alert('Success',message);
-    //
-    // }
-    // else
-    // {
-    //     Alert.alert('Error',message);
-    //
-    // }
-    // Toast.show({
-    //     text: message,
-    //     position: 'top',
-    //     type:type,
-    //     duration:4000
-    // });
+     if(type =='success')
+     {
+      toastr.success(message)
+
+     }
+     else
+     {
+       toastr.error(message)
+
+     }
 
 }
 export const alerts = [10,20,30,40,50,60,70,80,90];

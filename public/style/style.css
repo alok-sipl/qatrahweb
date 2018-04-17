@@ -248,6 +248,8 @@ input::-ms-input-placeholder, select::-ms-input-placeholder { /* Microsoft Edge 
 .frgt-password {color: #8893a0;font-size: 17px;display: block;text-align: right;padding-right: 20px;}
 .btn-blue-block{background: #09a8f2;width: 93%;text-transform: uppercase; display: inline-block;margin: 0 auto;color: #fff !important;padding: 17px 20px;border-radius: 53px;box-shadow: -1px 3px 6px #00a4f066 !important; border:none;}
 .btn-blue-block:hover{background: #0a87c1; color: #FFF !important;}
+.btn-red-block{background: #FF0000;width: 93%;text-transform: uppercase; display: inline-block;margin: 0 auto;color: #fff !important;padding: 17px 20px;border-radius: 53px;box-shadow: -1px 3px 6px #00a4f066 !important; border:none;}
+.btn-red-block:hover{background: #800000; color: #FFF !important;}
 .form-wrapper label {position: absolute;left: 9%;top: 36px;font-size: 18px;color: #09a8f2;z-index: 9;}
 .pass-visibility {color: #09a8f2; left: 85%; top: 43px; position: absolute;content: '';}
 .form-fooetr {padding: 40px 0px 0px; color: #09a8f2; font-weight: 28px;}

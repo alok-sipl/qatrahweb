@@ -6,9 +6,12 @@ import {connect} from 'react-redux';
 import firebase from 'firebase';
 import _ from 'lodash';
 import {NameChanged,getUserDetails,uploadPhoto,updateProfile,onChangeName,onAddressChange} from '../../actions';
+import {showToast} from '../../actions/types';
+
+
 
 class Profile extends Component {
-  state = {file: '',imagePreviewUrl: '',chooseFile:false,menuActive: false,isLoaded:null,isNameEditActive:false,isAddressEditActive:false};
+  state = {isLoading:true,file: '',imagePreviewUrl: '',chooseFile:false,menuActive: false,isLoaded:null,isNameEditActive:false,isAddressEditActive:false};
   /*
   @Method : componentWillMount
   @Desc   : will check that user is logged in or not
@@ -36,24 +39,35 @@ class Profile extends Component {
   }
 
   _handleImageChange(e) {
+  let userId = this.props.userId;
+  let dataURL = ""
     this.refs.fileUploader.click();
     e.preventDefault();
 
-//    let reader = new FileReader();
-//    let file = e.target.files[0];
-    if(e.target.files.length > 0){
-    let file = e.target.files[0];
-    console.log(file);
+
+    if(e.target.files && e.target.files.length > 0){
+         let reader = new FileReader();
+         let file = e.target.files[0];
+            if((file.type == "image/jpeg" || file.type == "image/png")){
+              reader.onload = ()=>{
+             dataURL = reader.result;
+             dataURL = reader.result.split(',').pop();
+
+            if(userId){
+            this.props.uploadPhoto(dataURL,userId);
+            }
+           };
+             reader.readAsDataURL(e.target.files[0]);
+
+            }
+            else
+            {
+                         showToast("danger","File Type is not valid.");
+            }
 
     }
-//
-//    reader.onloadend = () => {
-//      this.setState({
-//        file: file,
-//        imagePreviewUrl: reader.result
-//      });
-//
-//    }
+
+
 
   }
 
@@ -201,7 +215,7 @@ class Profile extends Component {
     {
         return(
         <div style={{position:'relative'}}>
-        <input type="text" onChange={(event)=>{this.onChangeName(event.target.value)}} value={this.props.name} placeholder="Name"  placeholderTextColor="#fff" style={{backgroundColor:'transparent',borderColor:'transparent',marginTop:20, color:'white'}}  />
+        <input type="text"  maxLength={80} onChange={(event)=>{this.onChangeName(event.target.value)}} value={this.props.name} placeholder="Name"  placeholderTextColor="#fff" style={{backgroundColor:'transparent',borderColor:'transparent',marginTop:20, color:'white'}}  />
         <div className="edit-name">
         <a  onClick={() => {this.updateName()}}><i className="fa fa-pencil" aria-hidden="true" style={{color:'white'}}></i></a>
         <a onClick={() => {this.setState({isNameEditActive:false})
@@ -238,8 +252,12 @@ class Profile extends Component {
     {
       return(
 
-        <div>
-        <input type="text" multiline={true} maxLength={130} numberOfLines={5} style={{maxHeight:50,height:100,left:10,maxWidth:"100%",top:10,position:'relative'}} onChange={(event)=>{this.onChangeAddress(event.target.value)}} value={this.props.address}   placeholder="Address" />
+         <div>
+
+        <h4><span><i className="fa fa-map-marker" aria-hidden="true"></i></span> Address <span></span></h4>
+    <p className="device-id">
+          <div>
+        <textarea rows="4" cols="50" maxLength={150} style={{maxHeight:100,height:100,left:10,maxWidth:"100%",top:10,position:'relative', borderRadius:25}} onChange={(event)=>{this.onChangeAddress(event.target.value)}} value={this.props.address}   placeholder="Address" />
 <div className="act-group">
         <a  onClick={() => {this.updateAddress()}}><i className="fa fa-pencil" aria-hidden="true"></i></a>
         <a onClick={() => {this.setState({isAddressEditActive:false})
@@ -247,16 +265,24 @@ class Profile extends Component {
       }}><i className="fa fa-close" aria-hidden="true"></i></a>
       </div>
       </div>
+     </p>
+     </div>
+
+
 
     );
   }
   else
   {
     return(
-
       <div>
-      <div>   {this.props.address}</div>
-      </div>
+
+        <h4><span><i className="fa fa-map-marker" aria-hidden="true"></i></span> Address <span><a  onClick={() => {this.setState({isAddressEditActive:true})}}><i className="fa fa-pencil" aria-hidden="true" style={{float:'right'}}></i></a></span></h4>
+    <p className="device-id">
+     {this.props.address}
+     </p>
+     </div>
+
 
     );
   }
@@ -277,7 +303,7 @@ class Profile extends Component {
  @Returns : *
  */
  renderProfilePicture() {
-     if(this.props.loading)
+     if(this.props.loading || this.state.isLoading)
      {
          return (
              <Spinner size="large"/>
@@ -289,20 +315,16 @@ class Profile extends Component {
          if(this.props.profile_picture)
          {
              return(
-                 <div  onClick={()=>{
-                     this.onUploadProfilePress();
-                 }}>
-                     <img  src={this.props.profile_picture} className="profile-icon"/>
+                 <div >
+                     <img  onClick={(e)=>{this._handleImageChange(e)}} src={this.props.profile_picture} className="profile-icon"/>
                  </div>
              );
          }
          else
          {
              return(
-                 <div onClick={()=>{
-                     this.onUploadProfilePress();
-                 }}>
-                     <img src="public/images/no_photo.jpg" />
+                 <div >
+                     <img onClick={(e)=>{this._handleImageChange(e)}} src="/public/images/no_photo.jpg"  className="profile-icon"/>
                  </div>
 
              );
@@ -335,7 +357,11 @@ if (imagePreviewUrl) {
            <form onSubmit={(e)=>this._handleSubmit(e)}>
              <input className="fileInput" ref="fileUploader"
                type="file"
-               onChange={(e)=>this._handleImageChange(e)} />
+                accept=".jpg,.jpeg,.png"
+               onChange={(e)=>{
+               this._handleImageChange(e)
+
+               }} />
              <button className="submitButton"
                type="submit"
                onClick={(e)=>this._handleSubmit(e)}>Upload Image</button>
@@ -349,7 +375,7 @@ if (imagePreviewUrl) {
 
     {this.renderProfilePicture()}
     <div style={{marginTop:20}}>
-    <div className="upload-pic"><img onClick={(e)=>{this._handleImageChange(e)}} src="public/images/camera.png"/></div>
+    <div className="upload-pic"><img  onClick={(e)=>{this._handleImageChange(e)}} src="public/images/camera.png"/></div>
 
     {this.renderNameTextBoxOrEditIcon()}
     </div>
@@ -364,8 +390,7 @@ if (imagePreviewUrl) {
     <p className="device-id">{this.props.phone}</p>
     </li>
     <li>
-    <h4><span><i className="fa fa-map-marker" aria-hidden="true"></i></span> Address <span><a  onClick={() => {this.setState({isAddressEditActive:true})}}><i className="fa fa-pencil" aria-hidden="true" style={{float:'right'}}></i></a></span></h4>
-    <p className="device-id"> {this.renderAddressTextBoxOrEditIcon()}</p>
+    {this.renderAddressTextBoxOrEditIcon()}
     </li>
 
     </ul>
@@ -385,11 +410,11 @@ if (imagePreviewUrl) {
 */
 
 render() {
-  if(this.props.loading)
+  if(this.props.loading || this.state.isLoading)
   {
-    return (
-      <Spinner size="large"/>
-    )
+         return (
+             <Spinner size="large"/>
+         )
   }
   else
   {

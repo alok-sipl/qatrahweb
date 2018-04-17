@@ -517,7 +517,7 @@ renderErrorTitle = (isSubmitted,value)=>
             
                                         <div className="form-group">
                                         <label><i className="fa fa-calendar-o" aria-hidden="true"></i></label>
-                                        <DatePicker selected={moment(this.props.from_date)}  onChange={(dateValue) => {
+                                        <DatePicker   minDate={new Date()} selected={moment(this.props.from_date)}  onChange={(dateValue) => {
                                          if(dateValue){
                                             this.OnFromDateChanged(dateValue)        
                                          }

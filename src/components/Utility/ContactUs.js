@@ -44,15 +44,11 @@ class ContactUs extends Component {
     onButtonPress() {
         this.setState({isSubmitted: true})
         const {email, name, query} = this.props;
-        if (this.validateFirstSpace(query) > 0) {
-            alert('danger', "Query is not valid");
-        }
-        else {
             if (email && name && query) {
                 this.setState({isSubmitted: false})
                 this.props.addContactUsDetails({name, email, query});
             }
-        }
+
 
     }
 
@@ -90,16 +86,8 @@ class ContactUs extends Component {
 @Returns : *
 */
     validateText(text) {
-        let newText = '';
-        let numbers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ';
 
-        for (var i = 0; i < text.length; i++) {
-            if (numbers.indexOf(text[i]) > -1) {
-                newText = newText + text[i];
-            }
-        }
-
-        return newText;
+        return text;
     }
 
 

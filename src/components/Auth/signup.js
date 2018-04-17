@@ -431,7 +431,7 @@ class Signup extends Component {
                                                 <input
                                                     type="email"
                                                     placeholder="Email ID"
-                                                    maxLength={100}
+                                                    maxLength={45}
                                                     name="email"
                                                     onChange={(event) => {
                                                         this.onChangeEmail(event.target.value)

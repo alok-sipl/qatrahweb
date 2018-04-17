@@ -377,7 +377,7 @@ class Home extends Component {
                     <div className="columns medium-12">
                     <Header/>
 
-                <div style={styles.noRecordStyle}>
+                <div style={styles.noRecordMsgStyle}>
                     Your device has not been registered in the app.Please purchase device and registered it or visit our website www.qatrah.com to purchase.
                 </div>
                 </div>
@@ -468,6 +468,15 @@ const styles = {
         height: "100%",
         top: '50%',
         left: '50%',
+        backgroundColor: "rgba(242, 242, 242, 0.4)",
+        zIndex: 2
+    },
+      noRecordMsgStyle:{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        top: '50%',
+        left: '20%',
         backgroundColor: "rgba(242, 242, 242, 0.4)",
         zIndex: 2
     }

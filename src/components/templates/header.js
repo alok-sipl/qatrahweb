@@ -31,13 +31,16 @@ class Header extends Component {
 
 
       doSignOut = () => {
-        firebase.auth().signOut().then(function() {
-            this.setState({isLoaggedOut:true});
-         
-        }, function(error) {
 
-      });
-      
+         let  confirmLogout = confirm("Are you sure, you want to logout?");
+           if (confirmLogout == true) {
+             firebase.auth().signOut().then(function() {
+            this.setState({isLoaggedOut:true});
+            }, function(error) {
+
+            });
+       }
+
 
     }
 
@@ -114,7 +117,7 @@ class Header extends Component {
                        <li className="list-item">
                        <a onClick={()=>{
                   this.doSignOut() 
-                }} href="/login" ><i className="fa fa-sign-out" ></i>Logout</a>  
+                }} ><i className="fa fa-sign-out" ></i>Logout</a>
                        </li>
                    </ul>
                    </nav>

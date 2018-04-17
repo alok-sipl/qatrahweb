@@ -8,6 +8,9 @@ import  ReduxThunk from 'redux-thunk';
 import  reducers from './reducers';
 let     store = createStore(reducers,{},applyMiddleware(ReduxThunk));
 import { BrowserRouter as Router, Route, Link ,Redirect} from "react-router-dom";
+import ReduxToastr from 'react-redux-toastr'
+
+
 
 
 
@@ -39,7 +42,16 @@ state ={isLoaggedOut:false}
         return (
             <Provider store={store}  >
                 <div style={{overflow:'hidden'}} >
+                      <ReduxToastr
+      timeOut={4000}
+      newestOnTop={false}
+      preventDuplicates
+      position="top-left"
+      transitionIn="fadeIn"
+      transitionOut="fadeOut"
+      progressBar/>
                     <RouterComponent/>
+
                 </div>
             </Provider>
         )

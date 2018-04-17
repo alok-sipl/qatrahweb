@@ -304,44 +304,40 @@ export const changePassword = ({old_password,password}) => {
    @Returns : *
    */
 export const uploadPhoto = (file,userId) => {
-    // const polyfill = RNFetchBlob.polyfill;
-    // window.XMLHttpRequest = polyfill.XMLHttpRequest;
-    // window.Blob = polyfill.Blob;
-    // const sessionId = new Date().getTime();
-    // let uploadBlob = null;
-    // const imageRef = firebase.storage().ref('images/').child(`${sessionId}.png`)
-    //
-    // return (dispatch) => {
-    //     dispatch({type: LOGIN_USER});
-    //     let path = file.path;
-    //     Blob.build(RNFetchBlob.wrap(path), {type: 'image/jpeg'})
-    //         .then((blob) => imageRef
-    //             .put(blob, {contentType: 'image/png'})
-    //         ).then((snapshot) => {
-    //      }).then(() => {
-    //             return imageRef.getDownloadURL();
-    //         })
-    //         .then((url) => {
-    //             var user = firebase.auth().currentUser;
-    //             firebase.database().ref(`/users/${userId}`)
-    //                 .update({profile_picture:url})
-    //                 .then(() => {
-    //                     user.updateProfile({
-    //                         photoURL: url
-    //                     }).then(function() {
-    //                         dispatch({type: ON_CHANGE_IMAGE_SUCCESS, payload: url, loading: false});
-    //                         dispatch({type: LOGIN_USER_FAIL});
-    //                         showToast("success","Profile has been updated successfully.");
-    //                     }).catch(function(error) {
-    //                         loginUserFail(dispatch);
-    //                         showToast("danger","Sorry some error occurred, please try again later!");
-    //                     });
-    //                 })
-    //         }).catch((error) => {
-    //         showToast("danger","Sorry some error occurred, please try again later!");
-    //         dispatch({type: LOGIN_USER_FAIL});
-    //     })
-    // }
+
+     const sessionId = new Date().getTime();
+     let uploadBlob = null;
+     const imageRef = firebase.storage().ref('images/').child(`${sessionId}.png`)
+
+     return (dispatch) => {
+         dispatch({type: LOGIN_USER});
+         imageRef.putString(file, 'base64').then((snapshot) =>{
+            console.log('Uploaded a base64 string!');
+          })
+           .then(() => {
+                 return imageRef.getDownloadURL();
+            })
+             .then((url) => {
+                 var user = firebase.auth().currentUser;
+                 firebase.database().ref(`/users/${userId}`)
+                     .update({profile_picture:url})
+                     .then(() => {
+                         user.updateProfile({
+                             photoURL: url
+                         }).then(function() {
+                             dispatch({type: ON_CHANGE_IMAGE_SUCCESS, payload: url, loading: false});
+                             dispatch({type: LOGIN_USER_FAIL});
+                             showToast("success","Profile has been updated successfully.");
+                         }).catch(function(error) {
+                             loginUserFail(dispatch);
+                             showToast("danger","Sorry some error occurred, please try again later!");
+                         });
+                     })
+             }).catch((error) => {
+             showToast("danger","Sorry some error occurred, please try again later!");
+             dispatch({type: LOGIN_USER_FAIL});
+         })
+     }
 };
 
 /*
