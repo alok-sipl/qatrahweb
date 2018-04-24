@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Login from '../components/Auth/login';
 import Signup from '../components/Auth/signup';
 import ForgotPassword from '../components/Auth/forgot_password';
+import ChangePasswordForm from '../components/Auth/change_password_fom';
 import AccountVerification from '../components/account_verification';
 import RegistrationSuccess from '../components/Auth/registration_success';
 import RegistrationVerification from '../components/Auth/registration_verification';
@@ -34,6 +35,7 @@ export default class Router extends Component{
                             <Route path="/login" component={Login}/>
                             <Route path="/signup" component={Signup}/>
                             <Route path="/forgot-password" component={ForgotPassword} />
+                            <Route path="/change-password" component={ChangePasswordForm} />
                             <Route path="/account-verification" component={AccountVerification} />
                             <Route path="/registration-success" component={RegistrationSuccess} />
                             <Route path="/registration-verification" component={RegistrationVerification}/>

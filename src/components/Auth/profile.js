@@ -80,11 +80,7 @@ class Profile extends Component {
   */
   validateFirstSpace(text)
   {
-    let myString = text;
-
-    let spacesAtStart = myString.length - myString.trimLeft().length
-
-    return spacesAtStart;
+    return false
   }
 
 

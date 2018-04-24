@@ -268,7 +268,7 @@ export const getUserDetails=()=>{
    @Params :
    @Returns : *
    */
-export const changePassword = ({old_password,password}) => {
+export const changePassword = ({old_password,password},callback) => {
     return (dispatch) => {
         dispatch({type: LOGIN_USER});
         let user = firebase.auth().currentUser;
@@ -279,7 +279,7 @@ export const changePassword = ({old_password,password}) => {
                         .then(userData => {
                             showToast("success","Your password has been changed successfully.");
                             loginUserSuccess(dispatch, user);
-                            // Actions.pop();
+                            callback();
                         })
                         .catch(() => {
                             showToast("danger","Sorry some error occurred, please try again later!");
@@ -358,7 +358,7 @@ export const updateProfile = ({name='', address='', profile_picture = '', userId
                     displayName:name
                 }).then(function () {
                     showToast("success","Profile has been updated successfully.");
-                    dispatch({type: LOGIN_USER_FAIL});
+                    loginUserFail(dispatch);
                 }).catch(function (error) {
                     showToast("danger","Sorry some error occurred, please try again later!");
                     loginUserFail(dispatch);

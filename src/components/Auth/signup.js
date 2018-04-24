@@ -362,7 +362,7 @@ class Signup extends Component {
         else if (isSubmitted && (!(isValid))) {
             return (
                 <div style={{flex: 1}}>
-                    <div style={{color: 'red'}}>Mobile Number is not valid, it should be like (+XXXXXXXXXXXX)</div>
+                    <div style={{color: 'red'}}>Mobile Number is not valid, it should be like (+966---------)</div>
                 </div>
 
             )

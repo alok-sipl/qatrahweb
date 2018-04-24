@@ -124,7 +124,7 @@ class RegistrationVerification extends Component {
 
     render() {
         if (this.state.isRedirectLogin == true) {
-            return <Login />;
+            return <Redirect to='/login'/>;
         }
         else {
             return (

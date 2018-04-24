@@ -20,7 +20,7 @@ class Header extends Component {
         noOverlay: true,
         isLoading: true,
         name:"",
-        photo:"",
+        photo:"/public/images/no_photo.jpg",
         isLoaggedOut:false,
       };
     constructor() {
@@ -155,9 +155,17 @@ class Header extends Component {
                        <li className="list-item">
                            <NavLink activeStyle={styles.activeStyle} to="/profile" ><i className="fa fa-user" aria-hidden="true"></i>My Profile</NavLink>
                        </li>
+                      <li className="list-item">
+                       <NavLink activeStyle={styles.activeStyle} to="/change-password" ><i className="fa fa-user" aria-hidden="true"></i>Change Password</NavLink>
+                     </li>
+
                        <li className="list-item">
                            <NavLink  activeStyle={styles.activeStyle} to="/contact"><i  className="fa fa-phone" aria-hidden="true"></i>Contact Us</NavLink>
                        </li>
+                <li className="list-item">
+                <NavLink  activeStyle={styles.activeStyle} to="/terms-policy"><i  className="fa fa-list-alt" aria-hidden="true"></i>Terms And Policy</NavLink>
+               </li>
+
                        <li className="list-item">
                        <a onClick={()=>{
                   this.doSignOut() 
