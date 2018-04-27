@@ -266,16 +266,18 @@ class Home extends Component {
                                  <Link to={`device-detail/${device_id}`}>
                                     <div className="columns medium-6">
                                         <div className="card-panel">
-                                            <h2 className="p-b25">
-                                                <div className="row">
-                                                    <div className="columns medium-10">
-                                                        {tank_name}
-                                                    </div>
-                                                </div>
-                                            </h2>
+                                        <h3 className="text-blue text-center f-25 m-b20">Water Level Status</h3>
+                                            
                                             <div className="chart-container text-center" style={{width:240}}>
                                                 <CircularProgressbar percentage={(tank_status.percentage)}  />
-                                                <div className="chart-text">{tank_status.percentage}% Full  <br/>at {this.formatAMPM(new Date(tank_status.time))}</div>
+                                                <h4 className="">
+                                                    <div className="text-center text-blue">
+                                                        {tank_name}
+                                                    </div>
+                                                
+                                            </h4>
+                                                <div className="chart-text text-gray">{tank_status.percentage}% Full  <br/>at {this.formatAMPM(new Date(tank_status.time))}</div>
+                                           <a href="#"><i className="fa fa-long-arrow-right text-blue f-25" aria-hidden="true"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -308,16 +310,17 @@ class Home extends Component {
                                         <Link to={`device-detail/${this.props.deviceData[i-1].device_id}`}>
                                         <div className="columns medium-6">
                                             <div className="card-panel">
-                                                <h2 className="p-b25">
-                                                    <div className="row">
-                                                        <div className="columns medium-10">
-                                                            {this.props.deviceData[i-1].tank_name}
-                                                        </div>
-                                                    </div>
-                                                </h2>
+                                            <h3 className="text-blue text-center f-25 m-b20">Water Level Status</h3>
+                                                
                                                 <div className="chart-container text-center">
                                                     <CircularProgressbar percentage={(this.props.deviceData[i-1].tank_status.percentage)} className="progressbar-red" />
+                                                    <h4 className="p-b25">
+                                                        <div className="text-blue">
+                                                            {this.props.deviceData[i-1].tank_name}
+                                                        </div>
+                                                </h4>
                                                     <div className="chart-text">{this.props.deviceData[i-1].tank_status.percentage}% Full<br/>at {this.formatAMPM(new Date(this.props.deviceData[i-1].tank_status.time))}</div>
+                                                <a href="#"><i className="fa fa-long-arrow-right text-blue f-25" aria-hidden="true"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -325,16 +328,17 @@ class Home extends Component {
                                         <Link to={`device-detail/${this.props.deviceData[i].device_id}`}>
                                         <div className="columns medium-6">
                                             <div className="card-panel">
-                                                <h2 className="p-b25">
-                                                    <div className="row">
-                                                        <div className="columns medium-10">
-                                                            {this.props.deviceData[i].tank_name}
-                                                        </div>
-                                                    </div>
-                                                </h2>
+                                            <h3 className="text-blue text-center f-25 m-b20">Water Level Status</h3>
+                                               
                                                 <div className="chart-container text-center">
                                                     <CircularProgressbar  percentage={(this.props.deviceData[i].tank_status.percentage)}  className="progressbar-red" />
+                                                     <h4 className="p-b25">
+                                                        <div className="text-blue">
+                                                            {this.props.deviceData[i].tank_name}
+                                                        </div>
+                                                    </h4>
                                                     <div className="chart-text">{this.props.deviceData[i].tank_status.percentage}% Full <br/>at {this.formatAMPM(new Date(this.props.deviceData[i].tank_status.time))}</div>
+                                                <a href="#"><i className="fa fa-long-arrow-right text-blue f-25" aria-hidden="true"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -477,9 +481,9 @@ const styles = {
         position: "fixed",
         width: "100%",
         height: "100%",
-        top: '50%',
-        left: '20%',
-        backgroundColor: "rgba(242, 242, 242, 0.4)",
+        top: '35%',
+        left: '25%',
+        backgroundColor: "transparent",
         zIndex: 2
     }
 }

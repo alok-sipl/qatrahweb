@@ -10,7 +10,7 @@ class EditDevice extends Component {
                 <Header />
                 <div className="row">
                     <div className="columns medium-12">
-                        <h1 className="page-title">Edit Details</h1>
+                        <h1 className="page-title">Edit Details </h1>
                     </div>
                 </div>
                 <div className="row">

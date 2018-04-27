@@ -266,15 +266,15 @@ renderSettingLink(){
     if(this.props.device_id)
     {
         return (
-            <Link to={`/reminder-setting/${this.props.device_id}`}>
-                Setting
+            <Link to={`/reminder-setting/${this.props.device_id}`} className="anchor-text">
+                <i className="fa fa-cog"></i> Setting
             </Link>
         );
     }
     else{
         return (
             <Link to={`reminder-setting/${this.props.match.params.id}`}>
-              Setting
+              <i className="fa fa-cog"></i> Setting
             </Link>
         );
 

@@ -15,8 +15,8 @@ button:hover, button:focus, .button:hover, .button:focus{  background-color: #C0
 section{padding:6rem 0;}
 .page-title{font-size: 1.6875rem; margin: 1.6875rem 0;}
 .section-title{ text-align:center; padding-bottom:18px; background-image:url(../images/bottom-border.jpg); background-repeat:no-repeat; background-position:center bottom;}
-
-
+.m-b20{margin-bottom: 20px;}
+.p-l20{padding-left: 20px !important;}
 .dropdown {position: relative;display: inline-block;font-size:16px}
 .dropdown .icon-menu{font-size: 24px;color:#b68a34;}
 .dropdown .icon-menu:hover{color:#daa43c;}
@@ -27,6 +27,7 @@ section{padding:6rem 0;}
 .text-orange{color: #FF7F00 !important;}
 .text-black{color:#111 !important;}
 .text-gray{color:#AAA;}
+.text-blue{color:#18aff5 !important;}
 
 /********************* Background *******************/
 .bg-gray{background-color:#f3f3f3;}
@@ -73,8 +74,14 @@ h3{color: #B68A35; font-size: 1.0625rem; font-weight: 600; margin: 0; padding: 0
 .search-box .cta{font-size: 20px;margin: 0;padding: 0;width: 36px;height: 36px;vertical-align: top;margin-bottom:  0;border-radius: 50%;    background: #353c48;}
 .search-box .cta:hover{background: #b68a35}
 
+
+
+.redux-toastr .toastr .rrt-left-container .toastr-icon {margin-top: 10px; vertical-align: top; }
+.redux-toastr .top-left, .redux-toastr .top-right, .redux-toastr .top-center, .redux-toastr .bottom-left, .redux-toastr .bottom-right, .redux-toastr .bottom-center {
+    width: 60%; } 
+
 /*Declarations page*/
-.card-panel{background-color: #FFF; padding: 1.25rem; border-radius: 4px; margin-bottom: 1.25rem; box-shadow: 0px 0px 10px 2px rgba(91, 131, 182, 0.11);}
+.card-panel{background-color: #FFF; padding: 1.25rem 1.25rem 2.9rem; border-radius: 4px; margin-bottom: 1.25rem; box-shadow: 0px 0px 10px 2px rgba(91, 131, 182, 0.11);}
 .card-panel h2{color: #353C48; font-size: 1.375rem; font-weight: 600; position: relative; border-bottom: 1px solid #D9D9D9; margin: 0 0 20px 0; padding: 0 0 12px 0;}
 .card-panel h2:before{content:''; background-color: #353C48; height: 2px; width: 70px; position: absolute; bottom: -1px; left: 0;}
 .card-panel h3{color: #B68A35; font-size: 1.0625rem; font-weight: 600; margin: 0; padding: 0;}
@@ -120,6 +127,7 @@ h3{color: #B68A35; font-size: 1.0625rem; font-weight: 600; margin: 0; padding: 0
 .commun-list li{font-size: 1rem; line-height: 26px; padding: 0 0 0 20px; position: relative; list-style: none; color: #7F8C9F;}
 .commun-list li:before{content: "\f125"; color: #7F8C9F; display: inline-block; font-family: "Ionicons"; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; text-rendering: auto; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; position: absolute; top: 6px; left: 0; font-size: 14px;}
 .f-20{font-size: 1.25rem !important;}
+.f-25{font-size: 1.563rem !important;}
 /*Payment page*/
 .info-custom{font-size: 1rem; color: #7F8C9F; padding: 1.25rem 0 0.8125rem 0;}
 .payment-table{width: 100%;}
@@ -235,7 +243,8 @@ input::-ms-input-placeholder, select::-ms-input-placeholder { /* Microsoft Edge 
     color: #8893a0; font-size: 16px;
 }
 
-.form-group {padding: 25px 0px 0px; position: relative;}
+.form-group {padding: 25px 0px 5px; position: relative;}
+.head-label{position: relative; top: 16px; color: #8a8a8a; font-weight: 600; left: 20px;}
 .form-wrapper{max-width: 430px; margin:100px auto;}
 .card{position: relative;}
 .card-inner{z-index: 2;    min-height: 430px; background: #fff;border-radius: 15px;box-shadow: -1px 1px 12px 3px rgba(91, 131, 182, 0.09019607843137255);-ms-box-shadow: -1px 1px 12px 3px rgba(91, 131, 182, 0.09019607843137255);position: relative;padding-bottom: 25px;}
@@ -263,7 +272,7 @@ input::-ms-input-placeholder, select::-ms-input-placeholder { /* Microsoft Edge 
 .form-comman textarea{max-width: 100%; border:1px solid #dce2e9 !important; border-radius: 30px; padding: 11px 55px !important; box-shadow: none !important; font-size: 1rem; color: rgba(0, 0, 0, 0.75); font-family: 'Titillium Web', sans-serif !important; resize: none;}
 .form-comman input.btn{font-size: 1.375rem;}
 .form-comman .sub-heading{color: #8893a0; font-size: 14px;line-height: 20px;}
-.chart-text{padding: 10px 0 10px 0; font-size: 1.2rem; line-height: 26px;}
+.chart-text{padding: 0px 0 10px 0; font-size: 1.2rem; line-height: 26px;}
 footer{box-shadow: -1px -1px 12px 3px rgba(91, 131, 182, 0.11); margin-top: 20px;}
 footer .copyright{text-align: center; background-color: #2eb9f9; padding: 12px 0; color: #fff; border-top: 1px solid #fdfdfd;}
 .resend {color: #8893a0 !important; font-weight: 600;}
@@ -480,7 +489,7 @@ input:checked + .slider:before {
      *
      * If you're not using "display: flex", you can remove this style.
      */
-    width: 100%;
+    width: 75%;
 }
 
 .CircularProgressbar .CircularProgressbar-path {
@@ -564,3 +573,11 @@ input:checked + .slider:before {
 .popup-heading{color: #8893a0; text-align: center; margin-bottom: 30px; font-size: 22px;}
 .act {color: #18aff5;font-weight: bold; font-size: 18px;background: transparent;}
 .act:hover, .act:focus {color: #077ab2; background: transparent;}
+
+.anchor-text {color: #09a8f2;    font-weight: 600;}
+
+/* Media */
+@media only screen and (max-width: 1366px) {
+.form-wrapper {
+    margin: 50px auto;
+}

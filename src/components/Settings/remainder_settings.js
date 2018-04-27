@@ -501,6 +501,7 @@ renderErrorTitle = (isSubmitted,value)=>
                                 <div className="form-comman">
                                     <form>
                                         <div className="form-group">
+
                                             <label><i className="fa fa-bars" aria-hidden="true"></i></label>
                                             <input type="text"
                                                 maxLength={100}
@@ -514,8 +515,9 @@ renderErrorTitle = (isSubmitted,value)=>
                                           {this.renderErrorTitle(this.state.isSubmitted,this.props.title)}
 
                                         </div>
-            
+            <span className="head-label">Remainder</span>
                                         <div className="form-group">
+
                                         <label><i className="fa fa-calendar-o" aria-hidden="true"></i></label>
                                         <DatePicker   minDate={new Date()} selected={moment(this.props.from_date)}  onChange={(dateValue) => {
                                          if(dateValue){
@@ -538,16 +540,18 @@ renderErrorTitle = (isSubmitted,value)=>
                                         </div>
                 
                                         <ul className="medium-block-grid-2 small-block-grid-1">
-                                        <li className="p-b0"> <div className="form-group">
+                                        
+                                        <li className="p-b0"><span className="head-label">Hour</span> <div className="form-group">
                                             <label><i className="fa fa-retweet" aria-hidden="true"></i></label>
                                             {this.renderIntervalInHours()}
                                         </div></li>
-                                        <li className="p-b0"><div className="form-group">
+
+                                        <li className="p-b0"><span className="head-label">Minutes</span><div className="form-group">
                                             <label><i className="fa fa-retweet" aria-hidden="true"></i></label>
                                             {this.renderIntervalInMinutes()}
                                         </div></li>
                                     </ul>
-
+<span className="head-label">Repeat Count</span>
                                        <div className="form-group">
                                             <label><i className="fa fa-clock-o" aria-hidden="true"></i></label>
                                             <input type="text" placeholder="Repeat Duration" name="RepeatDuration" 
@@ -560,7 +564,7 @@ renderErrorTitle = (isSubmitted,value)=>
                                    {this.renderErrorRepeat(this.state.isSubmitted,this.props.repeat_duration)}
 
                                         </div>
-    
+    <span className="head-label">Alert Level</span>
                                         <div className="form-group">
                                             <label><i className="fa fa-bell" aria-hidden="true"></i></label>
                                             {this.renderAlertLevel()}

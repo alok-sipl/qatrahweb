@@ -194,7 +194,7 @@ class EditDeviceComponent extends Component {
 */
     renderAreaData() {
         return (
-                <select  placeholder="Select Area" selected={this.props.tank_area}
+                <select className="p-l20"  placeholder="Select Area" selected={this.props.tank_area}
                     onChange={(event) => {
                     if(event.target.value){
                        this.onTankAreaChanged(event.target.value)
@@ -238,7 +238,7 @@ class EditDeviceComponent extends Component {
 */
     renderCountryData() {
         return (
-                <select placeholder="Select Country" selected={this.props.tank_country}
+                <select placeholder="Select Country" className="p-l20" selected={this.props.tank_country}
                         onChange={(event) => {
                             if(event.target.value){
                                this.onTankContryChanged(event.target.value)
@@ -267,7 +267,7 @@ class EditDeviceComponent extends Component {
 */
     renderCityData() {
         return (
-                <select  placeholder="Select City" selected={this.props.tank_city}
+                <select className="p-l20" placeholder="Select City" selected={this.props.tank_city}
                         onChange={(event) => {
                             if(event.target.value){
                                this.onTankCityChanged(event.target.value)
@@ -850,13 +850,13 @@ handleChange(address) {
                     <div className="form-comman">
                         <form>
                             <div className="form-group">
-                                <label><i className="fa fa-file-text" aria-hidden="true"></i></label>
+                                <label><i className="fa fa-mobile" aria-hidden="true"></i></label>
                                 <input maxLength={80} type="text" placeholder="Device Id" name="DeviceId" disabled="true"
                                 value={this.props.device_id}   />
                             </div>
 
                               <div className="form-group">
-                                <label><i className="fa fa-file-text" aria-hidden="true"></i></label>
+                                <label><i className="fa fa-flask" aria-hidden="true"></i></label>
                                 <input maxLength={80} type="text" placeholder="Device Name"  onChange={(event)=>{
                                                            this.onDeviceNameChanged(event.target.value)
 
@@ -867,23 +867,22 @@ handleChange(address) {
                             </div>
 
                              <div className="form-group">
-                                <label><i className="fa fa-database" aria-hidden="true"></i></label>
                                 {this.renderCountryData()}
                             </div>
 
 
                              <div className="form-group">
-                                <label><i className="fa fa-database" aria-hidden="true"></i></label>
+                                
                                 {this.renderCityData()}
                             </div>
 
                                <div className="form-group">
-                                <label><i className="fa fa-database" aria-hidden="true"></i></label>
+                                
                                 {this.renderAreaData()}
                             </div>
 
                                <div className="form-group">
-                                <label><i className="fa fa-map-marker" aria-hidden="true"></i></label>
+                               
                                  {this.renderLocation()}
                             </div>
 
@@ -891,8 +890,8 @@ handleChange(address) {
 
     
                             <div className="form-group">
-                                <label><i className="fa fa-database" aria-hidden="true"></i></label>
-                                <select selected={this.props.tank_type}
+                               
+                                <select className="p-l20" selected={this.props.tank_type}
                                   onChange={(event)=>{
                                     this.onTankTypeChanged(event.target.value)
 
